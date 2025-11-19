@@ -47,6 +47,9 @@ class TechnoPay_Gateway extends WC_Payment_Gateway {
 
 		// Make billing phone required when TechnoPay is selected
 		add_action( 'woocommerce_checkout_process', array( $this, 'validate_billing_phone' ) );
+
+		// Declare HPOS compatibility
+		add_action( 'before_woocommerce_init', array( $this, 'declare_hpos_compatibility' ) );
 	}
 
 	/**
@@ -584,6 +587,13 @@ class TechnoPay_Gateway extends WC_Payment_Gateway {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Declare HPOS compatibility
+	 */
+	public function declare_hpos_compatibility() {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 	}
 
 	/**

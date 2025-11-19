@@ -40,44 +40,39 @@ define('TECHNOPAY_VERSION', '1.0.0');
  * Main TechnoPay Gateway Class
  */
 class TechnoPay_Gateway_Plugin {
-
+    
     /**
      * Constructor
      */
     public function __construct() {
-        // Declare HPOS compatibility early
-        add_action('before_woocommerce_init', array($this, 'declare_hpos_compatibility'));
-        
         add_action('plugins_loaded', array($this, 'init'));
         add_action('init', array($this, 'load_textdomain'));
-        
-        // Add settings link to plugins page
-        add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'add_settings_link'));
     }
-
+    
     /**
      * Initialize the plugin
      */
     public function init() {
-        // Check if WC_Payment_Gateway class exists
-        if (!class_exists('WC_Payment_Gateway')) {
-            return;
-        }
-
         // Include the gateway class
         require_once TECHNOPAY_PLUGIN_PATH . 'includes/class-technopay-gateway.php';
-
+        
         // Add the gateway to WooCommerce
         add_filter('woocommerce_payment_gateways', array($this, 'add_gateway_class'));
+        
+        // Declare HPOS compatibility
+        add_action('before_woocommerce_init', array($this, 'declare_hpos_compatibility'));
+        
+        // Add settings link to plugins page
+        add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'add_settings_link'));
     }
-
+    
     /**
      * Load plugin textdomain
      */
     public function load_textdomain() {
         load_plugin_textdomain('technopay-gateway', false, dirname(plugin_basename(__FILE__)) . '/languages');
     }
-
+    
     /**
      * Add the gateway to WooCommerce
      */
@@ -85,7 +80,7 @@ class TechnoPay_Gateway_Plugin {
         $gateways[] = 'TechnoPay_Gateway';
         return $gateways;
     }
-
+    
     /**
      * Declare HPOS compatibility
      */
@@ -94,7 +89,7 @@ class TechnoPay_Gateway_Plugin {
             \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
         }
     }
-
+    
     /**
      * Add settings link to plugins page
      */
@@ -107,11 +102,6 @@ class TechnoPay_Gateway_Plugin {
 
 // Initialize the plugin
 new TechnoPay_Gateway_Plugin();
-
-// Debug - remove after testing
-if (defined('WP_DEBUG') && WP_DEBUG) {
-    require_once __DIR__ . '/debug-log.php';
-}
 
 // Activation hook
 register_activation_hook(__FILE__, function() {
