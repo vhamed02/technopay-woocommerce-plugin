@@ -1,40 +1,51 @@
-# WordPress ReadMe
+# پرداخت اعتباری تکنوپی برای ووکامرس
 
-## Installation
+درگاه پرداخت اقساطی تکنوپی برای فروشگاه‌های ووکامرس با پشتیبانی کامل از WooCommerce Blocks و تم‌های مدرن.
 
-1. Unzip the package and upload the files.
-2. Open `wp-admin/install.php` in your browser.
-3. If needed, edit `wp-config-sample.php`, add DB details, save it as `wp-config.php`, then retry the installer.
-4. After installation, log in using the username and password you set (or the generated one).
+## ویژگی‌ها
 
-## Updating
+- ✅ پشتیبانی کامل از WooCommerce Blocks
+- ✅ سازگار با تم‌های مدرن (مانند kiosko)
+- ✅ پشتیبانی از HPOS (High-Performance Order Storage)
+- ✅ حالت تست برای توسعه‌دهندگان
+- ✅ اعتبارسنجی خودکار شماره موبایل ایرانی
+- ✅ پشتیبانی از ریال و تومان
+- ✅ رابط کاربری کاملاً فارسی
 
-### Automatic Update
-- Go to `wp-admin/update-core.php` and follow the instructions.
+## نصب
 
-### Manual Update
-1. Backup custom files.
-2. Delete old WordPress files.
-3. Upload new ones.
-4. Visit `/wp-admin/upgrade.php`.
+1. فایل‌های پلاگین را در پوشه `wp-content/plugins/technopay-woocommerce` قرار دهید
+2. از منوی افزونه‌های وردپرس، پلاگین را فعال کنید
+3. به **ووکامرس > تنظیمات > پرداخت‌ها > تکنوپی** بروید
+4. اطلاعات دریافتی از تکنوپی را وارد کنید:
+    - شناسه فروشنده (Merchant ID)
+    - کلید مخفی (Merchant Secret)
 
-## Requirements
+## تنظیمات
 
-- PHP **7.2.24+**
-- MySQL **5.5.5+**
+### اطلاعات پایه
+- **شناسه فروشنده**: شناسه دریافتی از پنل تکنوپی
+- **کلید مخفی**: کلید امنیتی دریافتی از پنل تکنوپی
 
-## Recommended
+### تنظیمات پیشرفته
+- **حالت تست**: برای آزمایش پرداخت‌ها فعال کنید
+- **نوع ارز**: تشخیص خودکار، ریال یا تومان
 
-- PHP **7.4+**
-- MySQL **8.0+** or MariaDB **10.5+**
-- Apache `mod_rewrite`
-- HTTPS support
+## نیازمندی‌ها
 
-## Resources
+- WordPress 5.0 یا بالاتر
+- WooCommerce 5.0 یا بالاتر
+- PHP 7.4 یا بالاتر
+- حساب کاربری فعال در [تکنوپی](https://technopay.ir)
 
-- Documentation: https://wordpress.org/documentation/
-- Support Forums: https://wordpress.org/support/forums/
+## پشتیبانی
 
-## License
+برای دریافت پشتیبانی یا گزارش مشکلات، به [وب‌سایت تکنوپی](https://technopay.ir) مراجعه کنید.
 
-Released under the GPL v2 or later. See `license.txt`.
+## نسخه
+
+**نسخه فعلی**: 1.0.1
+
+## مجوز
+
+این پلاگین تحت مجوز GPL v2 یا بالاتر منتشر شده است.
