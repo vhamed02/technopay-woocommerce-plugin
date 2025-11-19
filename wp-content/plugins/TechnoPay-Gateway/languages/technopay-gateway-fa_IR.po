@@ -1,0 +1,149 @@
+# TechnoPay Gateway Language File - Persian (Farsi)
+# Copyright (C) 2024 TechnoPay
+# This file is distributed under the same license as the TechnoPay Gateway package.
+
+msgid ""
+msgstr ""
+"Project-Id-Version: TechnoPay Gateway 1.0.0\n"
+"Report-Msgid-Bugs-To: https://technopay.ir\n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: TechnoPay Team\n"
+"Language-Team: Persian\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: WordPress\n"
+
+msgid "TechnoPay Gateway for WooCommerce"
+msgstr "درگاه پرداخت تکنوپی برای ووکامرس"
+
+msgid "TechnoPay payment gateway integration for WooCommerce"
+msgstr "ادغام درگاه پرداخت تکنوپی با ووکامرس"
+
+msgid "TechnoPay Gateway"
+msgstr "درگاه پرداخت تکنوپی"
+
+msgid "تکنوپی"
+msgstr "تکنوپی"
+
+msgid "پرداخت اقساطی از طریق تکنوپی"
+msgstr "پرداخت اقساطی از طریق تکنوپی"
+
+msgid "Accept payments via TechnoPay"
+msgstr "پذیرش پرداخت از طریق تکنوپی"
+
+msgid "Enable/Disable"
+msgstr "فعال/غیرفعال"
+
+msgid "Enable TechnoPay Gateway"
+msgstr "فعال کردن درگاه پرداخت تکنوپی"
+
+msgid "Title"
+msgstr "عنوان"
+
+msgid "This controls the title which the user sees during checkout."
+msgstr "این عنوانی است که کاربر در هنگام تسویه حساب می‌بیند."
+
+msgid "TechnoPay"
+msgstr "تکنوپی"
+
+msgid "Description"
+msgstr "توضیحات"
+
+msgid "This controls the description which the user sees during checkout."
+msgstr "این توضیحی است که کاربر در هنگام تسویه حساب می‌بیند."
+
+msgid "Pay securely via TechnoPay"
+msgstr "پرداخت امن از طریق تکنوپی"
+
+msgid "Merchant Name"
+msgstr "نام فروشنده"
+
+msgid "Your merchant name"
+msgstr "نام کسب و کار شما"
+
+msgid "Merchant ID"
+msgstr "شناسه فروشنده"
+
+msgid "Your TechnoPay merchant ID"
+msgstr "شناسه فروشنده تکنوپی شما"
+
+msgid "Merchant Secret"
+msgstr "رمز مخفی فروشنده"
+
+msgid "Your TechnoPay merchant secret"
+msgstr "رمز مخفی فروشنده تکنوپی شما"
+
+msgid "Test Mode"
+msgstr "حالت تست"
+
+msgid "Enable Test Mode"
+msgstr "فعال کردن حالت تست"
+
+msgid "Place the payment gateway in test mode."
+msgstr "درگاه پرداخت را در حالت تست قرار دهید."
+
+msgid "Currency Mode"
+msgstr "حالت ارز"
+
+msgid "Select how amounts should be processed based on your store currency."
+msgstr "انتخاب کنید که مبالغ بر اساس ارز فروشگاه شما چگونه پردازش شوند."
+
+msgid "Auto-detect from WooCommerce currency"
+msgstr "تشخیص خودکار از ارز ووکامرس"
+
+msgid "IRR (Iranian Rial) - Amounts will be divided by 10"
+msgstr "ریال ایران - مبالغ بر 10 تقسیم می‌شوند"
+
+msgid "IRT (Iranian Toman) - No conversion needed"
+msgstr "تومان ایران - نیازی به تبدیل نیست"
+
+msgid "Order not found."
+msgstr "سفارش یافت نشد."
+
+msgid "TechnoPay gateway is not properly configured."
+msgstr "درگاه پرداخت تکنوپی به درستی پیکربندی نشده است."
+
+msgid "Failed to create payment ticket."
+msgstr "ایجاد بلیط پرداخت ناموفق بود."
+
+msgid "Customer mobile number is required for TechnoPay payment. Please add your mobile number in billing information."
+msgstr "شماره موبایل مشتری برای پرداخت تکنوپی الزامی است. لطفاً شماره موبایل خود را در اطلاعات صورتحساب اضافه کنید."
+
+msgid "Please enter a valid Iranian mobile number (e.g., 09123456789)."
+msgstr "لطفاً شماره موبایل ایرانی معتبر وارد کنید (مثال: 09123456789)."
+
+msgid "Failed to generate signature."
+msgstr "تولید امضا ناموفق بود."
+
+msgid "Unknown error occurred."
+msgstr "خطای نامشخصی رخ داد."
+
+msgid "Invalid callback request."
+msgstr "درخواست بازگشت نامعتبر."
+
+msgid "Payment completed via TechnoPay. Track Number: "
+msgstr "پرداخت از طریق تکنوپی تکمیل شد. شماره پیگیری: "
+
+msgid "Payment verification failed."
+msgstr "تأیید پرداخت ناموفق بود."
+
+msgid "Payment failed via TechnoPay."
+msgstr "پرداخت از طریق تکنوپی ناموفق بود."
+
+msgid "Payment failed via TechnoPay. Track Number: "
+msgstr "پرداخت از طریق تکنوپی ناموفق بود. شماره پیگیری: "
+
+msgid "TechnoPay payment failed: "
+msgstr "پرداخت تکنوپی ناموفق بود: "
+
+msgid "Mobile number is required for TechnoPay payment."
+msgstr "شماره موبایل برای پرداخت تکنوپی الزامی است."
+
+msgid "Only IRR and IRT currencies are supported by TechnoPay."
+msgstr "تکنوپی فقط از ارزهای ریال و تومان ایران پشتیبانی می‌کند."
+
+msgid "Settings"
+msgstr "تنظیمات"
