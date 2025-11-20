@@ -51,7 +51,7 @@ class WC_TechnoPay_Gateway extends WC_Payment_Gateway {
             'description' => array(
                 'title' => __('توضیحات', 'technopay-wc'),
                 'type' => 'text',
-                'default' => __('پرداخت اقساطی از طریق تکنوپی', 'technopay-wc'),
+                'default' => __('پرداخت اعتباری از طریق تکنوپی', 'technopay-wc'),
             ),
             'merchant_id' => array(
                 'title' => __('Merchant ID', 'technopay-wc'),
