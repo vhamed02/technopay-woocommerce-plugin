@@ -3,7 +3,7 @@
  * Plugin Name: پرداخت اعتباری تکنوپی برای ووکامرس
  * Plugin URI: https://technopay.ir
  * Description: افزونه درگاه پرداخت امن اعتباری تکنوپی برای فروشگاه ساز ووکامرس
- * Version: 1.0.1
+ * Version: 1.0.0
  * Author: تکنوپی
  * Author URI: https://technopay.ir
  * Text Domain: technopay-wc
