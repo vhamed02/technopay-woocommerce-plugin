@@ -1,7 +1,6 @@
 <?php
 /**
  * Plugin Name: TechnoPay for WooCommerce
- * Plugin URI: https://technopay.ir
  * Description: Secure credit payment gateway plugin for WooCommerce by TechnoPay
  * Version: 1.0.1
  * Author: TechnoPay
@@ -40,6 +39,8 @@ class TechnoPay_WC_Main {
     private function __construct() {
         add_action('plugins_loaded', array($this, 'init'), 11);
         add_action('before_woocommerce_init', array($this, 'declare_hpos_compatibility'));
+        add_filter('all_plugins', array($this, 'translate_plugin_meta'));
+        add_filter('plugin_row_meta', array($this, 'translate_plugin_row_meta'), 10, 2);
         register_activation_hook(__FILE__, array($this, 'activate'));
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
     }
@@ -50,14 +51,8 @@ class TechnoPay_WC_Main {
             return;
         }
         
-        $this->load_textdomain();
         $this->includes();
         $this->init_hooks();
-    }
-    
-    private function load_textdomain() {
-        // WordPress automatically loads translations for plugins hosted on WordPress.org
-        // This function is kept for backward compatibility but is no longer needed
     }
     
     private function includes() {
@@ -96,6 +91,39 @@ class TechnoPay_WC_Main {
         if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
             FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
         }
+    }
+    
+    public function translate_plugin_meta($plugins) {
+        $plugin_file = plugin_basename(__FILE__);
+        
+        if (isset($plugins[$plugin_file])) {
+            if (get_locale() === 'fa_IR') {
+                $plugins[$plugin_file]['Name'] = 'تکنوپی برای ووکامرس';
+                $plugins[$plugin_file]['Description'] = 'افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی';
+                $plugins[$plugin_file]['Author'] = 'تکنوپی';
+                $plugins[$plugin_file]['Version'] = '1.0.1';
+            } else {
+                $plugins[$plugin_file]['Name'] = __('TechnoPay for WooCommerce', 'technopay-for-woocommerce');
+                $plugins[$plugin_file]['Description'] = __('Secure credit payment gateway plugin for WooCommerce by TechnoPay', 'technopay-for-woocommerce');
+                $plugins[$plugin_file]['Author'] = __('TechnoPay', 'technopay-for-woocommerce');
+            }
+        }
+        
+        return $plugins;
+    }
+    
+    public function translate_plugin_row_meta($links, $file) {
+        if (plugin_basename(__FILE__) === $file && get_locale() === 'fa_IR') {
+            foreach ($links as $key => $link) {
+                if (strpos($link, 'technopay.ir') !== false) {
+                    $links[$key] = str_replace('Visit plugin site', 'مشاهده سایت افزونه', $link);
+                }
+                if (strpos($link, 'View details') !== false) {
+                    $links[$key] = str_replace('View details', 'مشاهده جزئیات', $link);
+                }
+            }
+        }
+        return $links;
     }
     
     public function woocommerce_missing_notice() {

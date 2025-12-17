@@ -1,0 +1,80 @@
+{
+    "translation-revision-date": "2024-01-01 12:00+0000",
+    "generator": "Kiro",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "plural-forms": "nplurals=2; plural=(n != 1);",
+                "lang": "fa_IR"
+            },
+            "TechnoPay for WooCommerce": [
+                "تکنوپی برای ووکامرس"
+            ],
+            "Secure credit payment gateway plugin for WooCommerce by TechnoPay": [
+                "افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی"
+            ],
+            "Settings": [
+                "تنظیمات"
+            ],
+            "TechnoPay": [
+                "تکنوپی"
+            ],
+            "requires WooCommerce to be installed and activated.": [
+                "نیاز به نصب و فعال‌سازی ووکامرس دارد."
+            ],
+            "This plugin requires WooCommerce.": [
+                "این افزونه نیاز به ووکامرس دارد."
+            ],
+            "Credit payment via TechnoPay": [
+                "پرداخت اعتباری از طریق تکنوپی"
+            ],
+            "Enable": [
+                "فعال‌سازی"
+            ],
+            "Enable TechnoPay payment": [
+                "فعال‌سازی پرداخت تکنوپی"
+            ],
+            "Title": [
+                "عنوان"
+            ],
+            "Description": [
+                "توضیحات"
+            ],
+            "Merchant ID": [
+                "شناسه پذیرنده"
+            ],
+            "Secret Key": [
+                "کلید مخفی"
+            ],
+            "Test Mode": [
+                "حالت آزمایشی"
+            ],
+            "Enable test mode": [
+                "فعال‌سازی حالت آزمایشی"
+            ],
+            "In test mode, payments are sent to test server": [
+                "در حالت آزمایشی، پرداخت‌ها به سرور تست ارسال می‌شوند"
+            ],
+            "Currency Type": [
+                "نوع ارز"
+            ],
+            "Auto Detect": [
+                "تشخیص خودکار"
+            ],
+            "Rial (IRR)": [
+                "ریال (IRR)"
+            ],
+            "Toman (IRT)": [
+                "تومان (IRT)"
+            ],
+            "Visit plugin site": [
+                "مشاهده سایت افزونه"
+            ],
+            "View details": [
+                "مشاهده جزئیات"
+            ]
+        }
+    }
+}
