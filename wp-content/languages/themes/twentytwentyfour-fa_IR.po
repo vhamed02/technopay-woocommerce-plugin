@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/4.0.1\n"
+"X-Generator: GlotPress/4.0.3\n"
 "Language: fa\n"
 "Project-Id-Version: Themes - Twenty Twenty-Four\n"
 
@@ -166,19 +166,19 @@ msgstr "سربرگ"
 msgid "https://wordpress.org"
 msgstr "https://wordpress.org"
 
-#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
-#: styles/mint.json styles/onyx.json styles/rust.json theme.json
+#: theme.json styles/ember.json styles/fossil.json styles/ice.json
+#: styles/maelstrom.json styles/mint.json styles/onyx.json styles/rust.json
 msgctxt "Color name"
 msgid "Base"
 msgstr "پایه"
 
-#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
 msgctxt "Font size name"
 msgid "Large"
 msgstr "بزرگ"
 
-#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
-#: styles/mint.json styles/onyx.json styles/rust.json theme.json
+#: theme.json styles/ember.json styles/fossil.json styles/ice.json
+#: styles/maelstrom.json styles/mint.json styles/onyx.json styles/rust.json
 msgctxt "Color name"
 msgid "Contrast"
 msgstr "کنتراست"
@@ -213,7 +213,7 @@ msgctxt "Space size name"
 msgid "1"
 msgstr "۱"
 
-#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
 msgctxt "Font size name"
 msgid "Medium"
 msgstr "میانه"
@@ -282,7 +282,7 @@ msgctxt "Sample heading for the first pricing level"
 msgid "Free"
 msgstr "رایگان"
 
-#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
 msgctxt "Font size name"
 msgid "Extra Large"
 msgstr "بسیار بزرگ"
@@ -442,14 +442,14 @@ msgctxt "Call to Action button text"
 msgid "About us"
 msgstr "درباره ما"
 
-#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
-#: styles/mint.json theme.json
+#: theme.json styles/ember.json styles/fossil.json styles/ice.json
+#: styles/maelstrom.json styles/mint.json
 msgctxt "Font family name"
 msgid "System Serif"
 msgstr "System Serif"
 
-#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
-#: styles/mint.json theme.json
+#: theme.json styles/ember.json styles/fossil.json styles/ice.json
+#: styles/maelstrom.json styles/mint.json
 msgctxt "Font family name"
 msgid "System Sans-serif"
 msgstr "System Sans-serif"
@@ -459,7 +459,7 @@ msgctxt "Font family name"
 msgid "Instrument Sans"
 msgstr "Instrument Sans"
 
-#: styles/fossil.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/maelstrom.json
 msgctxt "Font family name"
 msgid "Cardo"
 msgstr "Cardo"
@@ -573,24 +573,24 @@ msgctxt "Color name"
 msgid "Contrast / 3"
 msgstr "کنتراست / ۳"
 
-#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
 msgctxt "Font size name"
 msgid "Small"
 msgstr "کوچک"
 
-#: styles/fossil.json styles/ice.json styles/maelstrom.json theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/maelstrom.json
 msgctxt "Font size name"
 msgid "Extra Extra Large"
 msgstr "خیلی خیلی بزرگ"
 
-#: styles/fossil.json styles/ice.json styles/mint.json styles/onyx.json
-#: theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/mint.json
+#: styles/onyx.json
 msgctxt "Color name"
 msgid "Contrast / Three"
 msgstr "کنتراست / سه"
 
-#: styles/fossil.json styles/ice.json styles/mint.json styles/onyx.json
-#: theme.json
+#: theme.json styles/fossil.json styles/ice.json styles/mint.json
+#: styles/onyx.json
 msgctxt "Color name"
 msgid "Contrast / Two"
 msgstr "کنتراست / دو"
@@ -898,8 +898,8 @@ msgctxt "Duotone name"
 msgid "Dark gray and cinnamon"
 msgstr "خاکستری تیره و دارچینی"
 
-#: styles/ember.json styles/fossil.json styles/ice.json styles/maelstrom.json
-#: styles/mint.json styles/onyx.json theme.json
+#: theme.json styles/ember.json styles/fossil.json styles/ice.json
+#: styles/maelstrom.json styles/mint.json styles/onyx.json
 msgctxt "Color name"
 msgid "Base / Two"
 msgstr "اصلی / دو"
@@ -1026,27 +1026,27 @@ msgctxt "Duotone name"
 msgid "Dark gray and walnut"
 msgstr "خاکستری تیره و گردویی"
 
-#: styles/onyx.json theme.json
+#: theme.json styles/onyx.json
 msgctxt "Color name"
 msgid "Accent / Four"
 msgstr "تاکید / چهار"
 
-#: styles/onyx.json theme.json
+#: theme.json styles/onyx.json
 msgctxt "Color name"
 msgid "Accent / Three"
 msgstr "تاکید / سه"
 
-#: styles/onyx.json theme.json
+#: theme.json styles/onyx.json
 msgctxt "Color name"
 msgid "Accent / Two"
 msgstr "تاکید / دو"
 
-#: styles/onyx.json theme.json
+#: theme.json styles/onyx.json
 msgctxt "Color name"
 msgid "Accent"
 msgstr "تاکید"
 
-#: styles/onyx.json theme.json
+#: theme.json styles/onyx.json
 msgctxt "Color name"
 msgid "Accent / Five"
 msgstr "تاکید / پنج"
@@ -1067,7 +1067,7 @@ msgctxt "Sample list item"
 msgid "Showcase your projects."
 msgstr "ویترین پروژه‌های شما."
 
-#: styles/fossil.json styles/ice.json theme.json
+#: theme.json styles/fossil.json styles/ice.json
 msgctxt "Font family name"
 msgid "Inter"
 msgstr "Inter"
