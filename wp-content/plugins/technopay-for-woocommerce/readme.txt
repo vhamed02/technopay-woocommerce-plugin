@@ -4,7 +4,7 @@ Tags: woocommerce, payment, gateway, iran, technopay
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,8 +55,15 @@ Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
 
-= 1.0.0 =
-* Initial release
+= 1.1.0 =
+* Complete Persian (Farsi) translation support
+* Fixed WordPress.org class naming convention compliance
+* Updated plugin name to comply with trademark guidelines
+* Enhanced plugin metadata translation
+* Improved Persian localization for admin interface
+* Fixed all WordPress.org plugin repository requirements
+* Added proper plugin prefix for all classes
+* Version display in Persian numerals for Persian locale
 
 = 1.0.1 =
 * Security improvements with added sanitization and validation

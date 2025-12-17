@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TechnoPay for WooCommerce
  * Description: Secure credit payment gateway plugin for WooCommerce by TechnoPay
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: TechnoPay
  * Author URI: https://technopay.ir
  * Text Domain: technopay-for-woocommerce
@@ -20,12 +20,12 @@ use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
 if (!defined('ABSPATH')) exit;
 
-define('TECHNOPAY_WC_VERSION', '1.0.1');
+define('TECHNOPAY_WC_VERSION', '1.1.0');
 define('TECHNOPAY_WC_PLUGIN_FILE', __FILE__);
 define('TECHNOPAY_WC_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('TECHNOPAY_WC_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-class TechnoPay_WC_Main {
+class TechnoPay_For_WooCommerce_Main {
     
     private static $instance = null;
     
@@ -67,13 +67,13 @@ class TechnoPay_WC_Main {
     }
     
     public function add_gateway($methods) {
-        $methods[] = 'WC_TechnoPay_Gateway';
+        $methods[] = 'TechnoPay_For_WooCommerce_Gateway';
         return $methods;
     }
     
     public function register_blocks_support($payment_method_registry) {
-        if (class_exists('WC_TechnoPay_Blocks_Support')) {
-            $payment_method_registry->register(new WC_TechnoPay_Blocks_Support());
+        if (class_exists('TechnoPay_For_WooCommerce_Blocks_Support')) {
+            $payment_method_registry->register(new TechnoPay_For_WooCommerce_Blocks_Support());
         }
     }
     
@@ -101,7 +101,6 @@ class TechnoPay_WC_Main {
                 $plugins[$plugin_file]['Name'] = 'تکنوپی برای ووکامرس';
                 $plugins[$plugin_file]['Description'] = 'افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی';
                 $plugins[$plugin_file]['Author'] = 'تکنوپی';
-                $plugins[$plugin_file]['Version'] = '1.0.1';
             } else {
                 $plugins[$plugin_file]['Name'] = __('TechnoPay for WooCommerce', 'technopay-for-woocommerce');
                 $plugins[$plugin_file]['Description'] = __('Secure credit payment gateway plugin for WooCommerce by TechnoPay', 'technopay-for-woocommerce');
@@ -142,4 +141,4 @@ class TechnoPay_WC_Main {
     }
 }
 
-TechnoPay_WC_Main::get_instance();
+TechnoPay_For_WooCommerce_Main::get_instance();

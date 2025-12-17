@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
-class WC_TechnoPay_Gateway extends WC_Payment_Gateway
+class TechnoPay_For_WooCommerce_Gateway extends WC_Payment_Gateway
 {
 
     private $api_url;

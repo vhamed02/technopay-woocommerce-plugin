@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the TechnoPay for WooCommerce package.
 msgid ""
 msgstr ""
-"Project-Id-Version: TechnoPay for WooCommerce 1.0.1\n"
+"Project-Id-Version: TechnoPay for WooCommerce 1.1.0\n"
 "Report-Msgid-Bugs-To: https://technopay.ir\n"
 "POT-Creation-Date: 2024-01-01 12:00+0000\n"
 "PO-Revision-Date: 2024-01-01 12:00+0000\n"

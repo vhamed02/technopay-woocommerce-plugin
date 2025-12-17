@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) exit;
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 
-final class WC_TechnoPay_Blocks_Support extends AbstractPaymentMethodType {
+final class TechnoPay_For_WooCommerce_Blocks_Support extends AbstractPaymentMethodType {
 
     private $gateway;
     protected $name = 'technopay';
