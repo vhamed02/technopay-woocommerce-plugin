@@ -1,4 +1,4 @@
-=== TechnoPay Credit Payment Gateway for WooCommerce ===
+=== TechnoPay for WooCommerce ===
 Contributors: technopay
 Tags: woocommerce, payment, gateway, iran, technopay
 Requires at least: 5.0
@@ -8,7 +8,7 @@ Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-TechnoPay credit payment gateway for WooCommerce with full support for WooCommerce Blocks and modern themes
+TechnoPay for WooCommerce with full support for WooCommerce Blocks and modern themes
 
 == Description ==
 

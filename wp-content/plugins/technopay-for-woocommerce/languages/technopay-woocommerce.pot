@@ -12,21 +12,21 @@ msgstr ""
 "POT-Creation-Date: 2024-12-17T12:00:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
-"X-Domain: technopay-woocommerce\n"
+"X-Domain: technopay-for-woocommerce\n"
 
-#: technopay-woocommerce.php:85
+#: technopay-for-woocommerce.php:85
 msgid "Settings"
 msgstr ""
 
-#: technopay-woocommerce.php:95
+#: technopay-for-woocommerce.php:95
 msgid "TechnoPay"
 msgstr ""
 
-#: technopay-woocommerce.php:95
+#: technopay-for-woocommerce.php:95
 msgid "requires WooCommerce to be installed and activated."
 msgstr ""
 
-#: technopay-woocommerce.php:101
+#: technopay-for-woocommerce.php:101
 msgid "This plugin requires WooCommerce."
 msgstr ""
 

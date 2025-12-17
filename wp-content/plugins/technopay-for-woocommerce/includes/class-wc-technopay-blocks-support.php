@@ -43,7 +43,7 @@ final class WC_TechnoPay_Blocks_Support extends AbstractPaymentMethodType {
         );
 
         if (function_exists('wp_set_script_translations')) {
-            wp_set_script_translations('wc-technopay-blocks-integration', 'technopay-woocommerce');
+            wp_set_script_translations('wc-technopay-blocks-integration', 'technopay-for-woocommerce');
         }
 
         return array('wc-technopay-blocks-integration');
@@ -53,8 +53,8 @@ final class WC_TechnoPay_Blocks_Support extends AbstractPaymentMethodType {
         $icon_url = TECHNOPAY_WC_PLUGIN_URL . 'assets/images/technopay-logo.svg';
         
         return array(
-            'title' => $this->get_setting('title', __('TechnoPay', 'technopay-woocommerce')),
-            'description' => $this->get_setting('description', __('Installment payment via TechnoPay', 'technopay-woocommerce')),
+            'title' => $this->get_setting('title', __('TechnoPay', 'technopay-for-woocommerce')),
+            'description' => $this->get_setting('description', __('Installment payment via TechnoPay', 'technopay-for-woocommerce')),
             'icon' => file_exists(TECHNOPAY_WC_PLUGIN_PATH . 'assets/images/technopay-logo.svg') ? $icon_url : '',
             'supports' => $this->gateway ? array_filter($this->gateway->supports, array($this->gateway, 'supports')) : array(),
         );

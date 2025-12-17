@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: TechnoPay Credit Payment Gateway for WooCommerce
+ * Plugin Name: TechnoPay for WooCommerce
  * Plugin URI: https://technopay.ir
  * Description: Secure credit payment gateway plugin for WooCommerce by TechnoPay
  * Version: 1.0.1
  * Author: TechnoPay
  * Author URI: https://technopay.ir
- * Text Domain: technopay-woocommerce
+ * Text Domain: technopay-for-woocommerce
  * Requires at least: 5.0
  * Tested up to: 6.9
  * Requires PHP: 7.4
@@ -86,7 +86,7 @@ class TechnoPay_WC_Main {
         $settings_link = sprintf(
             '<a href="%s">%s</a>',
             admin_url('admin.php?page=wc-settings&tab=checkout&section=technopay'),
-            __('Settings', 'technopay-woocommerce')
+            __('Settings', 'technopay-for-woocommerce')
         );
         array_unshift($links, $settings_link);
         return $links;
@@ -99,13 +99,13 @@ class TechnoPay_WC_Main {
     }
     
     public function woocommerce_missing_notice() {
-        echo '<div class="error"><p><strong>' . esc_html__('TechnoPay', 'technopay-woocommerce') . '</strong> ' . esc_html__('requires WooCommerce to be installed and activated.', 'technopay-woocommerce') . '</p></div>';
+        echo '<div class="error"><p><strong>' . esc_html__('TechnoPay', 'technopay-for-woocommerce') . '</strong> ' . esc_html__('requires WooCommerce to be installed and activated.', 'technopay-for-woocommerce') . '</p></div>';
     }
     
     public function activate() {
         if (!class_exists('WooCommerce')) {
             deactivate_plugins(plugin_basename(__FILE__));
-            wp_die(esc_html__('This plugin requires WooCommerce.', 'technopay-woocommerce'));
+            wp_die(esc_html__('This plugin requires WooCommerce.', 'technopay-for-woocommerce'));
         }
     }
     
