@@ -1,69 +1,73 @@
-=== پرداخت اعتباری تکنوپی برای ووکامرس ===
+=== TechnoPay Credit Payment Gateway for WooCommerce ===
 Contributors: technopay
-Tags: woocommerce, payment, gateway, iran, technopay, پرداخت, اقساط, تکنوپی
+Tags: woocommerce, payment, gateway, iran, technopay
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-درگاه پرداخت اقساطی تکنوپی برای ووکامرس با پشتیبانی کامل از WooCommerce Blocks و تم‌های مدرن
+TechnoPay credit payment gateway for WooCommerce with full support for WooCommerce Blocks and modern themes
 
 == Description ==
 
-افزونه TechnoPay for WooCommerce یک درگاه پرداخت حرفه‌ای برای فروشگاه‌های ووکامرس است که امکان پرداخت اقساطی را برای مشتریان فراهم می‌کند.
+TechnoPay for WooCommerce is a professional payment gateway for WooCommerce stores that provides installment payment capabilities for customers.
 
-= ویژگی‌ها =
+= Features =
 
-* پشتیبانی کامل از WooCommerce Blocks
-* سازگار با تم‌های مدرن مانند kiosko
-* پشتیبانی از HPOS (High-Performance Order Storage)
-* حالت تست برای توسعه‌دهندگان
-* لاگ دیباگ پیشرفته
-* اعتبارسنجی شماره موبایل ایرانی
-* پشتیبانی از ریال و تومان
-* رابط کاربری فارسی
+* Full support for WooCommerce Blocks
+* Compatible with modern themes
+* HPOS (High-Performance Order Storage) support
+* Test mode for developers
+* Advanced debug logging
+* Iranian mobile number validation
+* Support for Rial and Toman currencies
+* Multilingual interface
 
-= نیازمندی‌ها =
+= Requirements =
 
-* WordPress 5.0 یا بالاتر
-* WooCommerce 5.0 یا بالاتر
-* PHP 7.4 یا بالاتر
-* حساب کاربری فعال در تکنوپی
+* WordPress 5.0 or higher
+* WooCommerce 5.0 or higher
+* PHP 7.4 or higher
+* Active TechnoPay account
 
 == Installation ==
 
-1. فایل‌های افزونه را در پوشه `/wp-content/plugins/technopay-woocommerce` آپلود کنید
-2. افزونه را از منوی 'افزونه‌ها' در وردپرس فعال کنید
-3. به تنظیمات ووکامرس > پرداخت‌ها > تکنوپی بروید
-4. اطلاعات دریافتی از تکنوپی را وارد کنید
+1. Upload plugin files to `/wp-content/plugins/technopay-for-woocommerce` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Go to WooCommerce > Settings > Payments > TechnoPay
+4. Enter your TechnoPay credentials
 
 == Frequently Asked Questions ==
 
-= آیا این افزونه با تم من کار می‌کند؟ =
+= Does this plugin work with my theme? =
 
-بله، این افزونه با تمام تم‌های ووکامرس سازگار است، به خصوص تم‌های مدرن که از WooCommerce Blocks استفاده می‌کنند.
+Yes, this plugin is compatible with all WooCommerce themes, especially modern themes that use WooCommerce Blocks.
 
-= چگونه می‌توانم حساب تکنوپی دریافت کنم؟ =
+= How can I get a TechnoPay account? =
 
-برای دریافت حساب کاربری به وب‌سایت technopay.ir مراجعه کنید.
+Visit technopay.ir website to create an account.
 
-= آیا حالت تست دارد؟ =
+= Does it have test mode? =
 
-بله، می‌توانید حالت تست را از تنظیمات فعال کنید تا پرداخت‌ها به سرور تست ارسال شود.
+Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
 
 = 1.0.0 =
-* انتشار اولیه
+* Initial release
 
 = 1.0.1 =
-* بهبود امنیت با اضافه کردن sanitization و validation
-* بهبود error handling
-* اضافه کردن متد is_available()
-* بهبود logging system
-* اضافه کردن User-Agent header
-* بهبود کد و حذف تکرار
-* اضافه کردن debug mode setting
-* بهبود localization
+* Security improvements with added sanitization and validation
+* Improved error handling
+* Added is_available() method
+* Enhanced logging system
+* Added User-Agent header
+* Code improvements and refactoring
+* Added debug mode setting
+* Improved localization
+* Fixed all WordPress.org plugin repository compliance issues
+* Enhanced security with proper escaping and nonce verification
+* Optimized database queries with caching
+* Fixed text domain consistency

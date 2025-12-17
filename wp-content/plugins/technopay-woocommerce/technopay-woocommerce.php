@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: پرداخت اعتباری تکنوپی برای ووکامرس
+ * Plugin Name: TechnoPay Credit Payment Gateway for WooCommerce
  * Plugin URI: https://technopay.ir
- * Description: افزونه درگاه پرداخت امن اعتباری تکنوپی برای فروشگاه ساز ووکامرس
- * Version: 1.0.0
- * Author: تکنوپی
+ * Description: Secure credit payment gateway plugin for WooCommerce by TechnoPay
+ * Version: 1.0.1
+ * Author: TechnoPay
  * Author URI: https://technopay.ir
- * Text Domain: technopay-wc
+ * Text Domain: technopay-woocommerce
  * Requires at least: 5.0
- * Tested up to: 6.4
+ * Tested up to: 6.9
  * Requires PHP: 7.4
  * WC requires at least: 5.0
  * WC tested up to: 8.0
@@ -56,7 +56,8 @@ class TechnoPay_WC_Main {
     }
     
     private function load_textdomain() {
-        load_plugin_textdomain('technopay-wc', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        // WordPress automatically loads translations for plugins hosted on WordPress.org
+        // This function is kept for backward compatibility but is no longer needed
     }
     
     private function includes() {
@@ -85,7 +86,7 @@ class TechnoPay_WC_Main {
         $settings_link = sprintf(
             '<a href="%s">%s</a>',
             admin_url('admin.php?page=wc-settings&tab=checkout&section=technopay'),
-            __('تنظیمات', 'technopay-wc')
+            __('Settings', 'technopay-woocommerce')
         );
         array_unshift($links, $settings_link);
         return $links;
@@ -98,13 +99,13 @@ class TechnoPay_WC_Main {
     }
     
     public function woocommerce_missing_notice() {
-        echo '<div class="error"><p><strong>' . esc_html__('تکنوپی', 'technopay-wc') . '</strong> ' . esc_html__('نیاز به نصب و فعالسازی ووکامرس دارد.', 'technopay-wc') . '</p></div>';
+        echo '<div class="error"><p><strong>' . esc_html__('TechnoPay', 'technopay-woocommerce') . '</strong> ' . esc_html__('requires WooCommerce to be installed and activated.', 'technopay-woocommerce') . '</p></div>';
     }
     
     public function activate() {
         if (!class_exists('WooCommerce')) {
             deactivate_plugins(plugin_basename(__FILE__));
-            wp_die(esc_html__('این پلاگین نیاز به ووکامرس دارد.', 'technopay-wc'));
+            wp_die(esc_html__('This plugin requires WooCommerce.', 'technopay-woocommerce'));
         }
     }
     

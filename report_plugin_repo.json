@@ -1,0 +1,568 @@
+[
+  {
+    "file": "technopay-woocommerce.php",
+    "issues": [
+      {
+        "line": 88,
+        "column": 27,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 101,
+        "column": 70,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 101,
+        "column": 154,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 107,
+        "column": 67,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 0,
+        "column": 0,
+        "type": "ERROR",
+        "code": "plugin_header_unsupported_plugin_name",
+        "message": "The \"Plugin Name\" header in the plugin file is not valid. It needs to contain at least 5 latin letters (a-Z) and/or numbers. This is necessary because the initial plugin slug is generated from the name."
+      },
+      {
+        "line": 0,
+        "column": 0,
+        "type": "WARNING",
+        "code": "textdomain_mismatch",
+        "message": "The \"Text Domain\" header in the plugin file does not match the slug. Found \"technopay-wc\", expected \"technopay-woocommerce\"."
+      },
+      {
+        "line": 59,
+        "column": 9,
+        "type": "ERROR",
+        "code": "PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound",
+        "message": "load_plugin_textdomain() has been discouraged since WordPress version 4.6. When your plugin is hosted on WordPress.org, you no longer need to manually include this function call for translations under your plugin slug. WordPress will automatically load the translations for you as needed."
+      },
+      {
+        "line": 0,
+        "column": 0,
+        "type": "WARNING",
+        "code": "trademarked_term",
+        "message": "The plugin slug includes a restricted term. Your plugin slug - \"technopay-woocommerce\" - contains the restricted term \"woocommerce\" which cannot be used within in your plugin slug, unless your plugin slug ends with \"for woocommerce\". The term must still not appear anywhere else in your plugin slug."
+      }
+    ]
+  },
+  {
+    "file": "includes/class-wc-technopay-gateway.php",
+    "issues": [
+      {
+        "line": 13,
+        "column": 44,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 14,
+        "column": 73,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 43,
+        "column": 43,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 45,
+        "column": 60,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 49,
+        "column": 40,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 51,
+        "column": 43,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 55,
+        "column": 42,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 57,
+        "column": 66,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 60,
+        "column": 46,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 65,
+        "column": 45,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 70,
+        "column": 43,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 72,
+        "column": 52,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 74,
+        "column": 88,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 77,
+        "column": 42,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 81,
+        "column": 50,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 82,
+        "column": 47,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 83,
+        "column": 48,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 116,
+        "column": 49,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 121,
+        "column": 74,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 150,
+        "column": 73,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 158,
+        "column": 60,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 164,
+        "column": 73,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 228,
+        "column": 70,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 233,
+        "column": 82,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 254,
+        "column": 109,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 291,
+        "column": 71,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 339,
+        "column": 117,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 365,
+        "column": 59,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 373,
+        "column": 49,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 390,
+        "column": 56,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 400,
+        "column": 103,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 407,
+        "column": 140,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 409,
+        "column": 79,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 418,
+        "column": 68,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 463,
+        "column": 85,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 465,
+        "column": 95,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 469,
+        "column": 79,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 477,
+        "column": 62,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 563,
+        "column": 77,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 569,
+        "column": 100,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 635,
+        "column": 93,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 132,
+        "column": 38,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$balance_check'."
+      },
+      {
+        "line": 228,
+        "column": 33,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '__'."
+      },
+      {
+        "line": 233,
+        "column": 33,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '__'."
+      },
+      {
+        "line": 255,
+        "column": 33,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$error_message'."
+      },
+      {
+        "line": 291,
+        "column": 33,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '__'."
+      },
+      {
+        "line": 327,
+        "column": 33,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$response'."
+      },
+      {
+        "line": 341,
+        "column": 33,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '$error_message'."
+      },
+      {
+        "line": 477,
+        "column": 33,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '__'."
+      },
+      {
+        "line": 635,
+        "column": 37,
+        "type": "ERROR",
+        "code": "WordPress.Security.EscapeOutput.ExceptionNotEscaped",
+        "message": "All output should be run through an escaping function (see the Security sections in the WordPress Developer Handbooks), found '__'."
+      },
+      {
+        "line": 363,
+        "column": 25,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Recommended",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 363,
+        "column": 79,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Recommended",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 427,
+        "column": 84,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Recommended",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 429,
+        "column": 30,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Recommended",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 429,
+        "column": 62,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Recommended",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 556,
+        "column": 20,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Missing",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 556,
+        "column": 49,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Missing",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 560,
+        "column": 32,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Missing",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 560,
+        "column": 90,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Missing",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 588,
+        "column": 23,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Recommended",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 588,
+        "column": 43,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Recommended",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 589,
+        "column": 57,
+        "type": "WARNING",
+        "code": "WordPress.Security.NonceVerification.Recommended",
+        "message": "Processing form data without nonce verification."
+      },
+      {
+        "line": 651,
+        "column": 13,
+        "type": "WARNING",
+        "code": "WordPress.PHP.DevelopmentFunctions.error_log_error_log",
+        "message": "error_log() found. Debug code should not normally be used in production."
+      },
+      {
+        "line": 501,
+        "column": 21,
+        "type": "WARNING",
+        "code": "WordPress.DB.DirectDatabaseQuery.DirectQuery",
+        "message": "Use of a direct database call is discouraged."
+      },
+      {
+        "line": 501,
+        "column": 21,
+        "type": "WARNING",
+        "code": "WordPress.DB.DirectDatabaseQuery.NoCaching",
+        "message": "Direct database call without caching detected. Consider using wp_cache_get() / wp_cache_set() or wp_cache_delete()."
+      }
+    ]
+  },
+  {
+    "file": "includes/class-wc-technopay-blocks-support.php",
+    "issues": [
+      {
+        "line": 56,
+        "column": 65,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      },
+      {
+        "line": 57,
+        "column": 99,
+        "type": "ERROR",
+        "code": "WordPress.WP.I18n.TextDomainMismatch",
+        "message": "Mismatched text domain. Expected 'technopay-woocommerce' but got 'technopay-wc'."
+      }
+    ]
+  },
+  {
+    "file": "readme.txt",
+    "issues": [
+      {
+        "line": 0,
+        "column": 0,
+        "type": "ERROR",
+        "code": "outdated_tested_upto_header",
+        "message": "Tested up to: 6.4 < 6.9. The \"Tested up to\" value in your plugin is not set to the current version of WordPress. This means your plugin will not show up in searches, as we require plugins to be compatible and documented as tested up to the most recent version of WordPress."
+      },
+      {
+        "line": 0,
+        "column": 0,
+        "type": "ERROR",
+        "code": "stable_tag_mismatch",
+        "message": "Mismatched Stable Tag: 1.0.1 != 1.0.0. Your Stable Tag is meant to be the stable version of your plugin and it needs to be exactly the same with the Version in your main plugin file's header. Any mismatch can prevent users from downloading the correct plugin files from WordPress.org."
+      },
+      {
+        "line": 0,
+        "column": 0,
+        "type": "WARNING",
+        "code": "readme_parser_warnings_too_many_tags",
+        "message": "One or more tags were ignored. Please limit your plugin to 5 tags."
+      }
+    ]
+  }
+]
