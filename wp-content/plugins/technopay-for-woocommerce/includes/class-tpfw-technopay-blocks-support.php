@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) exit;
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
 
-final class TechnoPay_For_WooCommerce_Blocks_Support extends AbstractPaymentMethodType {
+final class TPFW_TechnoPay_Blocks_Support extends AbstractPaymentMethodType {
 
     private $gateway;
     protected $name = 'technopay';
@@ -20,7 +20,7 @@ final class TechnoPay_For_WooCommerce_Blocks_Support extends AbstractPaymentMeth
 
     public function get_payment_method_script_handles() {
         $script_path = 'assets/js/index.js';
-        $script_asset_path = TECHNOPAY_WC_PLUGIN_PATH . 'assets/js/index.asset.php';
+        $script_asset_path = TPFW_PLUGIN_PATH . 'assets/js/index.asset.php';
         $script_asset = file_exists($script_asset_path)
             ? require($script_asset_path)
             : array(
@@ -31,12 +31,12 @@ final class TechnoPay_For_WooCommerce_Blocks_Support extends AbstractPaymentMeth
                     'wp-html-entities',
                     'wp-i18n',
                 ),
-                'version' => TECHNOPAY_WC_VERSION
+                'version' => TPFW_VERSION
             );
 
         wp_register_script(
             'wc-technopay-blocks-integration',
-            TECHNOPAY_WC_PLUGIN_URL . $script_path,
+            TPFW_PLUGIN_URL . $script_path,
             $script_asset['dependencies'],
             $script_asset['version'],
             true
@@ -50,12 +50,12 @@ final class TechnoPay_For_WooCommerce_Blocks_Support extends AbstractPaymentMeth
     }
 
     public function get_payment_method_data() {
-        $icon_url = TECHNOPAY_WC_PLUGIN_URL . 'assets/images/technopay-logo.svg';
+        $icon_url = TPFW_PLUGIN_URL . 'assets/images/technopay-logo.svg';
         
         return array(
             'title' => $this->get_setting('title', __('TechnoPay', 'technopay-for-woocommerce')),
             'description' => $this->get_setting('description', __('Installment payment via TechnoPay', 'technopay-for-woocommerce')),
-            'icon' => file_exists(TECHNOPAY_WC_PLUGIN_PATH . 'assets/images/technopay-logo.svg') ? $icon_url : '',
+            'icon' => file_exists(TPFW_PLUGIN_PATH . 'assets/images/technopay-logo.svg') ? $icon_url : '',
             'supports' => $this->gateway ? array_filter($this->gateway->supports, array($this->gateway, 'supports')) : array(),
         );
     }

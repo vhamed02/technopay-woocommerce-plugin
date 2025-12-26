@@ -1,5 +1,5 @@
 const settings = window.wc.wcSettings.getSetting('technopay_data', {});
-const label = window.wp.htmlEntities.decodeEntities(settings.title) || window.wp.i18n.__('تکنوپی', 'technopay-wc');
+const label = window.wp.htmlEntities.decodeEntities(settings.title) || window.wp.i18n.__('تکنوپی', 'technopay-for-woocommerce');
 const icon = settings.icon || '';
 
 const Content = () => {

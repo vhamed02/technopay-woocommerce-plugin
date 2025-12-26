@@ -6,11 +6,11 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: TechnoPay for WooCommerce 1.0.1\n"
+"Project-Id-Version: TechnoPay Payment Gateway for WooCommerce 1.1.0\n"
 "Report-Msgid-Bugs-To: https://technopay.ir\n"
-"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"POT-Creation-Date: 2024-12-26 12:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: vhamed32 <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -21,186 +21,170 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: technopay-woocommerce.php:101
+#: technopay-woocommerce.php:108
+msgid "TechnoPay Payment Gateway for WooCommerce"
+msgstr ""
+
+#: technopay-woocommerce.php:109
+msgid "Secure credit payment gateway plugin for WooCommerce by TechnoPay"
+msgstr ""
+
+#: technopay-woocommerce.php:110
+msgid "vhamed32"
+msgstr ""
+
+#: technopay-woocommerce.php:125
 msgid "TechnoPay"
 msgstr ""
 
-#: technopay-woocommerce.php:101
+#: technopay-woocommerce.php:125
 msgid "requires WooCommerce to be installed and activated."
 msgstr ""
 
-#: technopay-woocommerce.php:107
+#: technopay-woocommerce.php:132
 msgid "This plugin requires WooCommerce."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:13
-msgid "TechnoPay"
-msgstr ""
-
-#: includes/class-wc-technopay-gateway.php:14
+#: includes/class-tpfw-technopay-gateway.php:13
 msgid "Credit payment via TechnoPay"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:43
+#: includes/class-tpfw-technopay-gateway.php:38
 msgid "Enable"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:45
+#: includes/class-tpfw-technopay-gateway.php:40
 msgid "Enable TechnoPay payment"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:49
+#: includes/class-tpfw-technopay-gateway.php:44
 msgid "Title"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:51
-msgid "TechnoPay"
-msgstr ""
-
-#: includes/class-wc-technopay-gateway.php:55
+#: includes/class-tpfw-technopay-gateway.php:49
 msgid "Description"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:57
-msgid "Credit payment via TechnoPay"
-msgstr ""
-
-#: includes/class-wc-technopay-gateway.php:60
+#: includes/class-tpfw-technopay-gateway.php:54
 msgid "Merchant ID"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:65
+#: includes/class-tpfw-technopay-gateway.php:59
 msgid "Secret Key"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:70
+#: includes/class-tpfw-technopay-gateway.php:64
 msgid "Test Mode"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:72
+#: includes/class-tpfw-technopay-gateway.php:66
 msgid "Enable test mode"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:74
+#: includes/class-tpfw-technopay-gateway.php:68
 msgid "In test mode, payments are sent to test server"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:77
+#: includes/class-tpfw-technopay-gateway.php:71
 msgid "Currency Type"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:81
+#: includes/class-tpfw-technopay-gateway.php:75
 msgid "Auto Detect"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:82
+#: includes/class-tpfw-technopay-gateway.php:76
 msgid "Rial (IRR)"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:83
+#: includes/class-tpfw-technopay-gateway.php:77
 msgid "Toman (IRT)"
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:116
+#: includes/class-tpfw-technopay-gateway.php:98
 msgid "Order not found."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:121
+#: includes/class-tpfw-technopay-gateway.php:103
 msgid "Payment gateway is not configured properly."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:150
+#: includes/class-tpfw-technopay-gateway.php:125
 msgid "Payment ticket creation failed."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:158
+#: includes/class-tpfw-technopay-gateway.php:131
 msgid "Unknown error occurred."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:164
+#: includes/class-tpfw-technopay-gateway.php:138
 msgid "TechnoPay payment failed: "
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:228
+#: includes/class-tpfw-technopay-gateway.php:200
 msgid "Customer mobile number is required."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:233
+#: includes/class-tpfw-technopay-gateway.php:205
 msgid "Please enter a valid Iranian mobile number."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:254
-msgid "Unknown error occurred."
-msgstr ""
-
-#: includes/class-wc-technopay-gateway.php:291
+#: includes/class-tpfw-technopay-gateway.php:225
 msgid "Digital signature creation failed."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:339
+#: includes/class-tpfw-technopay-gateway.php:270
 msgid "HTTP Error: "
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:365
+#: includes/class-tpfw-technopay-gateway.php:285
 msgid "Payment was cancelled by user."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:373
-msgid "Order not found."
-msgstr ""
-
-#: includes/class-wc-technopay-gateway.php:390
+#: includes/class-tpfw-technopay-gateway.php:292
 msgid "Track number not found."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:400
+#: includes/class-tpfw-technopay-gateway.php:310
 msgid "Payment completed successfully via TechnoPay. Track number: "
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:407
+#: includes/class-tpfw-technopay-gateway.php:318
 msgid "Payment verification failed."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:409
+#: includes/class-tpfw-technopay-gateway.php:319
 msgid "TechnoPay payment verification failed: "
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:418
+#: includes/class-tpfw-technopay-gateway.php:326
 msgid "Error in TechnoPay callback: "
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:463
+#: includes/class-tpfw-technopay-gateway.php:348
 msgid "Payment via TechnoPay failed."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:465
+#: includes/class-tpfw-technopay-gateway.php:350
 msgid "Payment via TechnoPay failed. Track number: "
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:469
+#: includes/class-tpfw-technopay-gateway.php:354
 msgid "Payment was cancelled or failed. Please try again."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:477
-msgid "Track number not found."
-msgstr ""
-
-#: includes/class-wc-technopay-gateway.php:563
+#: includes/class-tpfw-technopay-gateway.php:580
 msgid "Mobile number is required for TechnoPay payment."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:569
+#: includes/class-tpfw-technopay-gateway.php:586
 msgid "Please enter a valid Iranian mobile number (example: 09123456789)."
 msgstr ""
 
-#: includes/class-wc-technopay-gateway.php:635
+#: includes/class-tpfw-technopay-gateway.php:650
 msgid "Only IRR and IRT currencies are supported by TechnoPay."
 msgstr ""
 
-#: includes/class-wc-technopay-blocks-support.php:56
-msgid "TechnoPay"
-msgstr ""
-
-#: includes/class-wc-technopay-blocks-support.php:57
+#: includes/class-tpfw-technopay-blocks-support.php:44
 msgid "Installment payment via TechnoPay"
 msgstr ""

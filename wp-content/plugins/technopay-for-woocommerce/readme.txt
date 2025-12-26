@@ -1,5 +1,5 @@
-=== TechnoPay for WooCommerce ===
-Contributors: technopay
+=== TechnoPay Payment Gateway for WooCommerce ===
+Contributors: vhamed32
 Tags: woocommerce, payment, gateway, iran, technopay
 Requires at least: 5.0
 Tested up to: 6.9
@@ -12,7 +12,7 @@ Secure credit payment gateway plugin for WooCommerce by TechnoPay
 
 == Description ==
 
-TechnoPay for WooCommerce is a professional payment gateway for WooCommerce stores that provides installment payment capabilities for customers.
+TechnoPay Payment Gateway for WooCommerce is a professional payment gateway for WooCommerce stores that provides installment payment capabilities for customers.
 
 = Features =
 

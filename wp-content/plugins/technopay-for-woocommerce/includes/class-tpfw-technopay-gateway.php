@@ -1,7 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
-class TechnoPay_For_WooCommerce_Gateway extends WC_Payment_Gateway
+class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
 {
 
     private $api_url;
@@ -9,7 +9,7 @@ class TechnoPay_For_WooCommerce_Gateway extends WC_Payment_Gateway
     public function __construct()
     {
         $this->id = 'technopay';
-        $this->icon = TECHNOPAY_WC_PLUGIN_URL . 'assets/images/technopay-logo.svg';
+        $this->icon = TPFW_PLUGIN_URL . 'assets/images/technopay-logo.svg';
         $this->method_title = __('TechnoPay', 'technopay-for-woocommerce');
         $this->method_description = __('Credit payment via TechnoPay', 'technopay-for-woocommerce');
         $this->has_fields = false;
@@ -190,7 +190,7 @@ class TechnoPay_For_WooCommerce_Gateway extends WC_Payment_Gateway
                     'Content-Type' => 'application/json',
                     'signature' => $signature,
                     'merchantId' => $this->merchant_id,
-                    'User-Agent' => 'technopay-for-woocommerce/' . TECHNOPAY_WC_VERSION
+                    'User-Agent' => 'technopay-for-woocommerce/' . TPFW_VERSION
                 ],
                 'timeout' => 30,
                 'sslverify' => true
@@ -310,7 +310,7 @@ class TechnoPay_For_WooCommerce_Gateway extends WC_Payment_Gateway
                 'Content-Type' => 'application/json',
                 'signature' => $signature,
                 'merchantId' => $this->merchant_id,
-                'User-Agent' => 'technopay-for-woocommerce/' . TECHNOPAY_WC_VERSION
+                'User-Agent' => 'technopay-for-woocommerce/' . TPFW_VERSION
             ),
             'body' => wp_json_encode($data),
             'timeout' => 30,
@@ -426,7 +426,8 @@ class TechnoPay_For_WooCommerce_Gateway extends WC_Payment_Gateway
     private function get_order_from_request()
     {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a payment gateway callback
-        $this->log('Getting order from request. REQUEST params: ' . wp_json_encode($_REQUEST));
+        $sanitized_request = map_deep($_REQUEST, 'sanitize_text_field');
+        $this->log('Getting order from request. REQUEST params: ' . wp_json_encode($sanitized_request));
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a payment gateway callback
         $wc_order_id = isset($_REQUEST['wc_order']) ? absint($_REQUEST['wc_order']) : 0;

@@ -1,13 +1,13 @@
-# Persian (Iran) translation for TechnoPay for WooCommerce
-# Copyright (C) 2024 TechnoPay
-# This file is distributed under the same license as the TechnoPay for WooCommerce package.
+# Persian (Iran) translation for TechnoPay Payment Gateway for WooCommerce
+# Copyright (C) 2024 vhamed32
+# This file is distributed under the same license as the TechnoPay Payment Gateway for WooCommerce package.
 msgid ""
 msgstr ""
-"Project-Id-Version: TechnoPay for WooCommerce 1.1.0\n"
+"Project-Id-Version: TechnoPay Payment Gateway for WooCommerce 1.1.0\n"
 "Report-Msgid-Bugs-To: https://technopay.ir\n"
-"POT-Creation-Date: 2024-01-01 12:00+0000\n"
-"PO-Revision-Date: 2024-01-01 12:00+0000\n"
-"Last-Translator: TechnoPay <info@technopay.ir>\n"
+"POT-Creation-Date: 2024-12-26 12:00+0000\n"
+"PO-Revision-Date: 2024-12-26 12:00+0000\n"
+"Last-Translator: vhamed32 <info@technopay.ir>\n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,14 @@ msgstr ""
 "X-Generator: Poedit 3.0\n"
 
 # Plugin headers - these are the most important for plugin list page
-msgid "TechnoPay for WooCommerce"
-msgstr "تکنوپی برای ووکامرس"
+msgid "TechnoPay Payment Gateway for WooCommerce"
+msgstr "درگاه پرداخت تکنوپی برای ووکامرس"
 
 msgid "Secure credit payment gateway plugin for WooCommerce by TechnoPay"
 msgstr "افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی"
+
+msgid "vhamed32"
+msgstr "vhamed32"
 
 # Common strings
 msgid "Settings"
@@ -39,6 +42,7 @@ msgstr "این افزونه نیاز به ووکامرس دارد."
 msgid "Credit payment via TechnoPay"
 msgstr "پرداخت اعتباری از طریق تکنوپی"
 
+# Gateway settings
 msgid "Enable"
 msgstr "فعال‌سازی"
 
@@ -78,6 +82,7 @@ msgstr "ریال (IRR)"
 msgid "Toman (IRT)"
 msgstr "تومان (IRT)"
 
+# Error messages
 msgid "Order not found."
 msgstr "سفارش یافت نشد."
 
@@ -88,7 +93,7 @@ msgid "Payment ticket creation failed."
 msgstr "ایجاد بلیط پرداخت ناموفق بود."
 
 msgid "Unknown error occurred."
-msgstr "خطای ناشناخته‌ای رخ داد."
+msgstr "خطای نامشخصی رخ داد."
 
 msgid "TechnoPay payment failed: "
 msgstr "پرداخت تکنوپی ناموفق بود: "
@@ -139,14 +144,7 @@ msgid "Please enter a valid Iranian mobile number (example: 09123456789)."
 msgstr "لطفاً شماره موبایل ایرانی معتبری وارد کنید (مثال: ۰۹۱۲۳۴۵۶۷۸۹)."
 
 msgid "Only IRR and IRT currencies are supported by TechnoPay."
-msgstr "تنها ارزهای ریال و تومان توسط تکنوپی پشتیبانی می‌شوند."
+msgstr "تنها ارزهای IRR و IRT توسط تکنوپی پشتیبانی می‌شوند."
 
 msgid "Installment payment via TechnoPay"
-msgstr "پرداخت قسطی از طریق تکنوپی"
-
-# Additional plugin metadata
-msgid "Visit plugin site"
-msgstr "مشاهده سایت افزونه"
-
-msgid "View details"
-msgstr "مشاهده جزئیات"
+msgstr "پرداخت اقساطی از طریق تکنوپی"

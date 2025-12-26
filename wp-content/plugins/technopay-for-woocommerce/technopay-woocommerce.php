@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: TechnoPay for WooCommerce
+ * Plugin Name: TechnoPay Payment Gateway for WooCommerce
  * Description: Secure credit payment gateway plugin for WooCommerce by TechnoPay
  * Version: 1.1.0
- * Author: TechnoPay
+ * Author: vhamed32
  * Author URI: https://technopay.ir
  * Text Domain: technopay-for-woocommerce
  * Requires at least: 5.0
@@ -20,12 +20,12 @@ use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
 if (!defined('ABSPATH')) exit;
 
-define('TECHNOPAY_WC_VERSION', '1.1.0');
-define('TECHNOPAY_WC_PLUGIN_FILE', __FILE__);
-define('TECHNOPAY_WC_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('TECHNOPAY_WC_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('TPFW_VERSION', '1.1.0');
+define('TPFW_PLUGIN_FILE', __FILE__);
+define('TPFW_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('TPFW_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-class TechnoPay_For_WooCommerce_Main {
+class TPFW_Main {
     
     private static $instance = null;
     
@@ -56,8 +56,8 @@ class TechnoPay_For_WooCommerce_Main {
     }
     
     private function includes() {
-        require_once TECHNOPAY_WC_PLUGIN_PATH . 'includes/class-wc-technopay-gateway.php';
-        require_once TECHNOPAY_WC_PLUGIN_PATH . 'includes/class-wc-technopay-blocks-support.php';
+        require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-gateway.php';
+        require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-blocks-support.php';
     }
     
     private function init_hooks() {
@@ -67,13 +67,13 @@ class TechnoPay_For_WooCommerce_Main {
     }
     
     public function add_gateway($methods) {
-        $methods[] = 'TechnoPay_For_WooCommerce_Gateway';
+        $methods[] = 'TPFW_TechnoPay_Gateway';
         return $methods;
     }
     
     public function register_blocks_support($payment_method_registry) {
-        if (class_exists('TechnoPay_For_WooCommerce_Blocks_Support')) {
-            $payment_method_registry->register(new TechnoPay_For_WooCommerce_Blocks_Support());
+        if (class_exists('TPFW_TechnoPay_Blocks_Support')) {
+            $payment_method_registry->register(new TPFW_TechnoPay_Blocks_Support());
         }
     }
     
@@ -102,9 +102,9 @@ class TechnoPay_For_WooCommerce_Main {
                 $plugins[$plugin_file]['Description'] = 'افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی';
                 $plugins[$plugin_file]['Author'] = 'تکنوپی';
             } else {
-                $plugins[$plugin_file]['Name'] = __('TechnoPay for WooCommerce', 'technopay-for-woocommerce');
+                $plugins[$plugin_file]['Name'] = __('TechnoPay Payment Gateway for WooCommerce', 'technopay-for-woocommerce');
                 $plugins[$plugin_file]['Description'] = __('Secure credit payment gateway plugin for WooCommerce by TechnoPay', 'technopay-for-woocommerce');
-                $plugins[$plugin_file]['Author'] = __('TechnoPay', 'technopay-for-woocommerce');
+                $plugins[$plugin_file]['Author'] = __('vhamed32', 'technopay-for-woocommerce');
             }
         }
         
@@ -141,4 +141,4 @@ class TechnoPay_For_WooCommerce_Main {
     }
 }
 
-TechnoPay_For_WooCommerce_Main::get_instance();
+TPFW_Main::get_instance();
