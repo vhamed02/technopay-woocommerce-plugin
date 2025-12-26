@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: TechnoPay Payment Gateway for WooCommerce 1.1.0\n"
+"Project-Id-Version: TechnoPay Payment Gateway for WooCommerce 1.1.1\n"
 "Report-Msgid-Bugs-To: https://technopay.ir\n"
 "POT-Creation-Date: 2024-12-26 12:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
