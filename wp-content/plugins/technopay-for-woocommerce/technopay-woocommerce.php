@@ -37,12 +37,27 @@ class TPFW_Main {
     }
     
     private function __construct() {
+        add_action('plugins_loaded', array($this, 'load_textdomain'));
         add_action('plugins_loaded', array($this, 'init'), 11);
         add_action('before_woocommerce_init', array($this, 'declare_hpos_compatibility'));
         add_filter('all_plugins', array($this, 'translate_plugin_meta'));
         add_filter('plugin_row_meta', array($this, 'translate_plugin_row_meta'), 10, 2);
         register_activation_hook(__FILE__, array($this, 'activate'));
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
+    }
+    
+    public function load_textdomain() {
+        $locale = apply_filters('tpfw_plugin_locale', determine_locale(), 'technopay-for-woocommerce');
+        $mo_file = WP_LANG_DIR . '/plugins/technopay-for-woocommerce-' . $locale . '.mo';
+        
+        if (file_exists($mo_file)) {
+            load_textdomain('technopay-for-woocommerce', $mo_file);
+        } else {
+            $mo_file_local = dirname(__FILE__) . '/languages/technopay-for-woocommerce-' . $locale . '.mo';
+            if (file_exists($mo_file_local)) {
+                load_textdomain('technopay-for-woocommerce', $mo_file_local);
+            }
+        }
     }
     
     public function init() {
