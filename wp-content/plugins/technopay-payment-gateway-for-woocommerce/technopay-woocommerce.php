@@ -5,7 +5,7 @@
  * Version: 1.1.1
  * Author: vhamed32
  * Author URI: https://technopay.ir
- * Text Domain: technopay-for-woocommerce
+ * Text Domain: technopay-payment-gateway-for-woocommerce
  * Requires at least: 5.0
  * Tested up to: 6.9
  * Requires PHP: 7.4
@@ -47,15 +47,15 @@ class TPFW_Main {
     }
     
     public function load_textdomain() {
-        $locale = apply_filters('tpfw_plugin_locale', determine_locale(), 'technopay-for-woocommerce');
-        $mo_file = WP_LANG_DIR . '/plugins/technopay-for-woocommerce-' . $locale . '.mo';
+        $locale = apply_filters('tpfw_plugin_locale', determine_locale(), 'technopay-payment-gateway-for-woocommerce');
+        $mo_file = WP_LANG_DIR . '/plugins/technopay-payment-gateway-for-woocommerce-' . $locale . '.mo';
         
         if (file_exists($mo_file)) {
-            load_textdomain('technopay-for-woocommerce', $mo_file);
+            load_textdomain('technopay-payment-gateway-for-woocommerce', $mo_file);
         } else {
-            $mo_file_local = dirname(__FILE__) . '/languages/technopay-for-woocommerce-' . $locale . '.mo';
+            $mo_file_local = dirname(__FILE__) . '/languages/technopay-payment-gateway-for-woocommerce-' . $locale . '.mo';
             if (file_exists($mo_file_local)) {
-                load_textdomain('technopay-for-woocommerce', $mo_file_local);
+                load_textdomain('technopay-payment-gateway-for-woocommerce', $mo_file_local);
             }
         }
     }
@@ -96,7 +96,7 @@ class TPFW_Main {
         $settings_link = sprintf(
             '<a href="%s">%s</a>',
             admin_url('admin.php?page=wc-settings&tab=checkout&section=technopay'),
-            __('Settings', 'technopay-for-woocommerce')
+            __('Settings', 'technopay-payment-gateway-for-woocommerce')
         );
         array_unshift($links, $settings_link);
         return $links;
@@ -117,9 +117,9 @@ class TPFW_Main {
                 $plugins[$plugin_file]['Description'] = 'افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی';
                 $plugins[$plugin_file]['Author'] = 'تکنوپی';
             } else {
-                $plugins[$plugin_file]['Name'] = __('TechnoPay Payment Gateway for WooCommerce', 'technopay-for-woocommerce');
-                $plugins[$plugin_file]['Description'] = __('Secure credit payment gateway plugin for WooCommerce by TechnoPay', 'technopay-for-woocommerce');
-                $plugins[$plugin_file]['Author'] = __('vhamed32', 'technopay-for-woocommerce');
+                $plugins[$plugin_file]['Name'] = __('TechnoPay Payment Gateway for WooCommerce', 'technopay-payment-gateway-for-woocommerce');
+                $plugins[$plugin_file]['Description'] = __('Secure credit payment gateway plugin for WooCommerce by TechnoPay', 'technopay-payment-gateway-for-woocommerce');
+                $plugins[$plugin_file]['Author'] = __('vhamed32', 'technopay-payment-gateway-for-woocommerce');
             }
         }
         
@@ -141,13 +141,13 @@ class TPFW_Main {
     }
     
     public function woocommerce_missing_notice() {
-        echo '<div class="error"><p><strong>' . esc_html__('TechnoPay', 'technopay-for-woocommerce') . '</strong> ' . esc_html__('requires WooCommerce to be installed and activated.', 'technopay-for-woocommerce') . '</p></div>';
+        echo '<div class="error"><p><strong>' . esc_html__('TechnoPay', 'technopay-payment-gateway-for-woocommerce') . '</strong> ' . esc_html__('requires WooCommerce to be installed and activated.', 'technopay-payment-gateway-for-woocommerce') . '</p></div>';
     }
     
     public function activate() {
         if (!class_exists('WooCommerce')) {
             deactivate_plugins(plugin_basename(__FILE__));
-            wp_die(esc_html__('This plugin requires WooCommerce.', 'technopay-for-woocommerce'));
+            wp_die(esc_html__('This plugin requires WooCommerce.', 'technopay-payment-gateway-for-woocommerce'));
         }
     }
     

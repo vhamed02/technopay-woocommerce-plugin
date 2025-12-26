@@ -10,8 +10,8 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
     {
         $this->id = 'technopay';
         $this->icon = TPFW_PLUGIN_URL . 'assets/images/technopay-logo.svg';
-        $this->method_title = __('TechnoPay', 'technopay-for-woocommerce');
-        $this->method_description = __('Credit payment via TechnoPay', 'technopay-for-woocommerce');
+        $this->method_title = __('TechnoPay', 'technopay-payment-gateway-for-woocommerce');
+        $this->method_description = __('Credit payment via TechnoPay', 'technopay-payment-gateway-for-woocommerce');
         $this->has_fields = false;
         $this->supports = array('products');
 
@@ -40,47 +40,47 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
     {
         $this->form_fields = array(
             'enabled' => array(
-                'title' => __('Enable', 'technopay-for-woocommerce'),
+                'title' => __('Enable', 'technopay-payment-gateway-for-woocommerce'),
                 'type' => 'checkbox',
-                'label' => __('Enable TechnoPay payment', 'technopay-for-woocommerce'),
+                'label' => __('Enable TechnoPay payment', 'technopay-payment-gateway-for-woocommerce'),
                 'default' => 'yes'
             ),
             'title' => array(
-                'title' => __('Title', 'technopay-for-woocommerce'),
+                'title' => __('Title', 'technopay-payment-gateway-for-woocommerce'),
                 'type' => 'text',
-                'default' => __('TechnoPay', 'technopay-for-woocommerce'),
+                'default' => __('TechnoPay', 'technopay-payment-gateway-for-woocommerce'),
                 'desc_tip' => true,
             ),
             'description' => array(
-                'title' => __('Description', 'technopay-for-woocommerce'),
+                'title' => __('Description', 'technopay-payment-gateway-for-woocommerce'),
                 'type' => 'text',
-                'default' => __('Credit payment via TechnoPay', 'technopay-for-woocommerce'),
+                'default' => __('Credit payment via TechnoPay', 'technopay-payment-gateway-for-woocommerce'),
             ),
             'merchant_id' => array(
-                'title' => __('Merchant ID', 'technopay-for-woocommerce'),
+                'title' => __('Merchant ID', 'technopay-payment-gateway-for-woocommerce'),
                 'type' => 'text',
                 'default' => '',
             ),
             'merchant_secret' => array(
-                'title' => __('Secret Key', 'technopay-for-woocommerce'),
+                'title' => __('Secret Key', 'technopay-payment-gateway-for-woocommerce'),
                 'type' => 'password',
                 'default' => '',
             ),
             'testmode' => array(
-                'title' => __('Test Mode', 'technopay-for-woocommerce'),
+                'title' => __('Test Mode', 'technopay-payment-gateway-for-woocommerce'),
                 'type' => 'checkbox',
-                'label' => __('Enable test mode', 'technopay-for-woocommerce'),
+                'label' => __('Enable test mode', 'technopay-payment-gateway-for-woocommerce'),
                 'default' => 'no',
-                'description' => __('In test mode, payments are sent to test server', 'technopay-for-woocommerce'),
+                'description' => __('In test mode, payments are sent to test server', 'technopay-payment-gateway-for-woocommerce'),
             ),
             'currency_mode' => array(
-                'title' => __('Currency Type', 'technopay-for-woocommerce'),
+                'title' => __('Currency Type', 'technopay-payment-gateway-for-woocommerce'),
                 'type' => 'select',
                 'default' => 'auto',
                 'options' => array(
-                    'auto' => __('Auto Detect', 'technopay-for-woocommerce'),
-                    'irr' => __('Rial (IRR)', 'technopay-for-woocommerce'),
-                    'irt' => __('Toman (IRT)', 'technopay-for-woocommerce'),
+                    'auto' => __('Auto Detect', 'technopay-payment-gateway-for-woocommerce'),
+                    'irr' => __('Rial (IRR)', 'technopay-payment-gateway-for-woocommerce'),
+                    'irt' => __('Toman (IRT)', 'technopay-payment-gateway-for-woocommerce'),
                 ),
             ),
         );
@@ -113,12 +113,12 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         $order = wc_get_order($order_id);
 
         if (!$order) {
-            wc_add_notice(esc_html__('Order not found.', 'technopay-for-woocommerce'), 'error');
+            wc_add_notice(esc_html__('Order not found.', 'technopay-payment-gateway-for-woocommerce'), 'error');
             return array('result' => 'fail');
         }
 
         if (!$this->validate_gateway_config()) {
-            wc_add_notice(esc_html__('Payment gateway is not configured properly.', 'technopay-for-woocommerce'), 'error');
+            wc_add_notice(esc_html__('Payment gateway is not configured properly.', 'technopay-payment-gateway-for-woocommerce'), 'error');
             return array('result' => 'fail');
         }
         
@@ -147,7 +147,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
                     'redirect' => esc_url_raw($ticket_data['payment_uri'])
                 );
             } else {
-                throw new Exception(esc_html__('Payment ticket creation failed.', 'technopay-for-woocommerce'));
+                throw new Exception(esc_html__('Payment ticket creation failed.', 'technopay-payment-gateway-for-woocommerce'));
             }
 
         } catch (Exception $e) {
@@ -155,13 +155,13 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
             
             $error_message = $e->getMessage();
             if (empty($error_message)) {
-                $error_message = esc_html__('Unknown error occurred.', 'technopay-for-woocommerce');
+                $error_message = esc_html__('Unknown error occurred.', 'technopay-payment-gateway-for-woocommerce');
             }
             
             wc_add_notice(esc_html($error_message), 'error');
             
             if (strpos($error_message, 'wallet balance') === false) {
-                $order->add_order_note(esc_html__('TechnoPay payment failed: ', 'technopay-for-woocommerce') . esc_html($error_message));
+                $order->add_order_note(esc_html__('TechnoPay payment failed: ', 'technopay-payment-gateway-for-woocommerce') . esc_html($error_message));
             }
             
             return array(
@@ -190,7 +190,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
                     'Content-Type' => 'application/json',
                     'signature' => $signature,
                     'merchantId' => $this->merchant_id,
-                    'User-Agent' => 'technopay-for-woocommerce/' . TPFW_VERSION
+                    'User-Agent' => 'technopay-payment-gateway-for-woocommerce/' . TPFW_VERSION
                 ],
                 'timeout' => 30,
                 'sslverify' => true
@@ -225,12 +225,12 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
 
         $mobile_number = $this->get_customer_mobile_number($order);
         if (empty($mobile_number)) {
-            throw new Exception(esc_html__('Customer mobile number is required.', 'technopay-for-woocommerce'));
+            throw new Exception(esc_html__('Customer mobile number is required.', 'technopay-payment-gateway-for-woocommerce'));
         }
 
         $mobile_number = $this->normalize_iranian_mobile($mobile_number);
         if (!$this->is_valid_iranian_mobile($mobile_number)) {
-            throw new Exception(esc_html__('Please enter a valid Iranian mobile number.', 'technopay-for-woocommerce'));
+            throw new Exception(esc_html__('Please enter a valid Iranian mobile number.', 'technopay-payment-gateway-for-woocommerce'));
         }
 
         $items = $this->prepare_order_items($order);
@@ -251,7 +251,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         if ($response && isset($response['succeed']) && $response['succeed']) {
             return $response['results'];
         } else {
-            $error_message = isset($response['message']) ? $response['message'] : esc_html__('Unknown error occurred.', 'technopay-for-woocommerce');
+            $error_message = isset($response['message']) ? $response['message'] : esc_html__('Unknown error occurred.', 'technopay-payment-gateway-for-woocommerce');
             throw new Exception(esc_html($error_message));
         }
     }
@@ -288,7 +288,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         $encrypted = openssl_encrypt($plain_signature, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
 
         if ($encrypted === false) {
-            throw new Exception(esc_html__('Digital signature creation failed.', 'technopay-for-woocommerce'));
+            throw new Exception(esc_html__('Digital signature creation failed.', 'technopay-payment-gateway-for-woocommerce'));
         }
 
         $json_data = json_encode(array(
@@ -310,7 +310,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
                 'Content-Type' => 'application/json',
                 'signature' => $signature,
                 'merchantId' => $this->merchant_id,
-                'User-Agent' => 'technopay-for-woocommerce/' . TPFW_VERSION
+                'User-Agent' => 'technopay-payment-gateway-for-woocommerce/' . TPFW_VERSION
             ),
             'body' => wp_json_encode($data),
             'timeout' => 30,
@@ -336,7 +336,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         $decoded_response = json_decode($body, true);
 
         if ($http_code >= 400) {
-            $error_message = isset($decoded_response['message']) ? $decoded_response['message'] : esc_html__('HTTP Error: ', 'technopay-for-woocommerce') . $http_code;
+            $error_message = isset($decoded_response['message']) ? $decoded_response['message'] : esc_html__('HTTP Error: ', 'technopay-payment-gateway-for-woocommerce') . $http_code;
             $this->log('API Error Message: ' . $error_message);
             throw new Exception(esc_html($error_message));
         }
@@ -363,7 +363,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- This is a payment gateway callback
         $status = isset($_REQUEST['Status']) ? sanitize_text_field(wp_unslash($_REQUEST['Status'])) : '';
         if (!empty($status) && strtoupper($status) !== 'OK') {
-            wc_add_notice(esc_html__('Payment was cancelled by user.', 'technopay-for-woocommerce'), 'error');
+            wc_add_notice(esc_html__('Payment was cancelled by user.', 'technopay-payment-gateway-for-woocommerce'), 'error');
             wp_safe_redirect(wc_get_checkout_url());
             exit;
         }
@@ -371,7 +371,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         $order = $this->get_order_from_request();
 
         if (!$order) {
-            wc_add_notice(esc_html__('Order not found.', 'technopay-for-woocommerce'), 'error');
+            wc_add_notice(esc_html__('Order not found.', 'technopay-payment-gateway-for-woocommerce'), 'error');
             wp_safe_redirect(wc_get_checkout_url());
             exit;
         }
@@ -388,7 +388,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
 
         if (empty($track_number)) {
             $this->log('Track number not found in request or order meta');
-            wc_add_notice(esc_html__('Track number not found.', 'technopay-for-woocommerce'), 'error');
+            wc_add_notice(esc_html__('Track number not found.', 'technopay-payment-gateway-for-woocommerce'), 'error');
             wp_safe_redirect(wc_get_checkout_url());
             exit;
         }
@@ -398,16 +398,16 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
             
             if ($verification_result && isset($verification_result['succeed']) && $verification_result['succeed']) {
                 $order->payment_complete();
-                $order->add_order_note(esc_html__('Payment completed successfully via TechnoPay. Track number: ', 'technopay-for-woocommerce') . esc_html($track_number));
+                $order->add_order_note(esc_html__('Payment completed successfully via TechnoPay. Track number: ', 'technopay-payment-gateway-for-woocommerce') . esc_html($track_number));
                 
                 WC()->cart->empty_cart();
                 
                 wp_safe_redirect($order->get_checkout_order_received_url());
                 exit;
             } else {
-                $error_message = isset($verification_result['message']) ? $verification_result['message'] : esc_html__('Payment verification failed.', 'technopay-for-woocommerce');
+                $error_message = isset($verification_result['message']) ? $verification_result['message'] : esc_html__('Payment verification failed.', 'technopay-payment-gateway-for-woocommerce');
                 $order->update_status('failed', $error_message);
-                $order->add_order_note(esc_html__('TechnoPay payment verification failed: ', 'technopay-for-woocommerce') . esc_html($error_message));
+                $order->add_order_note(esc_html__('TechnoPay payment verification failed: ', 'technopay-payment-gateway-for-woocommerce') . esc_html($error_message));
                 wc_add_notice(esc_html($error_message), 'error');
                 wp_safe_redirect(wc_get_checkout_url());
                 exit;
@@ -416,7 +416,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         } catch (Exception $e) {
             $this->log('Callback error: ' . $e->getMessage());
             $order->update_status('failed', $e->getMessage());
-            $order->add_order_note(esc_html__('Error in TechnoPay callback: ', 'technopay-for-woocommerce') . esc_html($e->getMessage()));
+            $order->add_order_note(esc_html__('Error in TechnoPay callback: ', 'technopay-payment-gateway-for-woocommerce') . esc_html($e->getMessage()));
             wc_add_notice(esc_html($e->getMessage()), 'error');
             wp_safe_redirect(wc_get_checkout_url());
             exit;
@@ -464,13 +464,13 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         $track_number = $this->get_request_track_number();
 
         if ($order && !$order->is_paid()) {
-            $order->update_status('failed', esc_html__('Payment via TechnoPay failed.', 'technopay-for-woocommerce'));
+            $order->update_status('failed', esc_html__('Payment via TechnoPay failed.', 'technopay-payment-gateway-for-woocommerce'));
             if (!empty($track_number)) {
-                $order->add_order_note(esc_html__('Payment via TechnoPay failed. Track number: ', 'technopay-for-woocommerce') . esc_html($track_number));
+                $order->add_order_note(esc_html__('Payment via TechnoPay failed. Track number: ', 'technopay-payment-gateway-for-woocommerce') . esc_html($track_number));
             }
         }
 
-        wc_add_notice(esc_html__('Payment was cancelled or failed. Please try again.', 'technopay-for-woocommerce'), 'error');
+        wc_add_notice(esc_html__('Payment was cancelled or failed. Please try again.', 'technopay-payment-gateway-for-woocommerce'), 'error');
         wp_safe_redirect(wc_get_checkout_url());
         exit;
     }
@@ -478,7 +478,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
     private function verify_payment($track_number)
     {
         if (empty($track_number)) {
-            throw new Exception(esc_html__('Track number not found.', 'technopay-for-woocommerce'));
+            throw new Exception(esc_html__('Track number not found.', 'technopay-payment-gateway-for-woocommerce'));
         }
 
         $timestamp = time();
@@ -580,13 +580,13 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         $billing_phone = isset($_POST['billing_phone']) ? sanitize_text_field(wp_unslash($_POST['billing_phone'])) : '';
 
         if (empty($billing_phone)) {
-            wc_add_notice(esc_html__('Mobile number is required for TechnoPay payment.', 'technopay-for-woocommerce'), 'error');
+            wc_add_notice(esc_html__('Mobile number is required for TechnoPay payment.', 'technopay-payment-gateway-for-woocommerce'), 'error');
         } else {
             $normalized = $this->normalize_iranian_mobile($billing_phone);
             if ($this->is_valid_iranian_mobile($normalized)) {
                 $_POST['billing_phone'] = $normalized;
             } else {
-                wc_add_notice(esc_html__('Please enter a valid Iranian mobile number (example: 09123456789).', 'technopay-for-woocommerce'), 'error');
+                wc_add_notice(esc_html__('Please enter a valid Iranian mobile number (example: 09123456789).', 'technopay-payment-gateway-for-woocommerce'), 'error');
             }
         }
     }
@@ -654,7 +654,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
             case 'IRT':
                 return $amount;
             default:
-                throw new Exception(esc_html__('Only IRR and IRT currencies are supported by TechnoPay.', 'technopay-for-woocommerce'));
+                throw new Exception(esc_html__('Only IRR and IRT currencies are supported by TechnoPay.', 'technopay-payment-gateway-for-woocommerce'));
         }
     }
 
