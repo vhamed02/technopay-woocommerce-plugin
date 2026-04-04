@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TechnoPay Payment Gateway for WooCommerce
  * Description: Secure credit payment gateway plugin for WooCommerce by TechnoPay
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: vhamed32
  * Author URI: https://technopay.ir
  * Text Domain: technopay-payment-gateway-for-woocommerce

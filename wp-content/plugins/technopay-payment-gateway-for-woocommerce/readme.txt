@@ -4,7 +4,7 @@ Tags: woocommerce, payment, gateway, iran, technopay
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Visit technopay.ir website to create an account.
 Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
+
+= 1.1.2 =
+* Fix: Gateway not visible on pay-for-order page when cart is empty
 
 = 1.1.1 =
 * Fixed WordPress.org plugin directory compliance issues
