@@ -96,7 +96,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
             return false;
         }
 
-        if (!WC()->cart || !WC()->cart->needs_payment()) {
+        if (!$this->context_needs_payment()) {
             return false;
         }
 
@@ -106,6 +106,24 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         }
 
         return true;
+    }
+
+    private function context_needs_payment()
+    {
+        if (is_checkout_pay_page()) {
+            $order_id = absint(get_query_var('order-pay'));
+            if ($order_id) {
+                $order = wc_get_order($order_id);
+                return $order && $order->needs_payment();
+            }
+            return false;
+        }
+
+        if (WC()->cart && WC()->cart->needs_payment()) {
+            return true;
+        }
+
+        return false;
     }
 
     public function process_payment($order_id)
