@@ -82,36 +82,6 @@ msgstr "ریال (IRR)"
 msgid "Toman (IRT)"
 msgstr "تومان (IRT)"
 
-msgid "Mobile Number Source"
-msgstr "منبع شماره موبایل"
-
-msgid "Billing Phone (Default)"
-msgstr "تلفن صورتحساب (پیش‌فرض)"
-
-msgid "User Meta Field"
-msgstr "فیلد متای کاربر"
-
-msgid "Custom Order Meta"
-msgstr "متای سفارشی سفارش"
-
-msgid "Select the source for customer mobile number"
-msgstr "منبع شماره موبایل مشتری را انتخاب کنید"
-
-msgid "Meta Key Name"
-msgstr "نام کلید متا"
-
-msgid "Enter meta key name (e.g., \"user_mobile\" or \"_custom_phone\"). Required when using User Meta or Custom Order Meta."
-msgstr "نام کلید متا را وارد کنید (مثال: \"user_mobile\" یا \"_custom_phone\"). هنگام استفاده از متای کاربر یا متای سفارشی سفارش الزامی است."
-
-msgid "Invalid order object."
-msgstr "شیء سفارش نامعتبر است."
-
-msgid "Invalid order item."
-msgstr "آیتم سفارش نامعتبر است."
-
-msgid "Order not found for item."
-msgstr "سفارش برای آیتم یافت نشد."
-
 # Error messages
 msgid "Order not found."
 msgstr "سفارش یافت نشد."

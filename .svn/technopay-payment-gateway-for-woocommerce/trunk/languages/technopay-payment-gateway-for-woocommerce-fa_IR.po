@@ -1,0 +1,180 @@
+# Persian (Iran) translation for TechnoPay Payment Gateway for WooCommerce
+# Copyright (C) 2024 vhamed32
+# This file is distributed under the same license as the TechnoPay Payment Gateway for WooCommerce package.
+msgid ""
+msgstr ""
+"Project-Id-Version: TechnoPay Payment Gateway for WooCommerce 1.1.3\n"
+"Report-Msgid-Bugs-To: https://technopay.ir\n"
+"POT-Creation-Date: 2024-12-26 12:00+0000\n"
+"PO-Revision-Date: 2024-12-26 12:00+0000\n"
+"Last-Translator: vhamed32 <info@technopay.ir>\n"
+"Language-Team: Persian\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0\n"
+
+# Plugin headers - these are the most important for plugin list page
+msgid "TechnoPay Payment Gateway for WooCommerce"
+msgstr "درگاه پرداخت تکنوپی برای ووکامرس"
+
+msgid "Secure credit payment gateway plugin for WooCommerce by TechnoPay"
+msgstr "افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی"
+
+msgid "vhamed32"
+msgstr "vhamed32"
+
+# Common strings
+msgid "Settings"
+msgstr "تنظیمات"
+
+msgid "TechnoPay"
+msgstr "تکنوپی"
+
+msgid "requires WooCommerce to be installed and activated."
+msgstr "نیاز به نصب و فعال‌سازی ووکامرس دارد."
+
+msgid "This plugin requires WooCommerce."
+msgstr "این افزونه نیاز به ووکامرس دارد."
+
+msgid "Credit payment via TechnoPay"
+msgstr "پرداخت اعتباری از طریق تکنوپی"
+
+# Gateway settings
+msgid "Enable"
+msgstr "فعال‌سازی"
+
+msgid "Enable TechnoPay payment"
+msgstr "فعال‌سازی پرداخت تکنوپی"
+
+msgid "Title"
+msgstr "عنوان"
+
+msgid "Description"
+msgstr "توضیحات"
+
+msgid "Merchant ID"
+msgstr "شناسه پذیرنده"
+
+msgid "Secret Key"
+msgstr "کلید مخفی"
+
+msgid "Test Mode"
+msgstr "حالت آزمایشی"
+
+msgid "Enable test mode"
+msgstr "فعال‌سازی حالت آزمایشی"
+
+msgid "In test mode, payments are sent to test server"
+msgstr "در حالت آزمایشی، پرداخت‌ها به سرور تست ارسال می‌شوند"
+
+msgid "Currency Type"
+msgstr "نوع ارز"
+
+msgid "Auto Detect"
+msgstr "تشخیص خودکار"
+
+msgid "Rial (IRR)"
+msgstr "ریال (IRR)"
+
+msgid "Toman (IRT)"
+msgstr "تومان (IRT)"
+
+msgid "Mobile Number Source"
+msgstr "منبع شماره موبایل"
+
+msgid "Billing Phone (Default)"
+msgstr "تلفن صورتحساب (پیش‌فرض)"
+
+msgid "User Meta Field"
+msgstr "فیلد متای کاربر"
+
+msgid "Custom Order Meta"
+msgstr "متای سفارشی سفارش"
+
+msgid "Select the source for customer mobile number"
+msgstr "منبع شماره موبایل مشتری را انتخاب کنید"
+
+msgid "Meta Key Name"
+msgstr "نام کلید متا"
+
+msgid "Enter meta key name (e.g., \"user_mobile\" or \"_custom_phone\"). Required when using User Meta or Custom Order Meta."
+msgstr "نام کلید متا را وارد کنید (مثال: \"user_mobile\" یا \"_custom_phone\"). هنگام استفاده از متای کاربر یا متای سفارشی سفارش الزامی است."
+
+msgid "Invalid order object."
+msgstr "شیء سفارش نامعتبر است."
+
+msgid "Invalid order item."
+msgstr "آیتم سفارش نامعتبر است."
+
+msgid "Order not found for item."
+msgstr "سفارش برای آیتم یافت نشد."
+
+# Error messages
+msgid "Order not found."
+msgstr "سفارش یافت نشد."
+
+msgid "Payment gateway is not configured properly."
+msgstr "درگاه پرداخت به درستی پیکربندی نشده است."
+
+msgid "Payment ticket creation failed."
+msgstr "ایجاد بلیط پرداخت ناموفق بود."
+
+msgid "Unknown error occurred."
+msgstr "خطای نامشخصی رخ داد."
+
+msgid "TechnoPay payment failed: "
+msgstr "پرداخت تکنوپی ناموفق بود: "
+
+msgid "Customer mobile number is required."
+msgstr "شماره موبایل مشتری الزامی است."
+
+msgid "Please enter a valid Iranian mobile number."
+msgstr "لطفاً شماره موبایل ایرانی معتبری وارد کنید."
+
+msgid "Digital signature creation failed."
+msgstr "ایجاد امضای دیجیتال ناموفق بود."
+
+msgid "HTTP Error: "
+msgstr "خطای HTTP: "
+
+msgid "Payment was cancelled by user."
+msgstr "پرداخت توسط کاربر لغو شد."
+
+msgid "Track number not found."
+msgstr "شماره پیگیری یافت نشد."
+
+msgid "Payment completed successfully via TechnoPay. Track number: "
+msgstr "پرداخت با موفقیت از طریق تکنوپی انجام شد. شماره پیگیری: "
+
+msgid "Payment verification failed."
+msgstr "تأیید پرداخت ناموفق بود."
+
+msgid "TechnoPay payment verification failed: "
+msgstr "تأیید پرداخت تکنوپی ناموفق بود: "
+
+msgid "Error in TechnoPay callback: "
+msgstr "خطا در بازگشت تکنوپی: "
+
+msgid "Payment via TechnoPay failed."
+msgstr "پرداخت از طریق تکنوپی ناموفق بود."
+
+msgid "Payment via TechnoPay failed. Track number: "
+msgstr "پرداخت از طریق تکنوپی ناموفق بود. شماره پیگیری: "
+
+msgid "Payment was cancelled or failed. Please try again."
+msgstr "پرداخت لغو شد یا ناموفق بود. لطفاً دوباره تلاش کنید."
+
+msgid "Mobile number is required for TechnoPay payment."
+msgstr "شماره موبایل برای پرداخت تکنوپی الزامی است."
+
+msgid "Please enter a valid Iranian mobile number (example: 09123456789)."
+msgstr "لطفاً شماره موبایل ایرانی معتبری وارد کنید (مثال: ۰۹۱۲۳۴۵۶۷۸۹)."
+
+msgid "Only IRR and IRT currencies are supported by TechnoPay."
+msgstr "تنها ارزهای IRR و IRT توسط تکنوپی پشتیبانی می‌شوند."
+
+msgid "Installment payment via TechnoPay"
+msgstr "پرداخت اقساطی از طریق تکنوپی"

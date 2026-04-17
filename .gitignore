@@ -1,4 +1,6 @@
 /wp-content/uploads
 /.idea
 wp-content/plugins/plugin-check
-.svn
+.svn/technopay-payment-gateway-for-woocommerce/build
+.svn/technopay-payment-gateway-for-woocommerce/dist
+.DS_Store

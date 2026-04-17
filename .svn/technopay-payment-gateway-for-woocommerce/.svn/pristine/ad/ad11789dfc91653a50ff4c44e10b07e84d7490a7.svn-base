@@ -1,0 +1,102 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TechnoPay Payment Gateway for WooCommerce 1.1.1\n"
+"Report-Msgid-Bugs-To: https://technopay.ir\n"
+"POT-Creation-Date: 2024-12-26 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: vhamed32 <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: technopay-woocommerce.php:88
+msgid "Settings"
+msgstr ""
+
+#: technopay-woocommerce.php:108
+msgid "TechnoPay Payment Gateway for WooCommerce"
+msgstr ""
+
+#: technopay-woocommerce.php:109
+msgid "Secure credit payment gateway plugin for WooCommerce by TechnoPay"
+msgstr ""
+
+#: technopay-woocommerce.php:110
+msgid "vhamed32"
+msgstr ""
+
+#: technopay-woocommerce.php:125
+msgid "TechnoPay"
+msgstr ""
+
+#: technopay-woocommerce.php:125
+msgid "requires WooCommerce to be installed and activated."
+msgstr ""
+
+#: technopay-woocommerce.php:132
+msgid "This plugin requires WooCommerce."
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:13
+msgid "Credit payment via TechnoPay"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:38
+msgid "Enable"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:40
+msgid "Enable TechnoPay payment"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:44
+msgid "Title"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:49
+msgid "Description"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:54
+msgid "Merchant ID"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:59
+msgid "Secret Key"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:64
+msgid "Test Mode"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:66
+msgid "Enable test mode"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:68
+msgid "In test mode, payments are sent to test server"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:71
+msgid "Currency Type"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:75
+msgid "Auto Detect"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:76
+msgid "Rial (IRR)"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:77
+msgid "Toman (IRT)"
+msgstr ""
