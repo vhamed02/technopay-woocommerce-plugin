@@ -100,3 +100,43 @@ msgstr ""
 #: includes/class-tpfw-technopay-gateway.php:77
 msgid "Toman (IRT)"
 msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:81
+msgid "Mobile Number Source"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:86
+msgid "Billing Phone (Default)"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:87
+msgid "User Meta Field"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:88
+msgid "Custom Order Meta"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:90
+msgid "Select the source for customer mobile number"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:93
+msgid "Meta Key Name"
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:96
+msgid "Enter meta key name (e.g., \"user_mobile\" or \"_custom_phone\"). Required when using User Meta or Custom Order Meta."
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:140
+msgid "Invalid order object."
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:155
+msgid "Invalid order item."
+msgstr ""
+
+#: includes/class-tpfw-technopay-gateway.php:160
+msgid "Order not found for item."
+msgstr ""

@@ -25,6 +25,8 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         $this->merchant_secret = $this->get_option('merchant_secret');
         $this->testmode = $this->get_option('testmode');
         $this->currency_mode = $this->get_option('currency_mode');
+        $this->mobile_source = $this->get_option('mobile_source', 'billing');
+        $this->mobile_meta_key = $this->get_option('mobile_meta_key', '');
 
         $this->api_url = 'yes' === $this->testmode
             ? 'https://credit-api.dev.tgms.ir/payment'
@@ -83,6 +85,24 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
                     'irt' => __('Toman (IRT)', 'technopay-payment-gateway-for-woocommerce'),
                 ),
             ),
+            'mobile_source' => array(
+                'title' => __('Mobile Number Source', 'technopay-payment-gateway-for-woocommerce'),
+                'type' => 'select',
+                'default' => 'billing',
+                'options' => array(
+                    'billing' => __('Billing Phone (Default)', 'technopay-payment-gateway-for-woocommerce'),
+                    'user_meta' => __('User Meta Field', 'technopay-payment-gateway-for-woocommerce'),
+                    'custom_meta' => __('Custom Order Meta', 'technopay-payment-gateway-for-woocommerce'),
+                ),
+                'description' => __('Select the source for customer mobile number', 'technopay-payment-gateway-for-woocommerce'),
+            ),
+            'mobile_meta_key' => array(
+                'title' => __('Meta Key Name', 'technopay-payment-gateway-for-woocommerce'),
+                'type' => 'text',
+                'default' => '',
+                'description' => __('Enter meta key name (e.g., "user_mobile" or "_custom_phone"). Required when using User Meta or Custom Order Meta.', 'technopay-payment-gateway-for-woocommerce'),
+                'desc_tip' => true,
+            ),
         );
     }
 
@@ -119,8 +139,10 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
             return false;
         }
 
-        if (WC()->cart && WC()->cart->needs_payment()) {
-            return true;
+        if (is_checkout()) {
+            if (WC()->cart && WC()->cart->needs_payment()) {
+                return true;
+            }
         }
 
         return false;
@@ -544,11 +566,36 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
 
     private function get_customer_mobile_number($order)
     {
-        $mobile_number = $order->get_billing_phone();
+        $mobile_number = '';
 
-        if (empty($mobile_number) && $order->get_user_id()) {
-            $user_id = $order->get_user_id();
-            $mobile_number = get_user_meta($user_id, 'billing_phone', true);
+        switch ($this->mobile_source) {
+            case 'user_meta':
+                if ($order->get_user_id() && !empty($this->mobile_meta_key)) {
+                    $user_id = $order->get_user_id();
+                    $mobile_number = get_user_meta($user_id, $this->mobile_meta_key, true);
+                }
+                if (empty($mobile_number)) {
+                    $mobile_number = $order->get_billing_phone();
+                }
+                break;
+
+            case 'custom_meta':
+                if (!empty($this->mobile_meta_key)) {
+                    $mobile_number = $order->get_meta($this->mobile_meta_key);
+                }
+                if (empty($mobile_number)) {
+                    $mobile_number = $order->get_billing_phone();
+                }
+                break;
+
+            case 'billing':
+            default:
+                $mobile_number = $order->get_billing_phone();
+                if (empty($mobile_number) && $order->get_user_id()) {
+                    $user_id = $order->get_user_id();
+                    $mobile_number = get_user_meta($user_id, 'billing_phone', true);
+                }
+                break;
         }
 
         return preg_replace('/[^0-9]/', '', $mobile_number);
@@ -638,6 +685,10 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
 
     private function calculate_amount_for_api($order)
     {
+        if (!$order || !is_a($order, 'WC_Order')) {
+            throw new Exception(esc_html__('Invalid order object.', 'technopay-payment-gateway-for-woocommerce'));
+        }
+
         $currency = $order->get_currency();
         $total = $order->get_total();
 
@@ -646,7 +697,15 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
 
     private function calculate_item_amount_for_api($item)
     {
+        if (!$item || !is_a($item, 'WC_Order_Item_Product')) {
+            throw new Exception(esc_html__('Invalid order item.', 'technopay-payment-gateway-for-woocommerce'));
+        }
+
         $order = $item->get_order();
+        if (!$order || !is_a($order, 'WC_Order')) {
+            throw new Exception(esc_html__('Order not found for item.', 'technopay-payment-gateway-for-woocommerce'));
+        }
+
         $currency = $order->get_currency();
         $total = $item->get_total();
 
