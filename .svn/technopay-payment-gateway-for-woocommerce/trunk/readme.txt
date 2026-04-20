@@ -4,7 +4,7 @@ Tags: woocommerce, payment, gateway, iran, technopay
 Requires at least: 5.0
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,11 @@ Visit technopay.ir website to create an account.
 Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
+
+= 1.1.4 =
+* Fix: Improved AJAX checkout compatibility for third-party plugins
+* Fix: Better cart handling during payment processing
+* Improvement: Enhanced context_needs_payment method for edge cases
 
 = 1.1.3 =
 * Fix: Cart emptying issue during checkout process

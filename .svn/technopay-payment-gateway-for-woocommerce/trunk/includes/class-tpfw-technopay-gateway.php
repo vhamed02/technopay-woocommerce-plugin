@@ -140,6 +140,10 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         }
 
         if (is_checkout()) {
+            if (wp_doing_ajax() && isset($_POST['payment_method']) && $_POST['payment_method'] === $this->id) {
+                return true;
+            }
+
             if (WC()->cart && WC()->cart->needs_payment()) {
                 return true;
             }
