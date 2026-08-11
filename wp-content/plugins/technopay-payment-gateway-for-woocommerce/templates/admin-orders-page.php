@@ -59,7 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</button>
 			<a href="<?php echo esc_url( $view['reset_url'] ); ?>" class="tpfw-orders-reset">
 				<span class="dashicons dashicons-trash" aria-hidden="true"></span>
-				حذف همه
+				حذف فیلتر ها
 			</a>
 		</div>
 	</form>
