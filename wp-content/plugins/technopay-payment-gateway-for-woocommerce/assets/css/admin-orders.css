@@ -11,12 +11,20 @@
     padding: 36px 32px 56px;
     background: #fff;
     color: var(--tpfw-ink);
+    font-family: Tahoma, Arial, sans-serif;
 }
 
 .tpfw-orders-page *,
 .tpfw-orders-page *::before,
 .tpfw-orders-page *::after {
     box-sizing: border-box;
+}
+
+.tpfw-orders-page input,
+.tpfw-orders-page select,
+.tpfw-orders-page button,
+.tpfw-orders-page textarea {
+    font-family: inherit;
 }
 
 .tpfw-orders-page__header {
