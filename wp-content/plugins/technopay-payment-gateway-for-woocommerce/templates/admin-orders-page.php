@@ -93,9 +93,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php else : ?>
 					<?php foreach ( $view['rows'] as $row ) : ?>
 						<tr>
-							<td><?php echo esc_html( $row['number'] ); ?></td>
-							<td class="tpfw-orders-table__name"><?php echo esc_html( $row['customer_name'] ); ?></td>
-							<td>
+							<td data-label="<?php echo esc_attr__( 'ردیف', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['number'] ); ?></td>
+							<td class="tpfw-orders-table__name" data-label="<?php echo esc_attr__( 'نام و نام خانوادگی کاربر', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['customer_name'] ); ?></td>
+							<td data-label="<?php echo esc_attr__( 'شماره تماس کاربر', 'technopay-payment-gateway-for-woocommerce' ); ?>">
 								<div class="tpfw-copy-value">
 									<span dir="ltr"><?php echo esc_html( $row['customer_mobile'] ); ?></span>
 									<?php if ( $row['customer_mobile_raw'] !== '' ) : ?>
@@ -105,7 +105,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<?php endif; ?>
 								</div>
 							</td>
-							<td>
+							<td data-label="<?php echo esc_attr__( 'شناسه پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?>">
 								<div class="tpfw-copy-value">
 									<span dir="ltr"><?php echo $row['track_number'] !== '' ? esc_html( $row['track_number'] ) : '—'; ?></span>
 									<?php if ( $row['track_number_raw'] !== '' ) : ?>
@@ -115,15 +115,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<?php endif; ?>
 								</div>
 							</td>
-							<td><?php echo esc_html( $row['paid_at'] ); ?></td>
-							<td class="tpfw-orders-table__money"><?php echo wp_kses_post( $row['amount'] ); ?></td>
-							<td class="tpfw-orders-table__money"><?php echo wp_kses_post( $row['refund_amount'] ); ?></td>
-							<td>
+							<td data-label="<?php echo esc_attr__( 'تاریخ ثبت پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['paid_at'] ); ?></td>
+							<td class="tpfw-orders-table__money" data-label="<?php echo esc_attr__( 'مبلغ پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['amount'] ); ?></td>
+							<td class="tpfw-orders-table__money" data-label="<?php echo esc_attr__( 'مبلغ استرداد', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['refund_amount'] ); ?></td>
+							<td data-label="<?php echo esc_attr__( 'وضعیت', 'technopay-payment-gateway-for-woocommerce' ); ?>">
 								<span class="tpfw-status tpfw-status--<?php echo esc_attr( $row['status_tone'] ); ?>">
 									<?php echo esc_html( $row['status_label'] ); ?>
 								</span>
 							</td>
-							<td>
+							<td data-label="<?php echo esc_attr__( 'اقدامات', 'technopay-payment-gateway-for-woocommerce' ); ?>">
 								<?php if ( $row['can_refund'] ) : ?>
 									<a href="<?php echo esc_url( $row['order_url'] . '#woocommerce-order-items' ); ?>" class="tpfw-order-action tpfw-order-action--refund">
 										<span class="dashicons dashicons-undo" aria-hidden="true"></span>

@@ -187,12 +187,12 @@
 
 .tpfw-orders-table-wrap {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: hidden;
 }
 
 .tpfw-orders-table {
     width: 100%;
-    min-width: 1160px;
+    min-width: 0;
     border: 0;
     border-collapse: collapse;
     table-layout: fixed;
@@ -213,7 +213,7 @@
     color: #303944;
     font-size: 13px;
     font-weight: 700;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
 }
 
 .tpfw-orders-table td {
@@ -223,40 +223,40 @@
 }
 
 .tpfw-orders-table th:nth-child(1) {
-    width: 58px;
+    width: 4%;
 }
 
 .tpfw-orders-table th:nth-child(2) {
-    width: 175px;
+    width: 13%;
 }
 
 .tpfw-orders-table th:nth-child(3),
 .tpfw-orders-table th:nth-child(4) {
-    width: 175px;
+    width: 13%;
 }
 
 .tpfw-orders-table th:nth-child(5) {
-    width: 135px;
+    width: 11%;
 }
 
 .tpfw-orders-table th:nth-child(6),
 .tpfw-orders-table th:nth-child(7) {
-    width: 135px;
+    width: 11%;
 }
 
 .tpfw-orders-table th:nth-child(8) {
-    width: 145px;
+    width: 11%;
 }
 
 .tpfw-orders-table th:nth-child(9) {
-    width: 155px;
+    width: 13%;
 }
 
 .tpfw-orders-table__name {
     font-weight: 600;
 }
 
-.tpfw-orders-table__money .woocommerce-Price-amount {
+.tpfw-orders-table__money {
     white-space: nowrap;
 }
 
@@ -441,6 +441,55 @@
     }
 }
 
+@media screen and (max-width: 1100px) {
+    .tpfw-orders-table,
+    .tpfw-orders-table tbody {
+        display: block;
+    }
+
+    .tpfw-orders-table thead {
+        display: none;
+    }
+
+    .tpfw-orders-table tr {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 12px 0;
+        border-bottom: 1px solid var(--tpfw-line);
+    }
+
+    .tpfw-orders-table td {
+        display: flex;
+        min-width: 0;
+        height: auto;
+        padding: 10px 12px;
+        border-bottom: 0;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        text-align: left;
+    }
+
+    .tpfw-orders-table td::before {
+        content: attr(data-label);
+        flex: 0 1 48%;
+        color: #303944;
+        font-weight: 700;
+        text-align: right;
+    }
+
+    .tpfw-orders-table__empty {
+        display: block !important;
+        grid-column: 1 / -1;
+        padding-top: 56px !important;
+        text-align: center !important;
+    }
+
+    .tpfw-orders-table__empty::before {
+        content: none !important;
+    }
+}
+
 @media screen and (max-width: 782px) {
     .tpfw-orders-page {
         min-height: calc(100vh - 46px);
@@ -473,5 +522,9 @@
 
     .tpfw-orders-page .tpfw-button {
         flex: 1 1 160px;
+    }
+
+    .tpfw-orders-table tr {
+        grid-template-columns: 1fr;
     }
 }

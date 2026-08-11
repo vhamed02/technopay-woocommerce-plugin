@@ -138,8 +138,8 @@ final class TPFW_Admin_Orders_Page {
 				'track_number'        => $this->normalize_digits( $order->get_meta( '_technopay_track_number' ) ),
 				'track_number_raw'    => $this->normalize_digits( $order->get_meta( '_technopay_track_number' ) ),
 				'paid_at'             => $paid_at ? $this->format_date( $paid_at ) : '—',
-				'amount'              => $this->normalize_digits( wc_price( $total, array( 'currency' => $order->get_currency() ) ) ),
-				'refund_amount'       => $refunded > 0 ? $this->normalize_digits( wc_price( $refunded, array( 'currency' => $order->get_currency() ) ) ) : '—',
+				'amount'              => $this->format_amount( $total ),
+				'refund_amount'       => $refunded > 0 ? $this->format_amount( $refunded ) : '—',
 				'status_label'        => $status['label'],
 				'status_tone'         => $status['tone'],
 				'order_url'           => $order->get_edit_order_url(),
@@ -210,6 +210,10 @@ final class TPFW_Admin_Orders_Page {
 		}
 
 		return $this->normalize_digits( wp_date( 'Y/m/d', $date->getTimestamp(), wp_timezone() ) );
+	}
+
+	private function format_amount( $amount ) {
+		return number_format( (float) $amount, 0, '.', ',' ) . ' ' . __( 'تومان', 'technopay-payment-gateway-for-woocommerce' );
 	}
 
 	private function normalize_digits( $value ) {
