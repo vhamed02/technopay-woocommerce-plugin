@@ -7,7 +7,7 @@
     --tpfw-danger: #c93f3f;
     box-sizing: border-box;
     min-height: calc(100vh - 32px);
-    margin: 0 0 0 -20px;
+    margin: 0;
     padding: 36px 32px 56px;
     background: #fff;
     color: var(--tpfw-ink);
@@ -722,7 +722,7 @@ body.tpfw-refund-modal-open {
 @media screen and (max-width: 782px) {
     .tpfw-orders-page {
         min-height: calc(100vh - 46px);
-        margin: 0 -10px 0 -10px;
+        margin: 0;
         padding: 24px 16px 40px;
     }
 
