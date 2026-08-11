@@ -3,6 +3,8 @@
     var cancelModal = document.querySelector('.tpfw-cancel-modal');
     var activeModal = null;
     var activeTrigger = null;
+    var filtersForm = document.querySelector('.tpfw-orders-filters');
+    var filterAmountInput = filtersForm ? filtersForm.querySelector('[data-filter-amount]') : null;
     var cancelForm = cancelModal ? cancelModal.querySelector('[data-cancel-refund-form]') : null;
     var cancelTrackNumberInput = cancelForm ? cancelForm.querySelector('[name="track_number"]') : null;
     var refundForm = refundModal ? refundModal.querySelector('[data-refund-form]') : null;
@@ -45,6 +47,16 @@
         }
 
         return value.length;
+    }
+
+    function formatAmountInput(input) {
+        var selectionStart = input.selectionStart === null ? input.value.length : input.selectionStart;
+        var digitsBeforeCaret = getAmountDigits(input.value.slice(0, selectionStart)).length;
+        var formattedAmount = formatAmount(input.value);
+        var caretPosition = getAmountCaretPosition(formattedAmount, digitsBeforeCaret);
+
+        input.value = formattedAmount;
+        input.setSelectionRange(caretPosition, caretPosition);
     }
 
     function copyText(value) {
@@ -171,15 +183,21 @@
         }
     });
 
+    if (filterAmountInput) {
+        filterAmountInput.value = formatAmount(filterAmountInput.value);
+
+        filterAmountInput.addEventListener('input', function () {
+            formatAmountInput(filterAmountInput);
+        });
+
+        filtersForm.addEventListener('submit', function () {
+            filterAmountInput.value = getAmountDigits(filterAmountInput.value);
+        });
+    }
+
     if (refundForm) {
         amountInput.addEventListener('input', function () {
-            var selectionStart = amountInput.selectionStart === null ? amountInput.value.length : amountInput.selectionStart;
-            var digitsBeforeCaret = getAmountDigits(amountInput.value.slice(0, selectionStart)).length;
-            var formattedAmount = formatAmount(amountInput.value);
-            var caretPosition = getAmountCaretPosition(formattedAmount, digitsBeforeCaret);
-
-            amountInput.value = formattedAmount;
-            amountInput.setSelectionRange(caretPosition, caretPosition);
+            formatAmountInput(amountInput);
             validateRefundAmount();
         });
 

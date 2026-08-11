@@ -26,10 +26,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<input type="text" name="customer_mobile" value="<?php echo esc_attr( $view['filters']['customer_mobile'] ); ?>" inputmode="tel" autocomplete="off" placeholder="09121234567">
 		</label>
 
-		<label class="tpfw-orders-field">
-			<span>مبلغ پرداخت</span>
-			<input type="text" name="amount" value="<?php echo esc_attr( $view['filters']['amount'] ); ?>" inputmode="decimal" autocomplete="off" placeholder="مبلغ دقیق">
-		</label>
+		<div class="tpfw-orders-field">
+			<label for="tpfw-orders-amount">مبلغ پرداخت</label>
+			<div class="tpfw-orders-field__money">
+				<input id="tpfw-orders-amount" type="text" name="amount" value="<?php echo esc_attr( $view['filters']['amount'] ); ?>" inputmode="numeric" autocomplete="off" placeholder="مبلغ دقیق" data-filter-amount>
+				<span>تومان</span>
+			</div>
+		</div>
 
 		<label class="tpfw-orders-field">
 			<span>وضعیت</span>

@@ -115,12 +115,34 @@
 }
 
 .tpfw-orders-field > span,
+.tpfw-orders-field > label,
 .tpfw-orders-field > legend {
     width: 100%;
     padding: 0;
     color: #46515c;
     font-size: 12px;
     font-weight: 600;
+}
+
+.tpfw-orders-field__money {
+    position: relative;
+    width: 100%;
+}
+
+.tpfw-orders-field__money input {
+    direction: ltr;
+    padding-left: 58px;
+    text-align: right;
+}
+
+.tpfw-orders-field__money > span {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    color: var(--tpfw-muted);
+    font-size: 12px;
+    pointer-events: none;
+    transform: translateY(-50%);
 }
 
 .tpfw-orders-field input,
