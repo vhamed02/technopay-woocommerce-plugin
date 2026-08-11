@@ -146,6 +146,11 @@
     document.addEventListener('click', function (event) {
         var button = event.target.closest('.tpfw-copy-button');
 
+        if (event.target.closest('[data-orders-notice-dismiss]')) {
+            event.target.closest('.tpfw-orders-notice').remove();
+            return;
+        }
+
         if (button) {
             copyText(button.getAttribute('data-copy')).then(function () {
                 button.classList.add('is-copied');

@@ -76,6 +76,57 @@
     margin-bottom: 34px;
 }
 
+.tpfw-orders-notice {
+    display: flex;
+    width: 100%;
+    min-height: 48px;
+    margin: 0 0 24px;
+    padding: 10px 14px;
+    border: 1px solid;
+    border-right-width: 4px;
+    border-radius: 6px;
+    align-items: center;
+    gap: 12px;
+}
+
+.tpfw-orders-notice--success {
+    border-color: #72c79d;
+    background: #ecf8f2;
+    color: #216442;
+}
+
+.tpfw-orders-notice--error {
+    border-color: #dd8b86;
+    background: #fff1f0;
+    color: #9e302b;
+}
+
+.tpfw-orders-notice p {
+    flex: 1 1 auto;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.tpfw-orders-notice__dismiss {
+    display: inline-flex;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: currentColor;
+}
+
+.tpfw-orders-notice__dismiss .dashicons {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+}
+
 .tpfw-orders-page__logo {
     width: 44px;
     height: 44px;
@@ -437,11 +488,6 @@
     margin: 0 auto 10px;
     color: #a5adb4;
     font-size: 30px;
-}
-
-.tpfw-orders-table__error,
-.tpfw-orders-table__error .dashicons {
-    color: var(--tpfw-danger) !important;
 }
 
 .tpfw-orders-pagination {

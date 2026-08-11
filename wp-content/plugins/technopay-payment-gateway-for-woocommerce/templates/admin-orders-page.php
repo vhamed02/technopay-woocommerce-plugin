@@ -4,6 +4,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wrap tpfw-orders-page" dir="rtl">
+	<?php if ( ! empty( $view['notice'] ) ) : ?>
+		<div class="tpfw-orders-notice tpfw-orders-notice--<?php echo esc_attr( $view['notice']['type'] ); ?>" role="<?php echo esc_attr( 'error' === $view['notice']['type'] ? 'alert' : 'status' ); ?>">
+			<p><?php echo esc_html( $view['notice']['message'] ); ?></p>
+			<button type="button" class="tpfw-orders-notice__dismiss" data-orders-notice-dismiss aria-label="بستن پیام"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
+		</div>
+	<?php endif; ?>
+
+	<?php if ( '' !== $view['error'] ) : ?>
+		<div class="tpfw-orders-notice tpfw-orders-notice--error" role="alert">
+			<p><?php echo esc_html( $view['error'] ); ?></p>
+			<button type="button" class="tpfw-orders-notice__dismiss" data-orders-notice-dismiss aria-label="بستن پیام"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
+		</div>
+	<?php endif; ?>
+
 	<header class="tpfw-orders-page__header">
 		<img src="<?php echo esc_url( TPFW_PLUGIN_URL . 'assets/images/technopay-logo.svg' ); ?>" alt="" class="tpfw-orders-page__logo">
 		<div>
@@ -11,12 +25,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<span class="tpfw-orders-page__count">تعداد نتایج این صفحه: <?php echo esc_html( (string) $view['visible_results'] ); ?></span>
 		</div>
 	</header>
-
-	<?php if ( ! empty( $view['notice'] ) ) : ?>
-		<div class="notice notice-<?php echo esc_attr( $view['notice']['type'] ); ?> is-dismissible tpfw-orders-notice">
-			<p><?php echo esc_html( $view['notice']['message'] ); ?></p>
-		</div>
-	<?php endif; ?>
 
 	<form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" class="tpfw-orders-filters">
 		<input type="hidden" name="page" value="<?php echo esc_attr( TPFW_Admin_Orders_Page::PAGE_SLUG ); ?>">
@@ -67,6 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</form>
 
+	<?php if ( '' === $view['error'] ) : ?>
 	<div class="tpfw-orders-table-wrap">
 		<table class="tpfw-orders-table">
 			<thead>
@@ -83,14 +92,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</tr>
 			</thead>
 			<tbody>
-				<?php if ( '' !== $view['error'] ) : ?>
-					<tr>
-						<td colspan="9" class="tpfw-orders-table__empty tpfw-orders-table__error">
-							<span class="dashicons dashicons-warning" aria-hidden="true"></span>
-							<?php echo esc_html( $view['error'] ); ?>
-						</td>
-					</tr>
-				<?php elseif ( empty( $view['rows'] ) ) : ?>
+				<?php if ( empty( $view['rows'] ) ) : ?>
 					<tr>
 						<td colspan="9" class="tpfw-orders-table__empty">
 							<span class="dashicons dashicons-search" aria-hidden="true"></span>
@@ -139,6 +141,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</tbody>
 		</table>
 	</div>
+	<?php endif; ?>
 
 	<?php if ( '' !== $view['pagination']['previous_url'] || '' !== $view['pagination']['next_url'] ) : ?>
 		<nav class="tpfw-orders-pagination" aria-label="صفحه‌بندی سفارش‌ها">
