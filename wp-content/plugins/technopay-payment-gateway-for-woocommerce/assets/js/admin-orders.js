@@ -1,4 +1,7 @@
 (function () {
+    var modal = document.querySelector('.tpfw-refund-modal');
+    var activeTrigger = null;
+
     function copyText(value) {
         if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.writeText(value);
@@ -16,19 +19,69 @@
         return Promise.resolve();
     }
 
-    document.addEventListener('click', function (event) {
-        var button = event.target.closest('.tpfw-copy-button');
-        if (!button) {
+    function openModal(trigger) {
+        if (!modal) {
             return;
         }
 
-        copyText(button.getAttribute('data-copy')).then(function () {
-            button.classList.add('is-copied');
-            button.setAttribute('title', tpfwAdminOrders.copied);
-            window.setTimeout(function () {
-                button.classList.remove('is-copied');
-                button.setAttribute('title', tpfwAdminOrders.copy);
-            }, 1600);
-        });
+        activeTrigger = trigger;
+        modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('tpfw-refund-modal-open');
+        modal.querySelector('.tpfw-refund-modal__close').focus();
+    }
+
+    function closeModal() {
+        if (!modal || modal.hidden) {
+            return;
+        }
+
+        modal.hidden = true;
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('tpfw-refund-modal-open');
+
+        if (activeTrigger) {
+            activeTrigger.focus();
+            activeTrigger = null;
+        }
+    }
+
+    document.addEventListener('click', function (event) {
+        var button = event.target.closest('.tpfw-copy-button');
+
+        if (button) {
+            copyText(button.getAttribute('data-copy')).then(function () {
+                button.classList.add('is-copied');
+                button.setAttribute('title', tpfwAdminOrders.copied);
+                window.setTimeout(function () {
+                    button.classList.remove('is-copied');
+                    button.setAttribute('title', tpfwAdminOrders.copy);
+                }, 1600);
+            });
+            return;
+        }
+
+        button = event.target.closest('[data-refund-modal]');
+        if (button) {
+            openModal(button);
+            return;
+        }
+
+        if (event.target.closest('[data-refund-modal-close]') || event.target === modal) {
+            closeModal();
+        }
     });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
+    });
+
+    if (modal) {
+        modal.querySelector('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            closeModal();
+        });
+    }
 }());

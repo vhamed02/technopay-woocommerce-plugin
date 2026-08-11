@@ -5,65 +5,58 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="wrap tpfw-orders-page" dir="rtl">
 	<header class="tpfw-orders-page__header">
-		<img src="<?php echo esc_url( $view['logo_url'] ); ?>" alt="" class="tpfw-orders-page__logo">
+		<img src="<?php echo esc_url( TPFW_PLUGIN_URL . 'assets/images/technopay-logo.svg' ); ?>" alt="" class="tpfw-orders-page__logo">
 		<div>
-			<h1><?php echo esc_html__( 'استرداد سفارشات آنلاین تکنوپی', 'technopay-payment-gateway-for-woocommerce' ); ?></h1>
-			<span class="tpfw-orders-page__count">
-				<?php echo esc_html__( 'تعداد سفارش‌ها:', 'technopay-payment-gateway-for-woocommerce' ); ?>
-				<?php echo esc_html( $view['total'] ); ?>
-			</span>
+			<h1>استرداد سفارشات آنلاین تکنوپی</h1>
+			<span class="tpfw-orders-page__count">تعداد سفارش‌ها: 5</span>
 		</div>
 	</header>
 
-	<form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" class="tpfw-orders-filters">
-		<input type="hidden" name="page" value="<?php echo esc_attr( TPFW_Admin_Orders_Page::PAGE_SLUG ); ?>">
-
+	<form class="tpfw-orders-filters">
 		<label class="tpfw-orders-field">
-			<span><?php echo esc_html__( 'شماره تماس کاربر', 'technopay-payment-gateway-for-woocommerce' ); ?></span>
-			<input type="text" name="customer_mobile" value="<?php echo esc_attr( $view['filters']['customer_mobile'] ); ?>" inputmode="tel" autocomplete="off" placeholder="09121234567">
+			<span>شماره تماس کاربر</span>
+			<input type="text" name="customer_mobile" inputmode="tel" autocomplete="off" placeholder="09121234567">
 		</label>
 
 		<label class="tpfw-orders-field">
-			<span><?php echo esc_html__( 'مبلغ پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?></span>
-			<input type="text" name="amount" value="<?php echo esc_attr( $view['filters']['amount'] ); ?>" inputmode="decimal" autocomplete="off" placeholder="<?php echo esc_attr__( 'مبلغ دقیق', 'technopay-payment-gateway-for-woocommerce' ); ?>">
+			<span>مبلغ پرداخت</span>
+			<input type="text" name="amount" inputmode="decimal" autocomplete="off" placeholder="مبلغ دقیق">
 		</label>
 
 		<label class="tpfw-orders-field">
-			<span><?php echo esc_html__( 'وضعیت', 'technopay-payment-gateway-for-woocommerce' ); ?></span>
+			<span>وضعیت</span>
 			<select name="order_status">
-				<option value=""><?php echo esc_html__( 'همه وضعیت‌ها', 'technopay-payment-gateway-for-woocommerce' ); ?></option>
-				<?php foreach ( $view['status_options'] as $status_key => $status_label ) : ?>
-					<option value="<?php echo esc_attr( $status_key ); ?>" <?php selected( $view['filters']['status'], $status_key ); ?>>
-						<?php echo esc_html( $status_label ); ?>
-					</option>
-				<?php endforeach; ?>
+				<option value="">همه وضعیت‌ها</option>
+				<option value="approved">تایید شده</option>
+				<option value="finalized">نهایی شده</option>
+				<option value="refunded">استرداد شده</option>
 			</select>
 		</label>
 
 		<fieldset class="tpfw-orders-field tpfw-orders-field--dates">
-			<legend><?php echo esc_html__( 'بازه زمانی ثبت سفارش', 'technopay-payment-gateway-for-woocommerce' ); ?></legend>
+			<legend>بازه زمانی ثبت سفارش</legend>
 			<div>
 				<label>
-					<span class="screen-reader-text"><?php echo esc_html__( 'از تاریخ', 'technopay-payment-gateway-for-woocommerce' ); ?></span>
-					<input type="date" name="date_from" value="<?php echo esc_attr( $view['filters']['date_from'] ); ?>" aria-label="<?php echo esc_attr__( 'از تاریخ', 'technopay-payment-gateway-for-woocommerce' ); ?>">
+					<span class="screen-reader-text">از تاریخ</span>
+					<input type="date" name="date_from" aria-label="از تاریخ">
 				</label>
 				<span aria-hidden="true">—</span>
 				<label>
-					<span class="screen-reader-text"><?php echo esc_html__( 'تا تاریخ', 'technopay-payment-gateway-for-woocommerce' ); ?></span>
-					<input type="date" name="date_to" value="<?php echo esc_attr( $view['filters']['date_to'] ); ?>" aria-label="<?php echo esc_attr__( 'تا تاریخ', 'technopay-payment-gateway-for-woocommerce' ); ?>">
+					<span class="screen-reader-text">تا تاریخ</span>
+					<input type="date" name="date_to" aria-label="تا تاریخ">
 				</label>
 			</div>
 		</fieldset>
 
 		<div class="tpfw-orders-filters__actions">
-			<button type="submit" class="button tpfw-button tpfw-button--primary">
+			<button type="button" class="button tpfw-button tpfw-button--primary">
 				<span class="dashicons dashicons-search" aria-hidden="true"></span>
-				<?php echo esc_html__( 'مشاهده', 'technopay-payment-gateway-for-woocommerce' ); ?>
+				مشاهده
 			</button>
-			<a href="<?php echo esc_url( $view['reset_url'] ); ?>" class="tpfw-orders-reset">
+			<button type="reset" class="tpfw-orders-reset">
 				<span class="dashicons dashicons-trash" aria-hidden="true"></span>
-				<?php echo esc_html__( 'حذف همه', 'technopay-payment-gateway-for-woocommerce' ); ?>
-			</a>
+				حذف همه
+			</button>
 		</div>
 	</form>
 
@@ -71,82 +64,144 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<table class="tpfw-orders-table">
 			<thead>
 				<tr>
-					<th scope="col"><?php echo esc_html__( 'ردیف', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
-					<th scope="col"><?php echo esc_html__( 'نام و نام خانوادگی کاربر', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
-					<th scope="col"><?php echo esc_html__( 'شماره تماس کاربر', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
-					<th scope="col"><?php echo esc_html__( 'شناسه پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
-					<th scope="col"><?php echo esc_html__( 'تاریخ ثبت پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
-					<th scope="col"><?php echo esc_html__( 'مبلغ پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
-					<th scope="col"><?php echo esc_html__( 'مبلغ استرداد', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
-					<th scope="col"><?php echo esc_html__( 'وضعیت', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
-					<th scope="col"><?php echo esc_html__( 'اقدامات', 'technopay-payment-gateway-for-woocommerce' ); ?></th>
+					<th scope="col">ردیف</th>
+					<th scope="col">نام و نام خانوادگی کاربر</th>
+					<th scope="col">شماره تماس کاربر</th>
+					<th scope="col">شناسه پرداخت</th>
+					<th scope="col">تاریخ ثبت پرداخت</th>
+					<th scope="col">مبلغ پرداخت</th>
+					<th scope="col">مبلغ استرداد</th>
+					<th scope="col">وضعیت</th>
+					<th scope="col">اقدامات</th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php if ( empty( $view['rows'] ) ) : ?>
-					<tr>
-						<td colspan="9" class="tpfw-orders-table__empty">
-							<span class="dashicons dashicons-search" aria-hidden="true"></span>
-							<?php echo esc_html__( 'سفارش تکنوپی مطابق با این فیلترها پیدا نشد.', 'technopay-payment-gateway-for-woocommerce' ); ?>
-						</td>
-					</tr>
-				<?php else : ?>
-					<?php foreach ( $view['rows'] as $row ) : ?>
-						<tr>
-							<td data-label="<?php echo esc_attr__( 'ردیف', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['number'] ); ?></td>
-							<td class="tpfw-orders-table__name" data-label="<?php echo esc_attr__( 'نام و نام خانوادگی کاربر', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['customer_name'] ); ?></td>
-							<td data-label="<?php echo esc_attr__( 'شماره تماس کاربر', 'technopay-payment-gateway-for-woocommerce' ); ?>">
-								<div class="tpfw-copy-value">
-									<span dir="ltr"><?php echo esc_html( $row['customer_mobile'] ); ?></span>
-									<?php if ( $row['customer_mobile_raw'] !== '' ) : ?>
-									<button type="button" class="tpfw-copy-button" data-copy="<?php echo esc_attr( $row['customer_mobile_raw'] ); ?>" aria-label="<?php echo esc_attr__( 'کپی شماره تماس', 'technopay-payment-gateway-for-woocommerce' ); ?>" title="<?php echo esc_attr__( 'کپی', 'technopay-payment-gateway-for-woocommerce' ); ?>">
-											<span class="dashicons dashicons-admin-page" aria-hidden="true"></span>
-										</button>
-									<?php endif; ?>
-								</div>
-							</td>
-							<td data-label="<?php echo esc_attr__( 'شناسه پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?>">
-								<div class="tpfw-copy-value">
-									<span dir="ltr"><?php echo $row['track_number'] !== '' ? esc_html( $row['track_number'] ) : '—'; ?></span>
-									<?php if ( $row['track_number_raw'] !== '' ) : ?>
-									<button type="button" class="tpfw-copy-button" data-copy="<?php echo esc_attr( $row['track_number_raw'] ); ?>" aria-label="<?php echo esc_attr__( 'کپی شناسه پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?>" title="<?php echo esc_attr__( 'کپی', 'technopay-payment-gateway-for-woocommerce' ); ?>">
-											<span class="dashicons dashicons-admin-page" aria-hidden="true"></span>
-										</button>
-									<?php endif; ?>
-								</div>
-							</td>
-							<td data-label="<?php echo esc_attr__( 'تاریخ ثبت پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['paid_at'] ); ?></td>
-							<td class="tpfw-orders-table__money" data-label="<?php echo esc_attr__( 'مبلغ پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['amount'] ); ?></td>
-							<td class="tpfw-orders-table__money" data-label="<?php echo esc_attr__( 'مبلغ استرداد', 'technopay-payment-gateway-for-woocommerce' ); ?>"><?php echo esc_html( $row['refund_amount'] ); ?></td>
-							<td data-label="<?php echo esc_attr__( 'وضعیت', 'technopay-payment-gateway-for-woocommerce' ); ?>">
-								<span class="tpfw-status tpfw-status--<?php echo esc_attr( $row['status_tone'] ); ?>">
-									<?php echo esc_html( $row['status_label'] ); ?>
-								</span>
-							</td>
-							<td data-label="<?php echo esc_attr__( 'اقدامات', 'technopay-payment-gateway-for-woocommerce' ); ?>">
-								<?php if ( $row['can_refund'] ) : ?>
-									<a href="<?php echo esc_url( $row['order_url'] . '#woocommerce-order-items' ); ?>" class="tpfw-order-action tpfw-order-action--refund">
-										<span class="dashicons dashicons-undo" aria-hidden="true"></span>
-										<?php echo esc_html__( 'استرداد پرداخت', 'technopay-payment-gateway-for-woocommerce' ); ?>
-									</a>
-								<?php elseif ( $row['has_refund'] ) : ?>
-									<a href="<?php echo esc_url( $row['order_url'] ); ?>" class="tpfw-order-action tpfw-order-action--details" aria-label="<?php echo esc_attr__( 'مشاهده سفارش', 'technopay-payment-gateway-for-woocommerce' ); ?>" title="<?php echo esc_attr__( 'مشاهده سفارش', 'technopay-payment-gateway-for-woocommerce' ); ?>">
-										<span class="dashicons dashicons-info-outline" aria-hidden="true"></span>
-									</a>
-								<?php else : ?>
-									<span aria-hidden="true">—</span>
-								<?php endif; ?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				<?php endif; ?>
+				<tr>
+					<td data-label="ردیف">1</td>
+					<td class="tpfw-orders-table__name" data-label="نام و نام خانوادگی کاربر">سپهر کیانی</td>
+					<td data-label="شماره تماس کاربر">
+						<div class="tpfw-copy-value">
+							<span dir="ltr">09123339654</span>
+							<button type="button" class="tpfw-copy-button" data-copy="09123339654" aria-label="کپی شماره تماس" title="کپی">
+								<span class="dashicons dashicons-admin-page" aria-hidden="true"></span>
+							</button>
+						</div>
+					</td>
+					<td data-label="شناسه پرداخت">
+						<div class="tpfw-copy-value">
+							<span dir="ltr">621945456545</span>
+							<button type="button" class="tpfw-copy-button" data-copy="621945456545" aria-label="کپی شناسه پرداخت" title="کپی">
+								<span class="dashicons dashicons-admin-page" aria-hidden="true"></span>
+							</button>
+						</div>
+					</td>
+					<td data-label="تاریخ ثبت پرداخت">1403/02/12</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ پرداخت">1,666,670 تومان</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ استرداد">—</td>
+					<td data-label="وضعیت"><span class="tpfw-status tpfw-status--success">تایید شده</span></td>
+					<td data-label="اقدامات">
+						<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-payment-amount="1,666,670">
+							<span class="dashicons dashicons-undo" aria-hidden="true"></span>
+							استرداد پرداخت
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td data-label="ردیف">2</td>
+					<td class="tpfw-orders-table__name" data-label="نام و نام خانوادگی کاربر">سپهر کیانی</td>
+					<td data-label="شماره تماس کاربر"><div class="tpfw-copy-value"><span dir="ltr">09123339654</span><button type="button" class="tpfw-copy-button" data-copy="09123339654" aria-label="کپی شماره تماس" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button></div></td>
+					<td data-label="شناسه پرداخت"><div class="tpfw-copy-value"><span dir="ltr">621945456545</span><button type="button" class="tpfw-copy-button" data-copy="621945456545" aria-label="کپی شناسه پرداخت" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button></div></td>
+					<td data-label="تاریخ ثبت پرداخت">1403/02/14</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ پرداخت">1,666,670 تومان</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ استرداد">1,666,670 تومان</td>
+					<td data-label="وضعیت"><span class="tpfw-status tpfw-status--warning">در انتظار استرداد پرداخت</span></td>
+					<td data-label="اقدامات"><button type="button" class="tpfw-order-action tpfw-order-action--cancel"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button></td>
+				</tr>
+				<tr>
+					<td data-label="ردیف">3</td>
+					<td class="tpfw-orders-table__name" data-label="نام و نام خانوادگی کاربر">سپهر کیانی</td>
+					<td data-label="شماره تماس کاربر"><div class="tpfw-copy-value"><span dir="ltr">09123339654</span><button type="button" class="tpfw-copy-button" data-copy="09123339654" aria-label="کپی شماره تماس" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button></div></td>
+					<td data-label="شناسه پرداخت"><div class="tpfw-copy-value"><span dir="ltr">621945456545</span><button type="button" class="tpfw-copy-button" data-copy="621945456545" aria-label="کپی شناسه پرداخت" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button></div></td>
+					<td data-label="تاریخ ثبت پرداخت">1403/02/12</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ پرداخت">1,666,670 تومان</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ استرداد">—</td>
+					<td data-label="وضعیت"><span class="tpfw-status tpfw-status--info">نهایی شده</span></td>
+					<td data-label="اقدامات"><span aria-hidden="true">—</span></td>
+				</tr>
+				<tr>
+					<td data-label="ردیف">4</td>
+					<td class="tpfw-orders-table__name" data-label="نام و نام خانوادگی کاربر">سپهر کیانی</td>
+					<td data-label="شماره تماس کاربر"><div class="tpfw-copy-value"><span dir="ltr">09123339654</span><button type="button" class="tpfw-copy-button" data-copy="09123339654" aria-label="کپی شماره تماس" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button></div></td>
+					<td data-label="شناسه پرداخت"><div class="tpfw-copy-value"><span dir="ltr">621945456545</span><button type="button" class="tpfw-copy-button" data-copy="621945456545" aria-label="کپی شناسه پرداخت" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button></div></td>
+					<td data-label="تاریخ ثبت پرداخت">1403/02/12</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ پرداخت">1,666,670 تومان</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ استرداد">1,666,670 تومان</td>
+					<td data-label="وضعیت"><span class="tpfw-status tpfw-status--danger">استرداد کل مبلغ</span></td>
+					<td data-label="اقدامات"><button type="button" class="tpfw-order-action tpfw-order-action--details" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button></td>
+				</tr>
+				<tr>
+					<td data-label="ردیف">5</td>
+					<td class="tpfw-orders-table__name" data-label="نام و نام خانوادگی کاربر">سپهر کیانی</td>
+					<td data-label="شماره تماس کاربر"><div class="tpfw-copy-value"><span dir="ltr">09123339654</span><button type="button" class="tpfw-copy-button" data-copy="09123339654" aria-label="کپی شماره تماس" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button></div></td>
+					<td data-label="شناسه پرداخت"><div class="tpfw-copy-value"><span dir="ltr">621945456545</span><button type="button" class="tpfw-copy-button" data-copy="621945456545" aria-label="کپی شناسه پرداخت" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button></div></td>
+					<td data-label="تاریخ ثبت پرداخت">1403/02/12</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ پرداخت">1,666,670 تومان</td>
+					<td class="tpfw-orders-table__money" data-label="مبلغ استرداد">1,000,000 تومان</td>
+					<td data-label="وضعیت"><span class="tpfw-status tpfw-status--danger">استرداد بخشی از مبلغ</span></td>
+					<td data-label="اقدامات"><button type="button" class="tpfw-order-action tpfw-order-action--details" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
 
-	<?php if ( $view['pagination'] !== '' ) : ?>
-		<nav class="tpfw-orders-pagination" aria-label="<?php echo esc_attr__( 'صفحه‌بندی سفارش‌ها', 'technopay-payment-gateway-for-woocommerce' ); ?>">
-			<?php echo wp_kses_post( $view['pagination'] ); ?>
-		</nav>
-	<?php endif; ?>
+	<nav class="tpfw-orders-pagination" aria-label="صفحه‌بندی سفارش‌ها">
+		<ul class="page-numbers">
+			<li><button type="button" class="page-numbers current" aria-current="page">1</button></li>
+			<li><button type="button" class="page-numbers">2</button></li>
+			<li><button type="button" class="page-numbers">3</button></li>
+			<li><span class="page-numbers dots">…</span></li>
+			<li><button type="button" class="page-numbers">9</button></li>
+			<li><button type="button" class="page-numbers">10</button></li>
+			<li><button type="button" class="page-numbers" aria-label="صفحه بعد"><span class="dashicons dashicons-arrow-left-alt2" aria-hidden="true"></span></button></li>
+		</ul>
+	</nav>
+
+	<div class="tpfw-refund-modal" role="dialog" aria-modal="true" aria-labelledby="tpfw-refund-modal-title" aria-hidden="true" hidden>
+		<div class="tpfw-refund-modal__panel">
+			<button type="button" class="tpfw-refund-modal__close" data-refund-modal-close aria-label="بستن">
+				<span class="dashicons dashicons-no-alt" aria-hidden="true"></span>
+			</button>
+
+			<div class="tpfw-refund-modal__visual" aria-hidden="true">
+				<span class="dashicons dashicons-warning"></span>
+			</div>
+
+			<h2 id="tpfw-refund-modal-title">ثبت درخواست استرداد پرداخت</h2>
+			<p>شما می‌توانید تمام یا بخشی از مبلغ این سفارش را استرداد کنید. این امکان تا 7 روز پس از تأیید سفارش در دسترس است.</p>
+			<p>مبلغ موردنظر برای استرداد را در این بخش وارد کنید و دلیل استرداد وجه را نیز ثبت نمایید.</p>
+
+			<form class="tpfw-refund-modal__form">
+				<label class="tpfw-refund-modal__field tpfw-refund-modal__amount">
+					<span>مبلغ:</span>
+					<input type="text" inputmode="numeric" autocomplete="off" placeholder="-------" aria-label="مبلغ استرداد">
+					<span>تومان</span>
+				</label>
+
+				<label class="tpfw-refund-modal__field">
+					<span>دلیل استرداد:</span>
+					<select aria-label="دلیل استرداد">
+						<option>مرجوع سفارش</option>
+						<option>انصراف مشتری</option>
+						<option>خطا در پرداخت</option>
+						<option>سایر</option>
+					</select>
+				</label>
+
+				<div class="tpfw-refund-modal__actions">
+					<button type="button" class="tpfw-refund-modal__cancel" data-refund-modal-close>فعلا نه</button>
+					<button type="submit" class="tpfw-refund-modal__submit">ثبت درخواست</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

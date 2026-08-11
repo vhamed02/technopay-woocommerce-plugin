@@ -174,6 +174,9 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
+    padding: 0;
+    border: 0;
+    background: transparent;
     color: var(--tpfw-danger);
     font-size: 13px;
     font-weight: 600;
@@ -323,6 +326,11 @@
     color: #316881;
 }
 
+.tpfw-status--warning {
+    background: #f9e3ad;
+    color: #73561c;
+}
+
 .tpfw-status--danger {
     background: #fff0ee;
     color: #b63c35;
@@ -332,6 +340,7 @@
     display: inline-flex;
     min-height: 30px;
     padding: 4px 10px;
+    border: 0;
     border-radius: 6px;
     align-items: center;
     justify-content: center;
@@ -345,6 +354,11 @@
 .tpfw-order-action--refund {
     background: #feeceb;
     color: #b63c35;
+}
+
+.tpfw-order-action--cancel {
+    background: #dff5f7;
+    color: #23646b;
 }
 
 .tpfw-order-action--refund:hover,
@@ -384,7 +398,7 @@
     margin-top: 38px;
 }
 
-.tpfw-orders-pagination .page-numbers {
+.tpfw-orders-pagination > .page-numbers {
     display: flex;
     margin: 0;
     padding: 0;
@@ -394,11 +408,17 @@
     list-style: none;
 }
 
-.tpfw-orders-pagination a,
+.tpfw-orders-pagination li {
+    margin: 0;
+}
+
+.tpfw-orders-pagination button.page-numbers,
 .tpfw-orders-pagination span.page-numbers {
     display: inline-flex;
     width: 38px;
     height: 38px;
+    padding: 0;
+    border: 0;
     border-radius: 8px;
     align-items: center;
     justify-content: center;
@@ -406,13 +426,13 @@
     text-decoration: none;
 }
 
-.tpfw-orders-pagination span.current {
+.tpfw-orders-pagination .current {
     background: var(--tpfw-cyan);
     color: #fff;
 }
 
-.tpfw-orders-pagination a:hover,
-.tpfw-orders-pagination a:focus {
+.tpfw-orders-pagination button.page-numbers:hover,
+.tpfw-orders-pagination button.page-numbers:focus {
     background: #eef9fa;
     color: var(--tpfw-cyan-dark);
     outline: 0;
@@ -422,6 +442,168 @@
     width: 18px;
     height: 18px;
     font-size: 18px;
+}
+
+body.tpfw-refund-modal-open {
+    overflow: hidden;
+}
+
+.tpfw-refund-modal {
+    position: fixed;
+    z-index: 100000;
+    inset: 0;
+    display: flex;
+    padding: 24px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(28, 37, 47, 0.44);
+}
+
+.tpfw-refund-modal[hidden] {
+    display: none;
+}
+
+.tpfw-refund-modal__panel {
+    position: relative;
+    width: min(680px, 100%);
+    max-height: calc(100vh - 48px);
+    padding: 44px 54px 48px;
+    overflow-y: auto;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 22px 60px rgba(26, 33, 42, 0.28);
+    color: var(--tpfw-ink);
+    text-align: center;
+}
+
+.tpfw-refund-modal__close {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    display: inline-flex;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 0;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: #202a35;
+}
+
+.tpfw-refund-modal__close .dashicons {
+    width: 34px;
+    height: 34px;
+    font-size: 34px;
+}
+
+.tpfw-refund-modal__visual {
+    display: flex;
+    width: 126px;
+    height: 142px;
+    margin: 2px auto 28px;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(50% 0, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%);
+    background: #f7f8f8;
+    color: #199dbf;
+    filter: drop-shadow(0 18px 16px rgba(32, 45, 57, 0.12));
+}
+
+.tpfw-refund-modal__visual .dashicons {
+    width: 70px;
+    height: 70px;
+    font-size: 70px;
+}
+
+.tpfw-refund-modal h2 {
+    margin: 0 0 20px;
+    padding: 0;
+    color: #202936;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.tpfw-refund-modal p {
+    margin: 0 auto 10px;
+    color: #394451;
+    font-size: 15px;
+    line-height: 2;
+}
+
+.tpfw-refund-modal__form {
+    display: grid;
+    gap: 18px;
+    margin-top: 30px;
+}
+
+.tpfw-refund-modal__field {
+    display: flex;
+    width: 100%;
+    min-height: 62px;
+    padding: 0 20px;
+    border: 1px solid #d9dde0;
+    border-radius: 8px;
+    align-items: center;
+    gap: 8px;
+    color: #28323e;
+    font-size: 15px;
+    text-align: right;
+}
+
+.tpfw-refund-modal__field input,
+.tpfw-refund-modal__field select {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    min-height: 58px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    color: #28323e;
+    font-size: 15px;
+    box-shadow: none;
+}
+
+.tpfw-refund-modal__field input:focus,
+.tpfw-refund-modal__field select:focus {
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+}
+
+.tpfw-refund-modal__amount input {
+    direction: ltr;
+    text-align: right;
+}
+
+.tpfw-refund-modal__actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 10px;
+}
+
+.tpfw-refund-modal__actions button {
+    min-height: 62px;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.tpfw-refund-modal__cancel {
+    border: 1px solid #193a7a;
+    background: #fff;
+    color: #202936;
+}
+
+.tpfw-refund-modal__submit {
+    border: 1px solid var(--tpfw-cyan);
+    background: var(--tpfw-cyan);
+    color: #fff;
 }
 
 #adminmenu .toplevel_page_technopay-orders .wp-menu-image img {
@@ -441,7 +623,7 @@
     }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1280px) {
     .tpfw-orders-table,
     .tpfw-orders-table tbody {
         display: block;
@@ -525,6 +707,40 @@
     }
 
     .tpfw-orders-table tr {
+        grid-template-columns: 1fr;
+    }
+
+    .tpfw-refund-modal {
+        padding: 12px;
+    }
+
+    .tpfw-refund-modal__panel {
+        max-height: calc(100vh - 24px);
+        padding: 34px 20px 24px;
+    }
+
+    .tpfw-refund-modal__visual {
+        width: 96px;
+        height: 108px;
+        margin-bottom: 20px;
+    }
+
+    .tpfw-refund-modal__visual .dashicons {
+        width: 54px;
+        height: 54px;
+        font-size: 54px;
+    }
+
+    .tpfw-refund-modal h2 {
+        padding: 0 38px;
+        font-size: 21px;
+    }
+
+    .tpfw-refund-modal p {
+        font-size: 14px;
+    }
+
+    .tpfw-refund-modal__actions {
         grid-template-columns: 1fr;
     }
 }
