@@ -546,6 +546,10 @@ body.tpfw-refund-modal-open {
     font-size: 70px;
 }
 
+.tpfw-refund-modal__visual--cancel {
+    color: #e7ad43;
+}
+
 .tpfw-refund-modal h2 {
     margin: 0 0 20px;
     padding: 0;
@@ -634,6 +638,10 @@ body.tpfw-refund-modal-open {
     border: 1px solid var(--tpfw-cyan);
     background: var(--tpfw-cyan);
     color: #fff;
+}
+
+.tpfw-cancel-modal__form {
+    margin-top: 38px;
 }
 
 #adminmenu .toplevel_page_technopay-orders .wp-menu-image img {

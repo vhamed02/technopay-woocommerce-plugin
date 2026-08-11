@@ -118,7 +118,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php if ( 'refund' === $row['action'] ) : ?>
 									<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $row['track_number'] ); ?>" data-payment-amount="<?php echo esc_attr( $row['ticket_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
 								<?php elseif ( 'cancel' === $row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-track-number="<?php echo esc_attr( $row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button>
+									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button>
 								<?php elseif ( 'details' === $row['action'] ) : ?>
 									<button type="button" class="tpfw-order-action tpfw-order-action--details" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button>
 								<?php else : ?>
@@ -171,6 +171,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div class="tpfw-refund-modal__actions">
 					<button type="button" class="tpfw-refund-modal__cancel" data-refund-modal-close>فعلا نه</button>
 					<button type="submit" class="tpfw-refund-modal__submit">ثبت درخواست</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="tpfw-refund-modal tpfw-cancel-modal" role="dialog" aria-modal="true" aria-labelledby="tpfw-cancel-modal-title" aria-hidden="true" hidden>
+		<div class="tpfw-refund-modal__panel">
+			<button type="button" class="tpfw-refund-modal__close" data-refund-modal-close aria-label="بستن"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
+			<div class="tpfw-refund-modal__visual tpfw-refund-modal__visual--cancel" aria-hidden="true"><span class="dashicons dashicons-warning"></span></div>
+			<h2 id="tpfw-cancel-modal-title">لغو درخواست استرداد</h2>
+			<p>در صورت تأیید، درخواست استرداد ثبت‌شده توسط شما لغو خواهد شد. پس از آن می‌توانید مجددا درخواست استرداد وجه برای این پرداخت ثبت نمایید.</p>
+
+			<form class="tpfw-refund-modal__form tpfw-cancel-modal__form">
+				<div class="tpfw-refund-modal__actions">
+					<button type="button" class="tpfw-refund-modal__cancel" data-refund-modal-close>فعلا نه</button>
+					<button type="submit" class="tpfw-refund-modal__submit">بله مطمئن هستم</button>
 				</div>
 			</form>
 		</div>

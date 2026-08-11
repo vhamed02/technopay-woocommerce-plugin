@@ -1,5 +1,7 @@
 (function () {
-    var modal = document.querySelector('.tpfw-refund-modal');
+    var refundModal = document.querySelector('.tpfw-refund-modal:not(.tpfw-cancel-modal)');
+    var cancelModal = document.querySelector('.tpfw-cancel-modal');
+    var activeModal = null;
     var activeTrigger = null;
 
     function getAmountDigits(value) {
@@ -52,11 +54,12 @@
         return Promise.resolve();
     }
 
-    function openModal(trigger) {
+    function openModal(modal, trigger) {
         if (!modal) {
             return;
         }
 
+        activeModal = modal;
         activeTrigger = trigger;
         modal.hidden = false;
         modal.setAttribute('aria-hidden', 'false');
@@ -65,13 +68,14 @@
     }
 
     function closeModal() {
-        if (!modal || modal.hidden) {
+        if (!activeModal || activeModal.hidden) {
             return;
         }
 
-        modal.hidden = true;
-        modal.setAttribute('aria-hidden', 'true');
+        activeModal.hidden = true;
+        activeModal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('tpfw-refund-modal-open');
+        activeModal = null;
 
         if (activeTrigger) {
             activeTrigger.focus();
@@ -96,11 +100,17 @@
 
         button = event.target.closest('[data-refund-modal]');
         if (button) {
-            openModal(button);
+            openModal(refundModal, button);
             return;
         }
 
-        if (event.target.closest('[data-refund-modal-close]') || event.target === modal) {
+        button = event.target.closest('[data-cancel-refund-modal]');
+        if (button) {
+            openModal(cancelModal, button);
+            return;
+        }
+
+        if (event.target.closest('[data-refund-modal-close]') || event.target === activeModal) {
             closeModal();
         }
     });
@@ -111,8 +121,8 @@
         }
     });
 
-    if (modal) {
-        var amountInput = modal.querySelector('.tpfw-refund-modal__amount input');
+    if (refundModal) {
+        var amountInput = refundModal.querySelector('.tpfw-refund-modal__amount input');
 
         amountInput.addEventListener('input', function () {
             var selectionStart = amountInput.selectionStart === null ? amountInput.value.length : amountInput.selectionStart;
@@ -124,9 +134,12 @@
             amountInput.setSelectionRange(caretPosition, caretPosition);
         });
 
-        modal.querySelector('form').addEventListener('submit', function (event) {
+    }
+
+    Array.prototype.forEach.call(document.querySelectorAll('.tpfw-refund-modal form'), function (form) {
+        form.addEventListener('submit', function (event) {
             event.preventDefault();
             closeModal();
         });
-    }
+    });
 }());

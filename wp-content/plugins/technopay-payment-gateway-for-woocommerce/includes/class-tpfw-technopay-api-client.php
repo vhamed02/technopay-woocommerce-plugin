@@ -80,11 +80,7 @@ final class TPFW_Technopay_Api_Client {
 		}
 
 		if ( $status_code < 200 || $status_code >= 300 || empty( $body['succeed'] ) ) {
-			$message = isset( $body['message'] ) && is_scalar( $body['message'] )
-				? sanitize_text_field( (string) $body['message'] )
-				: __( 'دریافت لیست استردادها ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' );
-
-			return new WP_Error( 'tpfw_api_request_failed', $message );
+			return new WP_Error( 'tpfw_api_request_failed', $this->get_request_error_message( $status_code ) );
 		}
 
 		return array(
@@ -98,7 +94,7 @@ final class TPFW_Technopay_Api_Client {
 		$key             = base64_decode( $merchant_secret, true );
 
 		if ( false === $key ) {
-			throw new InvalidArgumentException( 'Invalid merchant secret.' );
+			throw new InvalidArgumentException( 'کلید محرمانه تکنوپی معتبر نیست.' );
 		}
 
 		$key             = strlen( $key ) < 16 ? str_pad( $key, 16, "\0" ) : substr( $key, 0, 16 );
@@ -106,7 +102,7 @@ final class TPFW_Technopay_Api_Client {
 		$encrypted       = openssl_encrypt( $plain_signature, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv );
 
 		if ( false === $encrypted ) {
-			throw new RuntimeException( 'Signature encryption failed.' );
+			throw new RuntimeException( 'ایجاد امضای دیجیتال ناموفق بود.' );
 		}
 
 		return base64_encode(
@@ -117,5 +113,29 @@ final class TPFW_Technopay_Api_Client {
 				)
 			)
 		);
+	}
+
+	private function get_request_error_message( $status_code ) {
+		if ( 401 === $status_code || 403 === $status_code ) {
+			return __( 'اطلاعات احراز هویت تکنوپی معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' );
+		}
+
+		if ( 404 === $status_code ) {
+			return __( 'سرویس لیست استردادهای تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
+		}
+
+		if ( 422 === $status_code ) {
+			return __( 'فیلترهای ارسال‌شده معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' );
+		}
+
+		if ( 429 === $status_code ) {
+			return __( 'تعداد درخواست‌ها زیاد است. لطفا کمی بعد دوباره تلاش کنید.', 'technopay-payment-gateway-for-woocommerce' );
+		}
+
+		if ( $status_code >= 500 ) {
+			return __( 'سرویس تکنوپی موقتا در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
+		}
+
+		return __( 'دریافت لیست استردادها ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' );
 	}
 }

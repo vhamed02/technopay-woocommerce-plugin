@@ -5,4 +5,5 @@
 /dist/
 /.idea
 wp-content/plugins/plugin-check
+wp-content/mu-plugins/technopay-refunds-mock.php
 .DS_Store
