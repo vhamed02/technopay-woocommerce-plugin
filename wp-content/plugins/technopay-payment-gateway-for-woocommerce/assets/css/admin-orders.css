@@ -498,7 +498,7 @@ body.tpfw-refund-modal-open {
 .tpfw-refund-modal__panel {
     position: relative;
     width: 100%;
-    max-width: 532px;
+    max-width: 490px;
     max-height: calc(100vh - 48px);
     padding: 44px 54px 48px;
     overflow-y: auto;
@@ -506,7 +506,7 @@ body.tpfw-refund-modal-open {
     background: #fff;
     box-shadow: 0 22px 60px rgba(26, 33, 42, 0.28);
     color: var(--tpfw-ink);
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
 }
 
@@ -558,7 +558,7 @@ body.tpfw-refund-modal-open {
     margin: 0 0 20px;
     padding: 0;
     color: #202936;
-    font-size: 27px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 1.5;
 }
@@ -566,7 +566,7 @@ body.tpfw-refund-modal-open {
 .tpfw-refund-modal p {
     margin: 0 auto 10px;
     color: #394451;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 2;
 }
 
@@ -586,7 +586,7 @@ body.tpfw-refund-modal-open {
     align-items: center;
     gap: 8px;
     color: #28323e;
-    font-size: 16px;
+    font-size: 14px;
     text-align: right;
 }
 
@@ -610,7 +610,7 @@ body.tpfw-refund-modal-open {
     border: 0;
     background-color: transparent;
     color: #28323e;
-    font-size: 16px;
+    font-size: 14px;
     box-shadow: none;
 }
 
@@ -637,7 +637,7 @@ body.tpfw-refund-modal-open {
     min-height: 62px;
     padding: 0 20px;
     border-radius: 8px;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 400;
 }
 
@@ -784,11 +784,11 @@ body.tpfw-refund-modal-open {
 
     .tpfw-refund-modal h2 {
         padding: 0 38px;
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .tpfw-refund-modal p {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .tpfw-refund-modal__actions {
