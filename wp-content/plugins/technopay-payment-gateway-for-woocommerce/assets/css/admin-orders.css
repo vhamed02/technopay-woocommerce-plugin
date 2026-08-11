@@ -586,6 +586,10 @@ body.tpfw-refund-modal-open {
     text-align: right;
 }
 
+.tpfw-refund-modal__field[hidden] {
+    display: none;
+}
+
 .tpfw-refund-modal__field input,
 .tpfw-refund-modal__field select {
     flex: 1 1 auto;
