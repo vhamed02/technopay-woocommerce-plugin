@@ -73,12 +73,15 @@ class TPFW_Main {
     private function includes() {
         require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-gateway.php';
         require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-blocks-support.php';
+        require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-order-query.php';
+        require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-admin-orders-page.php';
     }
     
     private function init_hooks() {
         add_filter('woocommerce_payment_gateways', array($this, 'add_gateway'));
         add_action('woocommerce_blocks_payment_method_type_registration', array($this, 'register_blocks_support'));
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'add_action_links'));
+        new TPFW_Admin_Orders_Page();
     }
     
     public function add_gateway($methods) {
