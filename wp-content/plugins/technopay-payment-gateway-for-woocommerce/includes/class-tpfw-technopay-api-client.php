@@ -79,6 +79,42 @@ final class TPFW_Technopay_Api_Client {
 		);
 	}
 
+	public function cancel_refund( $track_number ) {
+		$body = $this->request(
+			'POST',
+			'/refund/cancel',
+			array(
+				'body' => array( 'track_number' => (string) $track_number ),
+			),
+			'refund_cancel'
+		);
+
+		if ( is_wp_error( $body ) ) {
+			return $body;
+		}
+
+		if (
+			! isset( $body['results'] ) ||
+			! is_array( $body['results'] ) ||
+			! isset( $body['results']['track_number'], $body['results']['status'], $body['results']['requested_amount'] ) ||
+			! is_scalar( $body['results']['track_number'] ) ||
+			! is_scalar( $body['results']['status'] ) ||
+			! is_numeric( $body['results']['requested_amount'] ) ||
+			(string) $track_number !== (string) $body['results']['track_number']
+		) {
+			return new WP_Error(
+				'tpfw_api_invalid_response',
+				__( 'پاسخ سرویس تکنوپی معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' )
+			);
+		}
+
+		return array(
+			'requested_amount' => (int) $body['results']['requested_amount'],
+			'status'           => sanitize_text_field( (string) $body['results']['status'] ),
+			'track_number'     => sanitize_text_field( (string) $body['results']['track_number'] ),
+		);
+	}
+
 	public static function generate_signature( $merchant_id, $merchant_secret, $timestamp, $payment_type ) {
 		$plain_signature = $merchant_id . ';' . $timestamp . ';' . $payment_type . ';' . $merchant_secret;
 		$key             = base64_decode( $merchant_secret, true );
@@ -182,14 +218,22 @@ final class TPFW_Technopay_Api_Client {
 		}
 
 		if ( 404 === $status_code ) {
-			return 'refund' === $operation
-				? __( 'سرویس ثبت درخواست استرداد تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' )
+			if ( 'refund' === $operation ) {
+				return __( 'سرویس ثبت درخواست استرداد تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
+			}
+
+			return 'refund_cancel' === $operation
+				? __( 'سرویس لغو درخواست استرداد تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' )
 				: __( 'سرویس لیست استردادهای تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
 		}
 
 		if ( 422 === $status_code ) {
-			return 'refund' === $operation
-				? __( 'اطلاعات درخواست استرداد معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' )
+			if ( 'refund' === $operation ) {
+				return __( 'اطلاعات درخواست استرداد معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' );
+			}
+
+			return 'refund_cancel' === $operation
+				? __( 'اطلاعات لغو درخواست استرداد معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' )
 				: __( 'فیلترهای ارسال‌شده معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' );
 		}
 
@@ -201,8 +245,12 @@ final class TPFW_Technopay_Api_Client {
 			return __( 'سرویس تکنوپی موقتا در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
 		}
 
-		return 'refund' === $operation
-			? __( 'ثبت درخواست استرداد ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' )
+		if ( 'refund' === $operation ) {
+			return __( 'ثبت درخواست استرداد ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' );
+		}
+
+		return 'refund_cancel' === $operation
+			? __( 'لغو درخواست استرداد ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' )
 			: __( 'دریافت لیست استردادها ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' );
 	}
 }

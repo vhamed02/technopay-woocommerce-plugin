@@ -3,6 +3,8 @@
     var cancelModal = document.querySelector('.tpfw-cancel-modal');
     var activeModal = null;
     var activeTrigger = null;
+    var cancelForm = cancelModal ? cancelModal.querySelector('[data-cancel-refund-form]') : null;
+    var cancelTrackNumberInput = cancelForm ? cancelForm.querySelector('[name="track_number"]') : null;
     var refundForm = refundModal ? refundModal.querySelector('[data-refund-form]') : null;
     var amountInput = refundForm ? refundForm.querySelector('[name="requested_amount"]') : null;
     var fullAmountButton = refundForm ? refundForm.querySelector('[data-refund-full-amount]') : null;
@@ -95,6 +97,11 @@
         reasonSelect.setAttribute('aria-expanded', 'false');
     }
 
+    function prepareCancelModal(trigger) {
+        cancelForm.reset();
+        cancelTrackNumberInput.value = trigger.getAttribute('data-track-number') || '';
+    }
+
     function openModal(modal, trigger) {
         if (!modal) {
             return;
@@ -148,6 +155,7 @@
 
         button = event.target.closest('[data-cancel-refund-modal]');
         if (button) {
+            prepareCancelModal(button);
             openModal(cancelModal, button);
             return;
         }
@@ -235,10 +243,10 @@
         });
     }
 
-    if (cancelModal) {
-        cancelModal.querySelector('form').addEventListener('submit', function (event) {
-            event.preventDefault();
-            closeModal();
+    if (cancelForm) {
+        cancelForm.addEventListener('submit', function () {
+            cancelForm.querySelector('[type="submit"]').disabled = true;
+            cancelForm.querySelector('[type="submit"]').textContent = tpfwAdminOrders.canceling;
         });
     }
 }());

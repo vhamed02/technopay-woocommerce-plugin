@@ -13,6 +13,7 @@ final class TPFW_Admin_Orders_Page {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'admin_post_tpfw_cancel_refund', array( $this, 'handle_cancel_refund' ) );
 		add_action( 'admin_post_tpfw_create_refund', array( $this, 'handle_create_refund' ) );
 	}
 
@@ -56,6 +57,7 @@ final class TPFW_Admin_Orders_Page {
 			array(
 				'amountRequired' => __( 'مبلغ استرداد را وارد کنید.', 'technopay-payment-gateway-for-woocommerce' ),
 				'amountTooHigh'  => __( 'مبلغ استرداد نمی‌تواند بیشتر از مبلغ قابل استرداد باشد.', 'technopay-payment-gateway-for-woocommerce' ),
+				'canceling'      => __( 'در حال لغو...', 'technopay-payment-gateway-for-woocommerce' ),
 				'copied'         => __( 'کپی شد', 'technopay-payment-gateway-for-woocommerce' ),
 				'copy'           => __( 'کپی', 'technopay-payment-gateway-for-woocommerce' ),
 				'reasonRequired' => __( 'دلیل استرداد را وارد کنید.', 'technopay-payment-gateway-for-woocommerce' ),
@@ -148,7 +150,65 @@ final class TPFW_Admin_Orders_Page {
 		$this->redirect_with_notice( 'success', __( 'درخواست استرداد با موفقیت ثبت شد.', 'technopay-payment-gateway-for-woocommerce' ) );
 	}
 
+	public function handle_cancel_refund() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die(
+				esc_html__( 'شما اجازه لغو درخواست استرداد را ندارید.', 'technopay-payment-gateway-for-woocommerce' ),
+				esc_html__( 'خطای دسترسی', 'technopay-payment-gateway-for-woocommerce' ),
+				array( 'response' => 403 )
+			);
+		}
+
+		$nonce = $this->get_post_value( 'tpfw_cancel_refund_nonce' );
+
+		if ( '' === $nonce || ! wp_verify_nonce( $nonce, 'tpfw_cancel_refund' ) ) {
+			$this->redirect_with_notice( 'error', __( 'اعتبار درخواست به پایان رسیده است. لطفا دوباره تلاش کنید.', 'technopay-payment-gateway-for-woocommerce' ) );
+		}
+
+		$track_number = trim( $this->normalize_digits( sanitize_text_field( $this->get_post_value( 'track_number' ) ) ) );
+
+		if ( '' === $track_number ) {
+			$this->redirect_with_notice( 'error', __( 'اطلاعات لغو درخواست استرداد کامل یا معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
+		}
+
+		$api_client = new TPFW_Technopay_Api_Client();
+		$state      = $this->get_refund_state( $api_client, $track_number );
+
+		if ( is_wp_error( $state ) ) {
+			$this->redirect_with_notice( 'error', $state->get_error_message() );
+		}
+
+		if ( 'cancel' !== $state['action'] ) {
+			$this->redirect_with_notice( 'error', __( 'لغو درخواست استرداد برای این پرداخت امکان‌پذیر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
+		}
+
+		$response = $api_client->cancel_refund( $track_number );
+
+		if ( is_wp_error( $response ) ) {
+			$this->redirect_with_notice( 'error', $response->get_error_message() );
+		}
+
+		$this->redirect_with_notice( 'success', __( 'درخواست استرداد با موفقیت لغو شد.', 'technopay-payment-gateway-for-woocommerce' ) );
+	}
+
 	private function get_refundable_amount( $api_client, $track_number ) {
+		$state = $this->get_refund_state( $api_client, $track_number );
+
+		if ( is_wp_error( $state ) ) {
+			return $state;
+		}
+
+		if ( 'refund' === $state['action'] && null !== $state['ticket_amount'] && $state['ticket_amount'] >= 1 ) {
+			return (int) $state['ticket_amount'];
+		}
+
+		return new WP_Error(
+			'tpfw_refund_not_allowed',
+			__( 'ثبت درخواست استرداد برای این پرداخت امکان‌پذیر نیست.', 'technopay-payment-gateway-for-woocommerce' )
+		);
+	}
+
+	private function get_refund_state( $api_client, $track_number ) {
 		$response = $api_client->get_refunds(
 			array(
 				'filters'  => array( 'track_number' => $track_number ),
@@ -173,16 +233,15 @@ final class TPFW_Admin_Orders_Page {
 				$this->parse_amount( isset( $result['requested_amount'] ) ? $result['requested_amount'] : null )
 			);
 
-			if ( 'refund' !== $status['action'] || null === $ticket_amount || $ticket_amount < 1 ) {
-				break;
-			}
-
-			return (int) $ticket_amount;
+			return array(
+				'action'        => $status['action'],
+				'ticket_amount' => $ticket_amount,
+			);
 		}
 
 		return new WP_Error(
-			'tpfw_refund_not_allowed',
-			__( 'ثبت درخواست استرداد برای این پرداخت امکان‌پذیر نیست.', 'technopay-payment-gateway-for-woocommerce' )
+			'tpfw_refund_not_found',
+			__( 'اطلاعات درخواست استرداد این پرداخت یافت نشد.', 'technopay-payment-gateway-for-woocommerce' )
 		);
 	}
 

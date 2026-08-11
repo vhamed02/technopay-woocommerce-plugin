@@ -196,7 +196,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h2 id="tpfw-cancel-modal-title">لغو درخواست استرداد</h2>
 			<p>در صورت تأیید، درخواست استرداد ثبت‌شده توسط شما لغو خواهد شد. پس از آن می‌توانید مجددا درخواست استرداد وجه برای این پرداخت ثبت نمایید.</p>
 
-			<form class="tpfw-refund-modal__form tpfw-cancel-modal__form">
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="tpfw-refund-modal__form tpfw-cancel-modal__form" data-cancel-refund-form>
+				<input type="hidden" name="action" value="tpfw_cancel_refund">
+				<input type="hidden" name="track_number" value="">
+				<?php wp_nonce_field( 'tpfw_cancel_refund', 'tpfw_cancel_refund_nonce' ); ?>
 				<div class="tpfw-refund-modal__actions">
 					<button type="button" class="tpfw-refund-modal__cancel" data-refund-modal-close>فعلا نه</button>
 					<button type="submit" class="tpfw-refund-modal__submit">بله مطمئن هستم</button>
