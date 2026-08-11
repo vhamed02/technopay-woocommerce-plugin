@@ -46,8 +46,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<span>وضعیت</span>
 			<select name="order_status">
 				<option value="">همه وضعیت‌ها</option>
-				<?php foreach ( $view['status_options'] as $status_key => $status_label ) : ?>
-					<option value="<?php echo esc_attr( $status_key ); ?>" <?php selected( $view['filters']['status'], $status_key ); ?>><?php echo esc_html( $status_label ); ?></option>
+				<?php foreach ( $view['status_options'] as $tpfw_status_key => $tpfw_status_label ) : ?>
+					<option value="<?php echo esc_attr( $tpfw_status_key ); ?>" <?php selected( $view['filters']['status'], $tpfw_status_key ); ?>><?php echo esc_html( $tpfw_status_label ); ?></option>
 				<?php endforeach; ?>
 			</select>
 		</label>
@@ -100,36 +100,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 						</td>
 					</tr>
 				<?php else : ?>
-					<?php foreach ( $view['rows'] as $row ) : ?>
+					<?php foreach ( $view['rows'] as $tpfw_row ) : ?>
 						<tr>
-							<td data-label="ردیف"><?php echo esc_html( $row['number'] ); ?></td>
-							<td class="tpfw-orders-table__name" data-label="نام و نام خانوادگی کاربر"><?php echo esc_html( $row['customer_name'] ); ?></td>
+							<td data-label="ردیف"><?php echo esc_html( $tpfw_row['number'] ); ?></td>
+							<td class="tpfw-orders-table__name" data-label="نام و نام خانوادگی کاربر"><?php echo esc_html( $tpfw_row['customer_name'] ); ?></td>
 							<td data-label="شماره تماس کاربر">
 								<div class="tpfw-copy-value">
-									<span dir="ltr"><?php echo '' !== $row['customer_mobile'] ? esc_html( $row['customer_mobile'] ) : '—'; ?></span>
-									<?php if ( '' !== $row['customer_mobile'] ) : ?>
-										<button type="button" class="tpfw-copy-button" data-copy="<?php echo esc_attr( $row['customer_mobile'] ); ?>" aria-label="کپی شماره تماس" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button>
+									<span dir="ltr"><?php echo '' !== $tpfw_row['customer_mobile'] ? esc_html( $tpfw_row['customer_mobile'] ) : '—'; ?></span>
+									<?php if ( '' !== $tpfw_row['customer_mobile'] ) : ?>
+										<button type="button" class="tpfw-copy-button" data-copy="<?php echo esc_attr( $tpfw_row['customer_mobile'] ); ?>" aria-label="کپی شماره تماس" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button>
 									<?php endif; ?>
 								</div>
 							</td>
 							<td data-label="شناسه پرداخت">
 								<div class="tpfw-copy-value">
-									<span dir="ltr"><?php echo '' !== $row['track_number'] ? esc_html( $row['track_number'] ) : '—'; ?></span>
-									<?php if ( '' !== $row['track_number'] ) : ?>
-										<button type="button" class="tpfw-copy-button" data-copy="<?php echo esc_attr( $row['track_number'] ); ?>" aria-label="کپی شناسه پرداخت" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button>
+									<span dir="ltr"><?php echo '' !== $tpfw_row['track_number'] ? esc_html( $tpfw_row['track_number'] ) : '—'; ?></span>
+									<?php if ( '' !== $tpfw_row['track_number'] ) : ?>
+										<button type="button" class="tpfw-copy-button" data-copy="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>" aria-label="کپی شناسه پرداخت" title="کپی"><span class="dashicons dashicons-admin-page" aria-hidden="true"></span></button>
 									<?php endif; ?>
 								</div>
 							</td>
-							<td data-label="تاریخ ثبت پرداخت"><?php echo esc_html( $row['paid_at'] ); ?></td>
-							<td class="tpfw-orders-table__money" data-label="مبلغ پرداخت"><?php echo esc_html( $row['amount'] ); ?></td>
-							<td class="tpfw-orders-table__money" data-label="مبلغ استرداد"><?php echo esc_html( $row['refund_amount'] ); ?></td>
-							<td data-label="وضعیت"><span class="tpfw-status tpfw-status--<?php echo esc_attr( $row['status_tone'] ); ?>"><?php echo esc_html( $row['status_label'] ); ?></span></td>
+							<td data-label="تاریخ ثبت پرداخت"><?php echo esc_html( $tpfw_row['paid_at'] ); ?></td>
+							<td class="tpfw-orders-table__money" data-label="مبلغ پرداخت"><?php echo esc_html( $tpfw_row['amount'] ); ?></td>
+							<td class="tpfw-orders-table__money" data-label="مبلغ استرداد"><?php echo esc_html( $tpfw_row['refund_amount'] ); ?></td>
+							<td data-label="وضعیت"><span class="tpfw-status tpfw-status--<?php echo esc_attr( $tpfw_row['status_tone'] ); ?>"><?php echo esc_html( $tpfw_row['status_label'] ); ?></span></td>
 							<td data-label="اقدامات">
-								<?php if ( 'refund' === $row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $row['track_number'] ); ?>" data-available-amount="<?php echo esc_attr( $row['ticket_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
-								<?php elseif ( 'cancel' === $row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button>
-								<?php elseif ( 'details' === $row['action'] ) : ?>
+								<?php if ( 'refund' === $tpfw_row['action'] ) : ?>
+									<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>" data-available-amount="<?php echo esc_attr( $tpfw_row['ticket_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
+								<?php elseif ( 'cancel' === $tpfw_row['action'] ) : ?>
+									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button>
+								<?php elseif ( 'details' === $tpfw_row['action'] ) : ?>
 									<button type="button" class="tpfw-order-action tpfw-order-action--details" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button>
 								<?php else : ?>
 									<span aria-hidden="true">—</span>

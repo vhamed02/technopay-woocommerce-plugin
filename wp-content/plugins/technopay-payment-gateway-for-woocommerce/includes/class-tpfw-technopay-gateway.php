@@ -5,6 +5,12 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
 {
 
     private $api_url;
+    private $currency_mode;
+    private $merchant_id;
+    private $merchant_secret;
+    private $mobile_meta_key;
+    private $mobile_source;
+    private $testmode;
 
     public function __construct()
     {
@@ -140,7 +146,9 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
         }
 
         if (is_checkout()) {
-            if (wp_doing_ajax() && isset($_POST['payment_method']) && $_POST['payment_method'] === $this->id) {
+            $payment_method = filter_input(INPUT_POST, 'payment_method', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            if (wp_doing_ajax() && is_string($payment_method) && $payment_method === $this->id) {
                 return true;
             }
 

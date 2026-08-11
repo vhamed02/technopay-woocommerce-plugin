@@ -7,7 +7,7 @@
  * Author URI: https://technopay.ir
  * Text Domain: technopay-payment-gateway-for-woocommerce
  * Requires at least: 5.0
- * Tested up to: 6.9
+ * Tested up to: 7.0
  * Requires PHP: 7.4
  * WC requires at least: 5.0
  * WC tested up to: 8.0

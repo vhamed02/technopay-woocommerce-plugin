@@ -292,7 +292,7 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	private function get_paid_at_filter( $period ) {
-		$today = new DateTimeImmutable( 'today', wp_timezone() );
+		$today = new DateTimeImmutable( 'today', $this->get_timezone() );
 
 		switch ( $period ) {
 			case 'today':
@@ -460,19 +460,23 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	private function get_request_value( $key ) {
-		if ( ! isset( $_GET[ $key ] ) || ! is_scalar( $_GET[ $key ] ) ) {
+		$value = filter_input( INPUT_GET, $key, FILTER_UNSAFE_RAW, FILTER_REQUIRE_SCALAR );
+
+		if ( ! is_string( $value ) ) {
 			return '';
 		}
 
-		return (string) wp_unslash( $_GET[ $key ] );
+		return sanitize_text_field( $value );
 	}
 
 	private function get_post_value( $key ) {
-		if ( ! isset( $_POST[ $key ] ) || ! is_scalar( $_POST[ $key ] ) ) {
+		$value = filter_input( INPUT_POST, $key, FILTER_UNSAFE_RAW, FILTER_REQUIRE_SCALAR );
+
+		if ( ! is_string( $value ) ) {
 			return '';
 		}
 
-		return (string) wp_unslash( $_POST[ $key ] );
+		return sanitize_text_field( $value );
 	}
 
 	private function get_notice() {
@@ -564,7 +568,7 @@ final class TPFW_Admin_Orders_Page {
 
 		if ( class_exists( 'IntlDateFormatter' ) ) {
 			try {
-				$timezone = wp_timezone_string();
+				$timezone = $this->get_timezone()->getName();
 				$timezone = preg_match( '/^[+-]/', $timezone ) ? 'GMT' . $timezone : $timezone;
 				$formatter = new IntlDateFormatter(
 					'fa_IR@calendar=persian',
@@ -580,11 +584,33 @@ final class TPFW_Admin_Orders_Page {
 					return $this->normalize_digits( $formatted );
 				}
 			} catch ( Throwable $exception ) {
-				return $this->normalize_digits( wp_date( 'Y/m/d', $date->getTimestamp(), wp_timezone() ) );
+				return $this->format_gregorian_date( $date );
 			}
 		}
 
-		return $this->normalize_digits( wp_date( 'Y/m/d', $date->getTimestamp(), wp_timezone() ) );
+		return $this->format_gregorian_date( $date );
+	}
+
+	private function format_gregorian_date( $date ) {
+		return $this->normalize_digits( $date->setTimezone( $this->get_timezone() )->format( 'Y/m/d' ) );
+	}
+
+	private function get_timezone() {
+		$timezone_string = get_option( 'timezone_string' );
+
+		if ( is_string( $timezone_string ) && '' !== $timezone_string ) {
+			try {
+				return new DateTimeZone( $timezone_string );
+			} catch ( Throwable $exception ) {
+			}
+		}
+
+		$offset  = (float) get_option( 'gmt_offset', 0 );
+		$hours   = (int) $offset;
+		$minutes = (int) round( abs( $offset - $hours ) * 60 );
+		$sign    = $offset < 0 ? '-' : '+';
+
+		return new DateTimeZone( sprintf( '%s%02d:%02d', $sign, abs( $hours ), $minutes ) );
 	}
 
 	private function normalize_status( $status ) {
