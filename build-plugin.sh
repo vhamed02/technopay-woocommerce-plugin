@@ -1,16 +1,16 @@
 #!/bin/bash
 
 PLUGIN_SLUG="technopay-payment-gateway-for-woocommerce"
-TRUNK_PATH=".svn/technopay-payment-gateway-for-woocommerce/trunk"
-BUILD_PATH=".svn/technopay-payment-gateway-for-woocommerce/build"
-DIST_PATH=".svn/technopay-payment-gateway-for-woocommerce/dist"
+SOURCE_PATH="wp-content/plugins/$PLUGIN_SLUG"
+BUILD_PATH="build"
+DIST_PATH="dist"
 
-if [ ! -f "$TRUNK_PATH/technopay-woocommerce.php" ]; then
-    echo "❌ Error: Plugin file not found in trunk!"
+if [ ! -f "$SOURCE_PATH/technopay-woocommerce.php" ]; then
+    echo "❌ Error: Plugin source not found!"
     exit 1
 fi
 
-VERSION=$(grep "Version:" "$TRUNK_PATH/technopay-woocommerce.php" | awk '{print $3}')
+VERSION=$(grep "Version:" "$SOURCE_PATH/technopay-woocommerce.php" | awk '{print $3}')
 
 echo "🚀 Building $PLUGIN_SLUG version $VERSION"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -26,7 +26,7 @@ rsync -av --exclude='.git' \
     --exclude='node_modules' \
     --exclude='.gitignore' \
     --exclude='*.log' \
-    "$TRUNK_PATH/" "$BUILD_PATH/$PLUGIN_SLUG/" > /dev/null
+    "$SOURCE_PATH/" "$BUILD_PATH/$PLUGIN_SLUG/" > /dev/null
 
 cd "$BUILD_PATH"
 

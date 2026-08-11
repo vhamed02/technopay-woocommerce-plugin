@@ -2,8 +2,8 @@
 
 PLUGIN_PATH="wp-content/plugins/technopay-payment-gateway-for-woocommerce"
 
-if [ ! -L "$PLUGIN_PATH" ]; then
-    echo "❌ Error: Plugin is not a symlink!"
+if [ ! -d "$PLUGIN_PATH" ] || [ -L "$PLUGIN_PATH" ]; then
+    echo "❌ Error: Tracked plugin source directory not found!"
     exit 1
 fi
 
@@ -12,11 +12,11 @@ VERSION=$(grep "Version:" "$PLUGIN_PATH/technopay-woocommerce.php" | awk '{print
 echo "📝 Git Commit for TechnoPay Plugin v$VERSION"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-git add .svn/technopay-payment-gateway-for-woocommerce/trunk/
+git add "$PLUGIN_PATH"
 
 echo ""
 echo "📋 Changed files:"
-git status --short .svn/technopay-payment-gateway-for-woocommerce/trunk/
+git status --short "$PLUGIN_PATH"
 
 echo ""
 read -p "💬 Enter commit message (or press Enter for default): " COMMIT_MSG
