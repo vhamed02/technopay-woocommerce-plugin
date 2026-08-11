@@ -124,6 +124,7 @@
     if (refundModal) {
         var amountInput = refundModal.querySelector('.tpfw-refund-modal__amount input');
         var reasonSelect = refundModal.querySelector('.tpfw-refund-modal__reason');
+        var reasonField = refundModal.querySelector('.tpfw-refund-modal__reason-field');
         var customReasonField = refundModal.querySelector('.tpfw-refund-modal__custom-reason');
         var customReasonInput = customReasonField.querySelector('input');
 
@@ -135,6 +136,25 @@
 
             amountInput.value = formattedAmount;
             amountInput.setSelectionRange(caretPosition, caretPosition);
+        });
+
+        reasonField.addEventListener('click', function (event) {
+            if (event.target === reasonSelect) {
+                return;
+            }
+
+            event.preventDefault();
+            reasonSelect.focus();
+
+            if (typeof reasonSelect.showPicker === 'function') {
+                try {
+                    reasonSelect.showPicker();
+                } catch (error) {
+                    reasonSelect.click();
+                }
+            } else {
+                reasonSelect.click();
+            }
         });
 
         reasonSelect.addEventListener('change', function () {

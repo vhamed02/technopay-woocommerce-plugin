@@ -590,6 +590,11 @@ body.tpfw-refund-modal-open {
     display: none;
 }
 
+.tpfw-refund-modal__reason-field,
+.tpfw-refund-modal__reason-field > span {
+    cursor: pointer !important;
+}
+
 .tpfw-refund-modal__field input,
 .tpfw-refund-modal__field select {
     flex: 1 1 auto;

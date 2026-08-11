@@ -159,7 +159,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<input type="text" inputmode="numeric" autocomplete="off" placeholder="-------" aria-label="مبلغ استرداد">
 					<span>تومان</span>
 				</label>
-				<label class="tpfw-refund-modal__field">
+				<label class="tpfw-refund-modal__field tpfw-refund-modal__reason-field">
 					<span>دلیل استرداد:</span>
 					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" aria-controls="tpfw-refund-custom-reason" aria-expanded="false">
 						<option value="returned-order">مرجوع سفارش</option>
