@@ -2,6 +2,39 @@
     var modal = document.querySelector('.tpfw-refund-modal');
     var activeTrigger = null;
 
+    function getAmountDigits(value) {
+        return value.replace(/[۰-۹]/g, function (digit) {
+            return String(digit.charCodeAt(0) - 1776);
+        }).replace(/[٠-٩]/g, function (digit) {
+            return String(digit.charCodeAt(0) - 1632);
+        }).replace(/\D/g, '');
+    }
+
+    function formatAmount(value) {
+        return getAmountDigits(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function getAmountCaretPosition(value, digitCount) {
+        var currentDigitCount = 0;
+        var index;
+
+        if (digitCount === 0) {
+            return 0;
+        }
+
+        for (index = 0; index < value.length; index += 1) {
+            if (/\d/.test(value.charAt(index))) {
+                currentDigitCount += 1;
+            }
+
+            if (currentDigitCount === digitCount) {
+                return index + 1;
+            }
+        }
+
+        return value.length;
+    }
+
     function copyText(value) {
         if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.writeText(value);
@@ -79,6 +112,18 @@
     });
 
     if (modal) {
+        var amountInput = modal.querySelector('.tpfw-refund-modal__amount input');
+
+        amountInput.addEventListener('input', function () {
+            var selectionStart = amountInput.selectionStart === null ? amountInput.value.length : amountInput.selectionStart;
+            var digitsBeforeCaret = getAmountDigits(amountInput.value.slice(0, selectionStart)).length;
+            var formattedAmount = formatAmount(amountInput.value);
+            var caretPosition = getAmountCaretPosition(formattedAmount, digitsBeforeCaret);
+
+            amountInput.value = formattedAmount;
+            amountInput.setSelectionRange(caretPosition, caretPosition);
+        });
+
         modal.querySelector('form').addEventListener('submit', function (event) {
             event.preventDefault();
             closeModal();
