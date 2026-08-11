@@ -462,6 +462,7 @@
     min-width: 76px;
     padding: 0 14px;
     gap: 5px;
+    background: #f1f2f3;
 }
 
 .tpfw-orders-pagination .current {
