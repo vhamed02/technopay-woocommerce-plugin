@@ -11,6 +11,7 @@
     padding: 36px 32px 56px;
     background: #fff;
     color: var(--tpfw-ink);
+    cursor: default;
     font-family: Tahoma, Arial, sans-serif;
 }
 
@@ -18,6 +19,7 @@
 .tpfw-orders-page *::before,
 .tpfw-orders-page *::after {
     box-sizing: border-box;
+    cursor: inherit !important;
 }
 
 .tpfw-orders-page input,
@@ -25,6 +27,11 @@
 .tpfw-orders-page button,
 .tpfw-orders-page textarea {
     font-family: inherit;
+}
+
+.tpfw-orders-page input,
+.tpfw-orders-page textarea {
+    cursor: text !important;
 }
 
 .tpfw-orders-page button,
