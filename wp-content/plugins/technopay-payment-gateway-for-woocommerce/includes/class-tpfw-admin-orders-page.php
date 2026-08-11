@@ -19,7 +19,7 @@ final class TPFW_Admin_Orders_Page {
 		$this->hook_suffix = add_menu_page(
 			__( 'استرداد سفارشات آنلاین تکنوپی', 'technopay-payment-gateway-for-woocommerce' ),
 			__( 'تکنوپی', 'technopay-payment-gateway-for-woocommerce' ),
-			'manage_woocommerce',
+			'manage_options',
 			self::PAGE_SLUG,
 			array( $this, 'render' ),
 			TPFW_PLUGIN_URL . 'assets/images/technopay-logo.svg',
@@ -58,7 +58,7 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	public function render() {
-		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
