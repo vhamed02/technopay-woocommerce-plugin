@@ -12,6 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</header>
 
+	<?php if ( ! empty( $view['notice'] ) ) : ?>
+		<div class="notice notice-<?php echo esc_attr( $view['notice']['type'] ); ?> is-dismissible tpfw-orders-notice">
+			<p><?php echo esc_html( $view['notice']['message'] ); ?></p>
+		</div>
+	<?php endif; ?>
+
 	<form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" class="tpfw-orders-filters">
 		<input type="hidden" name="page" value="<?php echo esc_attr( TPFW_Admin_Orders_Page::PAGE_SLUG ); ?>">
 
@@ -115,7 +121,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<td data-label="وضعیت"><span class="tpfw-status tpfw-status--<?php echo esc_attr( $row['status_tone'] ); ?>"><?php echo esc_html( $row['status_label'] ); ?></span></td>
 							<td data-label="اقدامات">
 								<?php if ( 'refund' === $row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $row['track_number'] ); ?>" data-payment-amount="<?php echo esc_attr( $row['ticket_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
+									<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $row['track_number'] ); ?>" data-available-amount="<?php echo esc_attr( $row['ticket_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
 								<?php elseif ( 'cancel' === $row['action'] ) : ?>
 									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button>
 								<?php elseif ( 'details' === $row['action'] ) : ?>
@@ -152,15 +158,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<p>شما می‌توانید تمام یا بخشی از مبلغ این سفارش را استرداد کنید. این امکان تا 7 روز پس از تأیید سفارش در دسترس است.</p>
 			<p>مبلغ موردنظر برای استرداد را در این بخش وارد کنید و دلیل استرداد وجه را نیز ثبت نمایید.</p>
 
-			<form class="tpfw-refund-modal__form">
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="tpfw-refund-modal__form" data-refund-form>
+				<input type="hidden" name="action" value="tpfw_create_refund">
+				<input type="hidden" name="track_number" value="">
+				<?php wp_nonce_field( 'tpfw_create_refund', 'tpfw_refund_nonce' ); ?>
 				<label class="tpfw-refund-modal__field tpfw-refund-modal__amount">
 					<span>مبلغ:</span>
-					<input type="text" inputmode="numeric" autocomplete="off" placeholder="-------" aria-label="مبلغ استرداد">
+					<input type="text" name="requested_amount" inputmode="numeric" autocomplete="off" placeholder="-------" aria-label="مبلغ استرداد" required>
 					<span>تومان</span>
 				</label>
 				<label class="tpfw-refund-modal__field tpfw-refund-modal__reason-field">
 					<span>دلیل استرداد:</span>
-					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" aria-controls="tpfw-refund-custom-reason" aria-expanded="false">
+					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" aria-controls="tpfw-refund-custom-reason" aria-expanded="false" required>
 						<option value="returned-order">مرجوع سفارش</option>
 						<option value="customer-cancellation">انصراف مشتری</option>
 						<option value="payment-error">خطا در پرداخت</option>

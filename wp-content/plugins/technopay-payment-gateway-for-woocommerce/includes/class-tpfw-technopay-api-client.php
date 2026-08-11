@@ -25,67 +25,57 @@ final class TPFW_Technopay_Api_Client {
 	}
 
 	public function get_refunds( $query_args ) {
-		if ( ! $this->is_configured() ) {
-			return new WP_Error(
-				'tpfw_api_not_configured',
-				__( 'اطلاعات اتصال تکنوپی تکمیل نشده است.', 'technopay-payment-gateway-for-woocommerce' )
-			);
+		$body = $this->request( 'GET', '/refunds', array( 'query' => $query_args ), 'refunds' );
+
+		if ( is_wp_error( $body ) ) {
+			return $body;
 		}
 
-		try {
-			$signature = self::generate_signature(
-				$this->merchant_id,
-				$this->merchant_secret,
-				time(),
-				self::PAYMENT_TYPE
-			);
-		} catch ( Throwable $exception ) {
-			return new WP_Error(
-				'tpfw_signature_failed',
-				__( 'امضای دیجیتال درخواست ایجاد نشد.', 'technopay-payment-gateway-for-woocommerce' )
-			);
-		}
+		return array(
+			'results' => isset( $body['results'] ) && is_array( $body['results'] ) ? $body['results'] : array(),
+			'metas'   => isset( $body['metas'] ) && is_array( $body['metas'] ) ? $body['metas'] : array(),
+		);
+	}
 
-		$url      = add_query_arg( $query_args, $this->base_url . '/refunds' );
-		$response = wp_remote_get(
-			$url,
+	public function create_refund( $track_number, $requested_amount ) {
+		$body = $this->request(
+			'POST',
+			'/refund',
 			array(
-				'headers'   => array(
-					'Accept'       => 'application/json',
-					'Content-Type' => 'application/json',
-					'signature'    => $signature,
-					'merchantId'   => $this->merchant_id,
-					'User-Agent'   => 'technopay-payment-gateway-for-woocommerce/' . TPFW_VERSION,
+				'body' => array(
+					'track_number'     => (string) $track_number,
+					'requested_amount' => (int) $requested_amount,
 				),
-				'sslverify' => true,
-				'timeout'   => 10,
-			)
+			),
+			'refund'
 		);
 
-		if ( is_wp_error( $response ) ) {
-			return new WP_Error(
-				'tpfw_api_unavailable',
-				__( 'ارتباط با سرویس تکنوپی برقرار نشد.', 'technopay-payment-gateway-for-woocommerce' )
-			);
+		if ( is_wp_error( $body ) ) {
+			return $body;
 		}
 
-		$status_code = wp_remote_retrieve_response_code( $response );
-		$body        = json_decode( wp_remote_retrieve_body( $response ), true );
-
-		if ( ! is_array( $body ) ) {
+		if (
+			! isset( $body['results'] ) ||
+			! is_array( $body['results'] ) ||
+			! isset( $body['results']['track_number'], $body['results']['refund_request_id'], $body['results']['status'], $body['results']['requested_amount'] ) ||
+			! is_scalar( $body['results']['track_number'] ) ||
+			! is_numeric( $body['results']['refund_request_id'] ) ||
+			! is_scalar( $body['results']['status'] ) ||
+			! is_numeric( $body['results']['requested_amount'] ) ||
+			(string) $track_number !== (string) $body['results']['track_number'] ||
+			(int) $requested_amount !== (int) $body['results']['requested_amount']
+		) {
 			return new WP_Error(
 				'tpfw_api_invalid_response',
 				__( 'پاسخ سرویس تکنوپی معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' )
 			);
 		}
 
-		if ( $status_code < 200 || $status_code >= 300 || empty( $body['succeed'] ) ) {
-			return new WP_Error( 'tpfw_api_request_failed', $this->get_request_error_message( $status_code ) );
-		}
-
 		return array(
-			'results' => isset( $body['results'] ) && is_array( $body['results'] ) ? $body['results'] : array(),
-			'metas'   => isset( $body['metas'] ) && is_array( $body['metas'] ) ? $body['metas'] : array(),
+			'refund_request_id' => (int) $body['results']['refund_request_id'],
+			'requested_amount'  => (int) $body['results']['requested_amount'],
+			'status'            => sanitize_text_field( (string) $body['results']['status'] ),
+			'track_number'      => sanitize_text_field( (string) $body['results']['track_number'] ),
 		);
 	}
 
@@ -115,17 +105,92 @@ final class TPFW_Technopay_Api_Client {
 		);
 	}
 
-	private function get_request_error_message( $status_code ) {
+	private function request( $method, $path, $args, $operation ) {
+		if ( ! $this->is_configured() ) {
+			return new WP_Error(
+				'tpfw_api_not_configured',
+				__( 'اطلاعات اتصال تکنوپی تکمیل نشده است.', 'technopay-payment-gateway-for-woocommerce' )
+			);
+		}
+
+		try {
+			$signature = self::generate_signature(
+				$this->merchant_id,
+				$this->merchant_secret,
+				time(),
+				self::PAYMENT_TYPE
+			);
+		} catch ( Throwable $exception ) {
+			return new WP_Error(
+				'tpfw_signature_failed',
+				__( 'امضای دیجیتال درخواست ایجاد نشد.', 'technopay-payment-gateway-for-woocommerce' )
+			);
+		}
+
+		$url = $this->base_url . $path;
+
+		if ( isset( $args['query'] ) && is_array( $args['query'] ) ) {
+			$url = add_query_arg( $args['query'], $url );
+		}
+
+		$request_args = array(
+			'headers'   => array(
+				'Accept'       => 'application/json',
+				'Content-Type' => 'application/json',
+				'signature'    => $signature,
+				'merchantId'   => $this->merchant_id,
+				'User-Agent'   => 'technopay-payment-gateway-for-woocommerce/' . TPFW_VERSION,
+			),
+			'method'    => $method,
+			'sslverify' => true,
+			'timeout'   => 10,
+		);
+
+		if ( isset( $args['body'] ) && is_array( $args['body'] ) ) {
+			$request_args['body'] = wp_json_encode( $args['body'] );
+		}
+
+		$response = wp_remote_request( $url, $request_args );
+
+		if ( is_wp_error( $response ) ) {
+			return new WP_Error(
+				'tpfw_api_unavailable',
+				__( 'ارتباط با سرویس تکنوپی برقرار نشد.', 'technopay-payment-gateway-for-woocommerce' )
+			);
+		}
+
+		$status_code = wp_remote_retrieve_response_code( $response );
+		$body        = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		if ( ! is_array( $body ) ) {
+			return new WP_Error(
+				'tpfw_api_invalid_response',
+				__( 'پاسخ سرویس تکنوپی معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' )
+			);
+		}
+
+		if ( $status_code < 200 || $status_code >= 300 || empty( $body['succeed'] ) ) {
+			return new WP_Error( 'tpfw_api_request_failed', $this->get_request_error_message( $status_code, $operation ) );
+		}
+
+		return $body;
+	}
+
+	private function get_request_error_message( $status_code, $operation ) {
 		if ( 401 === $status_code || 403 === $status_code ) {
 			return __( 'اطلاعات احراز هویت تکنوپی معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' );
 		}
 
 		if ( 404 === $status_code ) {
-			return __( 'سرویس لیست استردادهای تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
+			return 'refund' === $operation
+				? __( 'سرویس ثبت درخواست استرداد تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' )
+				: __( 'سرویس لیست استردادهای تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
 		}
 
 		if ( 422 === $status_code ) {
-			return __( 'فیلترهای ارسال‌شده معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' );
+			return 'refund' === $operation
+				? __( 'اطلاعات درخواست استرداد معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' )
+				: __( 'فیلترهای ارسال‌شده معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' );
 		}
 
 		if ( 429 === $status_code ) {
@@ -136,6 +201,8 @@ final class TPFW_Technopay_Api_Client {
 			return __( 'سرویس تکنوپی موقتا در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
 		}
 
-		return __( 'دریافت لیست استردادها ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' );
+		return 'refund' === $operation
+			? __( 'ثبت درخواست استرداد ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' )
+			: __( 'دریافت لیست استردادها ناموفق بود.', 'technopay-payment-gateway-for-woocommerce' );
 	}
 }

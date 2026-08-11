@@ -3,6 +3,13 @@
     var cancelModal = document.querySelector('.tpfw-cancel-modal');
     var activeModal = null;
     var activeTrigger = null;
+    var refundForm = refundModal ? refundModal.querySelector('[data-refund-form]') : null;
+    var amountInput = refundForm ? refundForm.querySelector('[name="requested_amount"]') : null;
+    var trackNumberInput = refundForm ? refundForm.querySelector('[name="track_number"]') : null;
+    var reasonSelect = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason') : null;
+    var reasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason-field') : null;
+    var customReasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__custom-reason') : null;
+    var customReasonInput = customReasonField ? customReasonField.querySelector('input') : null;
 
     function getAmountDigits(value) {
         return value.replace(/[۰-۹]/g, function (digit) {
@@ -54,6 +61,39 @@
         return Promise.resolve();
     }
 
+    function validateRefundAmount() {
+        var digits = getAmountDigits(amountInput.value);
+        var amount = digits === '' ? 0 : parseInt(digits, 10);
+        var maximum = parseInt(amountInput.getAttribute('data-maximum'), 10);
+
+        if (amount < 1) {
+            amountInput.setCustomValidity(tpfwAdminOrders.amountRequired);
+        } else if (!isNaN(maximum) && amount > maximum) {
+            amountInput.setCustomValidity(tpfwAdminOrders.amountTooHigh);
+        } else {
+            amountInput.setCustomValidity('');
+        }
+
+        return digits;
+    }
+
+    function validateCustomReason() {
+        var isRequired = reasonSelect.value === 'other';
+
+        customReasonInput.setCustomValidity(isRequired && customReasonInput.value.trim() === '' ? tpfwAdminOrders.reasonRequired : '');
+    }
+
+    function prepareRefundModal(trigger) {
+        refundForm.reset();
+        trackNumberInput.value = trigger.getAttribute('data-track-number') || '';
+        amountInput.setAttribute('data-maximum', trigger.getAttribute('data-available-amount') || '');
+        amountInput.setCustomValidity('');
+        customReasonInput.setCustomValidity('');
+        customReasonInput.required = false;
+        customReasonField.hidden = true;
+        reasonSelect.setAttribute('aria-expanded', 'false');
+    }
+
     function openModal(modal, trigger) {
         if (!modal) {
             return;
@@ -100,6 +140,7 @@
 
         button = event.target.closest('[data-refund-modal]');
         if (button) {
+            prepareRefundModal(button);
             openModal(refundModal, button);
             return;
         }
@@ -121,13 +162,7 @@
         }
     });
 
-    if (refundModal) {
-        var amountInput = refundModal.querySelector('.tpfw-refund-modal__amount input');
-        var reasonSelect = refundModal.querySelector('.tpfw-refund-modal__reason');
-        var reasonField = refundModal.querySelector('.tpfw-refund-modal__reason-field');
-        var customReasonField = refundModal.querySelector('.tpfw-refund-modal__custom-reason');
-        var customReasonInput = customReasonField.querySelector('input');
-
+    if (refundForm) {
         amountInput.addEventListener('input', function () {
             var selectionStart = amountInput.selectionStart === null ? amountInput.value.length : amountInput.selectionStart;
             var digitsBeforeCaret = getAmountDigits(amountInput.value.slice(0, selectionStart)).length;
@@ -136,6 +171,7 @@
 
             amountInput.value = formattedAmount;
             amountInput.setSelectionRange(caretPosition, caretPosition);
+            validateRefundAmount();
         });
 
         reasonField.addEventListener('click', function (event) {
@@ -163,6 +199,7 @@
             customReasonField.hidden = !isOther;
             customReasonInput.required = isOther;
             reasonSelect.setAttribute('aria-expanded', isOther ? 'true' : 'false');
+            validateCustomReason();
 
             if (isOther) {
                 customReasonInput.focus();
@@ -170,12 +207,30 @@
                 customReasonInput.value = '';
             }
         });
+
+        customReasonInput.addEventListener('input', validateCustomReason);
+
+        refundForm.addEventListener('submit', function (event) {
+            var amount = validateRefundAmount();
+
+            validateCustomReason();
+
+            if (!refundForm.checkValidity()) {
+                event.preventDefault();
+                refundForm.reportValidity();
+                return;
+            }
+
+            amountInput.value = amount;
+            refundForm.querySelector('[type="submit"]').disabled = true;
+            refundForm.querySelector('[type="submit"]').textContent = tpfwAdminOrders.submitting;
+        });
     }
 
-    Array.prototype.forEach.call(document.querySelectorAll('.tpfw-refund-modal form'), function (form) {
-        form.addEventListener('submit', function (event) {
+    if (cancelModal) {
+        cancelModal.querySelector('form').addEventListener('submit', function (event) {
             event.preventDefault();
             closeModal();
         });
-    });
+    }
 }());
