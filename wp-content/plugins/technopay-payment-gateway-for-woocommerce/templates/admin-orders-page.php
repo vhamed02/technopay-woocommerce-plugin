@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h1><?php echo esc_html__( 'استرداد سفارشات آنلاین تکنوپی', 'technopay-payment-gateway-for-woocommerce' ); ?></h1>
 			<span class="tpfw-orders-page__count">
 				<?php echo esc_html__( 'تعداد سفارش‌ها:', 'technopay-payment-gateway-for-woocommerce' ); ?>
-				<?php echo esc_html( number_format_i18n( $view['total'] ) ); ?>
+				<?php echo esc_html( $view['total'] ); ?>
 			</span>
 		</div>
 	</header>
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<label class="tpfw-orders-field">
 			<span><?php echo esc_html__( 'شماره تماس کاربر', 'technopay-payment-gateway-for-woocommerce' ); ?></span>
-			<input type="text" name="customer_mobile" value="<?php echo esc_attr( $view['filters']['customer_mobile'] ); ?>" inputmode="tel" autocomplete="off" placeholder="۰۹۱۲۱۲۳۴۵۶۷">
+			<input type="text" name="customer_mobile" value="<?php echo esc_attr( $view['filters']['customer_mobile'] ); ?>" inputmode="tel" autocomplete="off" placeholder="09121234567">
 		</label>
 
 		<label class="tpfw-orders-field">

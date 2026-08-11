@@ -69,10 +69,10 @@ final class TPFW_Admin_Orders_Page {
 			'filters'        => $filters,
 			'rows'           => $this->get_rows( $results->orders, $current_page ),
 			'status_options' => $this->get_status_options(),
-			'pagination'     => $this->get_pagination( $results->max_num_pages, $current_page, $filters ),
+			'pagination'     => $this->normalize_digits( $this->get_pagination( $results->max_num_pages, $current_page, $filters ) ),
 			'reset_url'      => admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
 			'logo_url'       => TPFW_PLUGIN_URL . 'assets/images/technopay-logo.svg',
-			'total'          => absint( $results->total ),
+			'total'          => $this->normalize_digits( number_format_i18n( absint( $results->total ) ) ),
 		);
 
 		include TPFW_PLUGIN_PATH . 'templates/admin-orders-page.php';
@@ -83,7 +83,7 @@ final class TPFW_Admin_Orders_Page {
 		$status           = sanitize_key( $this->get_request_value( 'order_status' ) );
 
 		return array(
-			'customer_mobile' => sanitize_text_field( $this->get_request_value( 'customer_mobile' ) ),
+			'customer_mobile' => $this->normalize_digits( sanitize_text_field( $this->get_request_value( 'customer_mobile' ) ) ),
 			'amount'          => $this->sanitize_amount( $this->get_request_value( 'amount' ) ),
 			'status'          => in_array( $status, $allowed_statuses, true ) ? $status : '',
 			'date_from'       => $this->sanitize_date( $this->get_request_value( 'date_from' ) ),
@@ -100,31 +100,7 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	private function sanitize_amount( $amount ) {
-		$amount = strtr(
-			sanitize_text_field( $amount ),
-			array(
-				'۰' => '0',
-				'۱' => '1',
-				'۲' => '2',
-				'۳' => '3',
-				'۴' => '4',
-				'۵' => '5',
-				'۶' => '6',
-				'۷' => '7',
-				'۸' => '8',
-				'۹' => '9',
-				'٠' => '0',
-				'١' => '1',
-				'٢' => '2',
-				'٣' => '3',
-				'٤' => '4',
-				'٥' => '5',
-				'٦' => '6',
-				'٧' => '7',
-				'٨' => '8',
-				'٩' => '9',
-			)
-		);
+		$amount = $this->normalize_digits( sanitize_text_field( $amount ) );
 		$amount = str_replace( array( ',', '٬', ' ' ), '', $amount );
 
 		return is_numeric( $amount ) && (float) $amount >= 0 ? wc_format_decimal( $amount ) : '';
@@ -155,15 +131,15 @@ final class TPFW_Admin_Orders_Page {
 			$status   = $this->get_display_status( $order, $total, $refunded );
 			$paid_at  = $order->get_date_paid();
 			$rows[]   = array(
-				'number'              => $this->localize_digits( (string) ( $offset + $index + 1 ) ),
+				'number'              => (string) ( $offset + $index + 1 ),
 				'customer_name'       => $this->get_customer_name( $order ),
-				'customer_mobile'     => $this->localize_digits( $order->get_billing_phone() ),
-				'customer_mobile_raw' => $order->get_billing_phone(),
-				'track_number'        => $this->localize_digits( $order->get_meta( '_technopay_track_number' ) ),
-				'track_number_raw'    => $order->get_meta( '_technopay_track_number' ),
+				'customer_mobile'     => $this->normalize_digits( $order->get_billing_phone() ),
+				'customer_mobile_raw' => $this->normalize_digits( $order->get_billing_phone() ),
+				'track_number'        => $this->normalize_digits( $order->get_meta( '_technopay_track_number' ) ),
+				'track_number_raw'    => $this->normalize_digits( $order->get_meta( '_technopay_track_number' ) ),
 				'paid_at'             => $paid_at ? $this->format_date( $paid_at ) : '—',
-				'amount'              => wc_price( $total, array( 'currency' => $order->get_currency() ) ),
-				'refund_amount'       => $refunded > 0 ? wc_price( $refunded, array( 'currency' => $order->get_currency() ) ) : '—',
+				'amount'              => $this->normalize_digits( wc_price( $total, array( 'currency' => $order->get_currency() ) ) ),
+				'refund_amount'       => $refunded > 0 ? $this->normalize_digits( wc_price( $refunded, array( 'currency' => $order->get_currency() ) ) ) : '—',
 				'status_label'        => $status['label'],
 				'status_tone'         => $status['tone'],
 				'order_url'           => $order->get_edit_order_url(),
@@ -226,30 +202,40 @@ final class TPFW_Admin_Orders_Page {
 				);
 				$formatted = $formatter->format( $date->getTimestamp() );
 				if ( $formatted !== false ) {
-					return $formatted;
+					return $this->normalize_digits( $formatted );
 				}
 			} catch ( Throwable $exception ) {
-				return $this->localize_digits( wp_date( 'Y/m/d', $date->getTimestamp(), wp_timezone() ) );
+				return $this->normalize_digits( wp_date( 'Y/m/d', $date->getTimestamp(), wp_timezone() ) );
 			}
 		}
 
-		return $this->localize_digits( wp_date( 'Y/m/d', $date->getTimestamp(), wp_timezone() ) );
+		return $this->normalize_digits( wp_date( 'Y/m/d', $date->getTimestamp(), wp_timezone() ) );
 	}
 
-	private function localize_digits( $value ) {
+	private function normalize_digits( $value ) {
 		return strtr(
 			(string) $value,
 			array(
-				'0' => '۰',
-				'1' => '۱',
-				'2' => '۲',
-				'3' => '۳',
-				'4' => '۴',
-				'5' => '۵',
-				'6' => '۶',
-				'7' => '۷',
-				'8' => '۸',
-				'9' => '۹',
+				'۰' => '0',
+				'۱' => '1',
+				'۲' => '2',
+				'۳' => '3',
+				'۴' => '4',
+				'۵' => '5',
+				'۶' => '6',
+				'۷' => '7',
+				'۸' => '8',
+				'۹' => '9',
+				'٠' => '0',
+				'١' => '1',
+				'٢' => '2',
+				'٣' => '3',
+				'٤' => '4',
+				'٥' => '5',
+				'٦' => '6',
+				'٧' => '7',
+				'٨' => '8',
+				'٩' => '9',
 			)
 		);
 	}

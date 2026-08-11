@@ -27,6 +27,12 @@
     font-family: inherit;
 }
 
+.tpfw-orders-page button,
+.tpfw-orders-page a,
+.tpfw-copy-button .dashicons {
+    cursor: pointer;
+}
+
 .tpfw-orders-page__header {
     display: flex;
     align-items: center;
