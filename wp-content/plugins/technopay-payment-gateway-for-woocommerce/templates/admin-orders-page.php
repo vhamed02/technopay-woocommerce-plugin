@@ -49,7 +49,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<div class="tpfw-orders-filters__actions">
 			<button type="submit" class="button tpfw-button tpfw-button--primary">
-				<span class="dashicons dashicons-search" aria-hidden="true"></span>
 				مشاهده
 			</button>
 			<a href="<?php echo esc_url( $view['reset_url'] ); ?>" class="tpfw-orders-reset">
