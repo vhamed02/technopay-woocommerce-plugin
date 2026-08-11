@@ -28,9 +28,12 @@
 }
 
 .tpfw-orders-page button,
+.tpfw-orders-page button *,
 .tpfw-orders-page a,
-.tpfw-copy-button .dashicons {
-    cursor: pointer;
+.tpfw-orders-page a *,
+.tpfw-orders-page select,
+.tpfw-orders-page select * {
+    cursor: pointer !important;
 }
 
 .tpfw-orders-page__header {
