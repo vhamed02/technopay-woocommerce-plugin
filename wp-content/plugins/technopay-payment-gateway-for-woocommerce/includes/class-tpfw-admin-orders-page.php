@@ -16,14 +16,13 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	public function register_menu() {
-		$this->hook_suffix = add_menu_page(
+		$this->hook_suffix = add_submenu_page(
+			'woocommerce',
 			__( 'استرداد سفارشات آنلاین تکنوپی', 'technopay-payment-gateway-for-woocommerce' ),
 			__( 'تکنوپی', 'technopay-payment-gateway-for-woocommerce' ),
 			'manage_options',
 			self::PAGE_SLUG,
-			array( $this, 'render' ),
-			TPFW_PLUGIN_URL . 'assets/images/technopay-logo.svg',
-			56
+			array( $this, 'render' )
 		);
 	}
 
