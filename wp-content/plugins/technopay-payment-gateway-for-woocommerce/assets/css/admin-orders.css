@@ -1,3 +1,7 @@
+.woocommerce_page_technopay-orders #wpcontent {
+    padding-right: 0;
+}
+
 .tpfw-orders-page {
     --tpfw-cyan: #0eb4c7;
     --tpfw-cyan-dark: #078b9d;
