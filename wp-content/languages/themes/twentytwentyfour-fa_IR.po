@@ -2,11 +2,11 @@
 # This file is distributed under the same license as the Themes - Twenty Twenty-Four package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2024-11-25 11:04:14+0000\n"
+"PO-Revision-Date: 2026-07-15 16:57:32+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: GlotPress/4.0.3\n"
 "Language: fa\n"
 "Project-Id-Version: Themes - Twenty Twenty-Four\n"
@@ -22,6 +22,11 @@ msgstr "دو هزار و بیست و چهار"
 #, gp-priority: high
 msgid "Twenty Twenty-Four is designed to be flexible, versatile and applicable to any website. Its collection of templates and patterns tailor to different needs, such as presenting a business, blogging and writing or showcasing work. A multitude of possibilities open up with just a few adjustments to color and typography. Twenty Twenty-Four comes with style variations and full page designs to help speed up the site building process, is fully compatible with the site editor, and takes advantage of new design tools introduced in WordPress 6.4."
 msgstr "دو هزار و بیست و چهار به گونه‌ای طراحی شده است که انعطاف پذیر، همه کاره و قابل اجرا برای هر وب سایتی باشد. مجموعه قالب‌ها و الگوهای آن متناسب با نیازهای مختلف، مانند معرفی یک تجارت، وبلاگ نویسی و نوشتن یا نمایش کار است. تنها با چند تنظیم رنگ و تایپوگرافی، بسیاری از احتمالات باز می‌شود. دو هزار و بیست و چهار، دارای تغییرات سبک و طراحی کامل برگه برای کمک به سرعت بخشیدن به روند ساخت سایت است، کاملا با ویرایشگر سایت سازگار است و از ابزارهای طراحی جدید معرفی شده در وردپرس ۶.۴ بهره می‌برد."
+
+#: patterns/text-centered-statement.php
+msgctxt "Pattern description"
+msgid "A centered text statement with a large amount of padding on all sides."
+msgstr "یک عبارت متنی وسط‌چین با فاصله (padding) زیاد از تمام طرفین."
 
 #: patterns/hidden-posts-heading.php
 msgctxt "Pattern title"
@@ -108,6 +113,111 @@ msgctxt "Pattern description"
 msgid "A centered italic text statement with compact padding."
 msgstr "عبارت نوشتاری ایتالیک در مرکز با فاصله فشرده."
 
+#: patterns/text-feature-grid-3-col.php
+msgctxt "Pattern description"
+msgid "A feature grid of 2 rows and 3 columns with headings and text."
+msgstr "یک شبکه ویژگی شامل ۲ ردیف و ۳ ستون همراه با سرتیتر و متن."
+
+#: patterns/page-portfolio-overview.php
+msgctxt "Pattern description"
+msgid "A full portfolio page with a section for project description, project details, a full screen image, and a gallery section with two images."
+msgstr "یک صفحه نمونه‌کار کامل شامل بخشی برای توضیحات پروژه، جزئیات پروژه، یک تصویر تمام‌صفحه و یک بخش گالری با دو تصویر."
+
+#: patterns/page-newsletter-landing.php
+msgctxt "Pattern description"
+msgid "A block with a newsletter subscription CTA for a landing page."
+msgstr "یک بلوک شامل فراخوان (CTA) برای اشتراک در خبرنامه ویژه صفحه فرود."
+
+#: patterns/page-home-portfolio.php
+msgctxt "Pattern description"
+msgid "A portfolio home page with a description and a 4-column post section with only feature images."
+msgstr "یک صفحه نخست نمونه‌کار شامل توضیحات و یک بخش نوشته ۴ ستونه که فقط تصاویر شاخص را نمایش می‌دهد."
+
+#: patterns/page-home-portfolio-gallery.php
+msgctxt "Pattern description"
+msgid "A portfolio home page that features a gallery."
+msgstr "یک صفحه نخست نمونه‌کار که شامل یک گالری است."
+
+#: patterns/page-home-business.php
+msgctxt "Pattern description"
+msgid "A business home page with a hero section, a text section, a services section, a team section, a clients section, a FAQ section, and a CTA section."
+msgstr "یک صفحه نخست تجاری شامل بخش هیرو، بخش متن، بخش خدمات، بخش تیم، بخش مشتریان، بخش سوالات متداول و بخش فراخوان."
+
+#: patterns/page-home-blogging.php
+msgctxt "Pattern description"
+msgid "A blogging home page with a hero section, a text section, a blog section, and a CTA section."
+msgstr "یک صفحه نخست وبلاگ شامل بخش هیرو، بخش متن، بخش وبلاگ و بخش فراخوان."
+
+#: patterns/page-about-business.php
+msgctxt "Pattern description"
+msgid "A business about page with a hero section, a text section, a services section, a team section, a clients section, a FAQ section, and a CTA section."
+msgstr "یک صفحه «درباره ما» برای کسب‌وکار، شامل بخش هیرو، بخش متن، بخش خدمات، بخش تیم، بخش مشتریان، بخش سوالات متداول و بخش فراخوان."
+
+#: patterns/gallery-project-layout.php
+msgctxt "Pattern description"
+msgid "A gallery section with a project layout with 2 images."
+msgstr "یک بخش گالری با چیدمان پروژه شامل ۲ تصویر."
+
+#: patterns/gallery-offset-images-grid-4-col.php
+msgctxt "Pattern description"
+msgid "A gallery section with 4 columns and offset images."
+msgstr "یک بخش گالری ۴ ستونه با تصاویر آفست (نامتقارن)."
+
+#: patterns/gallery-offset-images-grid-3-col.php
+msgctxt "Pattern description"
+msgid "A gallery section with 3 columns and offset images."
+msgstr "یک بخش گالری ۳ ستونه با تصاویر آفست (نامتقارن)."
+
+#: patterns/gallery-offset-images-grid-2-col.php
+msgctxt "Pattern description"
+msgid "A gallery section with 2 columns and offset images."
+msgstr "یک بخش گالری ۲ ستونه با تصاویر آفست (نامتقارن)."
+
+#: patterns/cta-rsvp.php patterns/page-rsvp-landing.php
+msgctxt "Pattern description"
+msgid "A large RSVP heading sideways, a description, and a CTA button."
+msgstr "یک سرتیتر بزرگ برای RSVP (پاسخ به دعوت) به صورت جانبی، همراه با توضیحات و دکمه فراخوان."
+
+#: patterns/cta-pricing.php
+msgctxt "Pattern description"
+msgid "A pricing section with a title, a paragraph and three pricing levels."
+msgstr "یک بخش قیمت‌گذاری شامل عنوان، یک پاراگراف و سه سطح قیمت."
+
+#: patterns/cta-content-image-on-right.php
+msgctxt "Pattern description"
+msgid "A title, paragraph, two CTA buttons, and an image for a general CTA section."
+msgstr "یک عنوان، پاراگراف، دو دکمه فراخوان و یک تصویر برای بخش عمومی فراخوان."
+
+#: patterns/banner-project-description.php
+msgctxt "Pattern description"
+msgid "Project description section with title, paragraph, and an image."
+msgstr "بخش توضیحات پروژه شامل عنوان، پاراگراف و یک تصویر."
+
+#: patterns/banner-hero.php
+msgctxt "Pattern description"
+msgid "A hero section with a title, a paragraph, a CTA button, and an image."
+msgstr "یک بخش هیرو شامل عنوان، پاراگراف، دکمه فراخوان و یک تصویر."
+
+#: patterns/text-faq.php
+msgctxt "Pattern description"
+msgid "A FAQ section with a large FAQ heading and a group of questions and answers."
+msgstr "بخش سوالات متداول با عنوان بزرگ و مجموعه‌ای از پرسش‌ها و پاسخ‌ها."
+
+#: patterns/testimonial-centered.php
+msgctxt "Pattern description"
+msgid "A centered testimonial section with an avatar, name, and job title."
+msgstr "بخش دیدگاه (رضایت‌نامه) وسط‌چین، همراه با تصویر، نام و عنوان شغلی."
+
+#: patterns/text-alternating-images.php
+msgctxt "Pattern description"
+msgid "A text section, then a two-column section with text in one column and an image in the other."
+msgstr "یک بخش متن، سپس یک بخش دو ستونی، در یکی متن و در دیگری تصویر."
+
+#: patterns/text-project-details.php
+msgctxt "Pattern description"
+msgid "A text-only section for project details."
+msgstr "یک بخش فقط متن برای جزئیات پروژه."
+
 #: patterns/footer.php:96
 msgid "Twitter/X"
 msgstr "توییتر/ایکس"
@@ -136,7 +246,7 @@ msgstr "تاریخچه"
 msgid "Team"
 msgstr "تیم"
 
-#: functions.php:199
+#: functions.php:187
 msgctxt "Block pattern category"
 msgid "Pages"
 msgstr "برگه‌ها"
@@ -146,7 +256,7 @@ msgctxt "Pattern title"
 msgid "List of posts without images, 1 column"
 msgstr "فهرست نوشته‌های بدون تصویر، ۱ ستون"
 
-#: functions.php:200
+#: functions.php:188
 msgid "A collection of full page layouts."
 msgstr "مجموعه‌ای از چیدمان‌های تمام صفحه."
 
@@ -268,7 +378,7 @@ msgctxt "Style variation name"
 msgid "Onyx"
 msgstr "اونیکس"
 
-#: functions.php:51
+#: functions.php:47
 msgid "Pill"
 msgstr "قرص"
 
@@ -312,11 +422,11 @@ msgctxt "Pattern title"
 msgid "FAQ"
 msgstr "سوالات متداول"
 
-#: functions.php:93
+#: functions.php:89
 msgid "With arrow"
 msgstr "با فلش"
 
-#: functions.php:28
+#: functions.php:24
 msgid "Arrow icon"
 msgstr "آیکون فلش"
 
@@ -904,11 +1014,11 @@ msgctxt "Color name"
 msgid "Base / Two"
 msgstr "اصلی / دو"
 
-#: functions.php:74
+#: functions.php:70
 msgid "Checkmark"
 msgstr "علامت تیک"
 
-#: functions.php:111
+#: functions.php:107
 msgid "With asterisk"
 msgstr "همراه ستاره"
 
@@ -1077,15 +1187,15 @@ msgctxt "Heading of the hero section"
 msgid "A commitment to innovation and sustainability"
 msgstr "تعهد به نوآوری و پایداری"
 
-#: patterns/gallery-project-layout.php:38
-msgctxt "Sample text for the feature area"
-msgid "Our comprehensive suite of professional services caters to a diverse clientele, ranging from homeowners to commercial developers. With a commitment to innovation and sustainability, Études is the bridge that transforms architectural dreams into remarkable built realities."
-msgstr "مجموعه جامع خدمات حرفه‌ای ما به مشتریان متنوعی از صاحبان خانه تا توسعه دهندگان تجاری پاسخ می‌دهد. با تعهد به نوآوری و پایداری، Études پلی است که رویاهای معماری را به واقعیت‌های ساخته شده عالی تبدیل می‌کند."
-
 #: patterns/gallery-project-layout.php:26
 msgctxt "Sample text for the feature area"
 msgid "1. Through Études, we aspire to redefine architectural boundaries and usher in a new era of design excellence that leaves an indelible mark on the built environment."
 msgstr "1. از طریق Études، ما آرزوی بازتعریف مرزهای معماری را داریم و عصر جدیدی از تعالی طراحی را آغاز می‌کنیم که اثری ماندگار در محیط ساخته شده به جا می‌گذارد."
+
+#: patterns/gallery-project-layout.php:38
+msgctxt "Sample text for the feature area"
+msgid "Our comprehensive suite of professional services caters to a diverse clientele, ranging from homeowners to commercial developers. With a commitment to innovation and sustainability, Études is the bridge that transforms architectural dreams into remarkable built realities."
+msgstr "مجموعه جامع خدمات حرفه‌ای ما به مشتریان متنوعی از صاحبان خانه تا توسعه دهندگان تجاری پاسخ می‌دهد. با تعهد به نوآوری و پایداری، Études پلی است که رویاهای معماری را به واقعیت‌های ساخته شده عالی تبدیل می‌کند."
 
 #: patterns/cta-services-image-left.php:32
 msgctxt "Sample description of the services pattern"
@@ -1214,6 +1324,11 @@ msgctxt "Pattern title"
 msgid "Footer with colophon, 3 columns"
 msgstr "پابرگ با انجامه ۳ ستونه"
 
+#: patterns/text-project-details.php:35 patterns/text-project-details.php:43
+msgctxt "Descriptive text for the feature area"
+msgid "The revitalized Art Gallery is set to redefine the cultural landscape of Toronto, serving as a nexus of artistic expression, community engagement, and architectural marvel. The expansion and renovation project pay homage to the Art Gallery's rich history while embracing the future, ensuring that the gallery remains a beacon of inspiration."
+msgstr "گالری هنری احیا شده قرار است چشم‌انداز فرهنگی تورنتو را بازتعریف کند و به عنوان کانون بیان هنری، مشارکت جامعه و اعجاز معماری عمل کند. پروژه توسعه و بازسازی با ادای احترام به تاریخ غنی گالری هنری، با آغوش باز به استقبال آینده می‌رود و این اطمینان را حاصل می‌کند که این گالری همچنان مشعل الهام باقی بماند."
+
 #: patterns/gallery-offset-images-grid-4-col.php
 msgctxt "Pattern title"
 msgid "Offset gallery, 4 columns"
@@ -1238,11 +1353,6 @@ msgstr "جوهر به یخی عمودی"
 msgctxt "Feature for pricing level"
 msgid "Access to 20 exclusive <em>Études Articles</em> per month."
 msgstr "دسترسی به ۲۰ <em>مقاله Études</em> اختصاصی در ماه."
-
-#: patterns/text-project-details.php:35 patterns/text-project-details.php:43
-msgctxt "Descriptive text for the feature area"
-msgid "The revitalized Art Gallery is set to redefine the cultural landscape of Toronto, serving as a nexus of artistic expression, community engagement, and architectural marvel. The expansion and renovation project pay homage to the Art Gallery's rich history while embracing the future, ensuring that the gallery remains a beacon of inspiration."
-msgstr "گالری هنری احیا شده قرار است چشم‌انداز فرهنگی تورنتو را بازتعریف کند و به عنوان کانون بیان هنری، مشارکت جامعه و اعجاز معماری عمل کند. پروژه توسعه و بازسازی با ادای احترام به تاریخ غنی گالری هنری، با آغوش باز به استقبال آینده می‌رود و این اطمینان را حاصل می‌کند که این گالری همچنان مشعل الهام باقی بماند."
 
 #: patterns/cta-pricing.php:72 patterns/cta-pricing.php:131
 msgctxt "Feature for pricing level"
