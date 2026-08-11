@@ -113,23 +113,6 @@
     outline: 0;
 }
 
-.tpfw-orders-field--dates > div {
-    display: grid;
-    grid-template-columns: minmax(108px, 1fr) auto minmax(108px, 1fr);
-    align-items: center;
-    gap: 7px;
-}
-
-.tpfw-orders-field--dates label {
-    min-width: 0;
-}
-
-.tpfw-orders-field--dates input {
-    min-width: 0;
-    padding: 0 9px;
-    direction: ltr;
-}
-
 .tpfw-orders-filters__actions {
     display: flex;
     align-items: center;

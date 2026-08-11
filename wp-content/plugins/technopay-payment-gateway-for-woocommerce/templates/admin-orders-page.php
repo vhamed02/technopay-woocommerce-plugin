@@ -33,20 +33,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</select>
 		</label>
 
-		<fieldset class="tpfw-orders-field tpfw-orders-field--dates">
-			<legend>بازه زمانی ثبت سفارش</legend>
-			<div>
-				<label>
-					<span class="screen-reader-text">از تاریخ</span>
-					<input type="date" name="date_from" aria-label="از تاریخ">
-				</label>
-				<span aria-hidden="true">—</span>
-				<label>
-					<span class="screen-reader-text">تا تاریخ</span>
-					<input type="date" name="date_to" aria-label="تا تاریخ">
-				</label>
-			</div>
-		</fieldset>
+		<label class="tpfw-orders-field">
+			<span>بازه زمانی ثبت سفارش</span>
+			<select name="order_period">
+				<option value="">همه بازه‌ها</option>
+				<option value="today">امروز</option>
+				<option value="yesterday">دیروز</option>
+				<option value="last-7-days">7 روز گذشته</option>
+				<option value="last-30-days">30 روز گذشته</option>
+				<option value="current-month">ماه جاری</option>
+			</select>
+		</label>
 
 		<div class="tpfw-orders-filters__actions">
 			<button type="button" class="button tpfw-button tpfw-button--primary">
