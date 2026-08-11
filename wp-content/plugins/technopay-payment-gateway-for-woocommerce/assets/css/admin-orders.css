@@ -405,6 +405,11 @@
     font-size: 30px;
 }
 
+.tpfw-orders-table__error,
+.tpfw-orders-table__error .dashicons {
+    color: var(--tpfw-danger) !important;
+}
+
 .tpfw-orders-pagination {
     margin-top: 38px;
 }
@@ -423,6 +428,7 @@
     margin: 0;
 }
 
+.tpfw-orders-pagination a.page-numbers,
 .tpfw-orders-pagination button.page-numbers,
 .tpfw-orders-pagination span.page-numbers {
     display: inline-flex;
@@ -439,11 +445,20 @@
     text-decoration: none;
 }
 
+.tpfw-orders-pagination a.page-numbers {
+    width: auto;
+    min-width: 76px;
+    padding: 0 14px;
+    gap: 5px;
+}
+
 .tpfw-orders-pagination .current {
     background: var(--tpfw-cyan);
     color: #fff;
 }
 
+.tpfw-orders-pagination a.page-numbers:hover,
+.tpfw-orders-pagination a.page-numbers:focus,
 .tpfw-orders-pagination button.page-numbers:hover,
 .tpfw-orders-pagination button.page-numbers:focus {
     background: #eef9fa;

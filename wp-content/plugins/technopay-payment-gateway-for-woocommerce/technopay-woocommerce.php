@@ -46,6 +46,7 @@ class TPFW_Main {
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
 
         if (is_admin()) {
+            require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-api-client.php';
             require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-admin-orders-page.php';
             new TPFW_Admin_Orders_Page();
         }
@@ -76,6 +77,7 @@ class TPFW_Main {
     }
     
     private function includes() {
+        require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-api-client.php';
         require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-gateway.php';
         require_once TPFW_PLUGIN_PATH . 'includes/class-tpfw-technopay-blocks-support.php';
     }

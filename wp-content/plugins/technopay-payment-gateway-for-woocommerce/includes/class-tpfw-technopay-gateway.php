@@ -317,30 +317,7 @@ class TPFW_TechnoPay_Gateway extends WC_Payment_Gateway
 
     private function generate_signature($merchant_id, $merchant_secret, $timestamp, $payment_type)
     {
-        $plain_signature = $merchant_id . ';' . $timestamp . ';' . $payment_type . ';' . $merchant_secret;
-
-        $key = base64_decode($merchant_secret);
-
-        if (strlen($key) < 16) {
-            $key = str_pad($key, 16, "\0");
-        } else {
-            $key = substr($key, 0, 16);
-        }
-
-        $iv = openssl_random_pseudo_bytes(16);
-
-        $encrypted = openssl_encrypt($plain_signature, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
-
-        if ($encrypted === false) {
-            throw new Exception(esc_html__('Digital signature creation failed.', 'technopay-payment-gateway-for-woocommerce'));
-        }
-
-        $json_data = json_encode(array(
-            'iv' => base64_encode($iv),
-            'value' => base64_encode($encrypted)
-        ));
-
-        return base64_encode($json_data);
+        return TPFW_Technopay_Api_Client::generate_signature($merchant_id, $merchant_secret, $timestamp, $payment_type);
     }
 
     private function make_api_request($endpoint, $data, $signature, $timestamp)
