@@ -36,6 +36,20 @@
     cursor: pointer !important;
 }
 
+.tpfw-orders-page button > *,
+.tpfw-orders-page a > *,
+.tpfw-orders-page button::before,
+.tpfw-orders-page button::after,
+.tpfw-orders-page a::before,
+.tpfw-orders-page a::after,
+.tpfw-orders-page button > *::before,
+.tpfw-orders-page button > *::after,
+.tpfw-orders-page a > *::before,
+.tpfw-orders-page a > *::after {
+    pointer-events: none;
+    cursor: pointer !important;
+}
+
 .tpfw-orders-page__header {
     display: flex;
     align-items: center;
