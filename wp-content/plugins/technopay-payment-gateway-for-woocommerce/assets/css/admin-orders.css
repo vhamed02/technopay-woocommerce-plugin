@@ -626,6 +626,27 @@ body.tpfw-refund-modal-open {
     text-align: right;
 }
 
+.tpfw-refund-modal__full-amount {
+    flex: 0 0 auto;
+    min-height: 30px;
+    padding: 4px 8px;
+    border: 1px solid var(--tpfw-cyan);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--tpfw-cyan-dark);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.tpfw-refund-modal__full-amount:hover,
+.tpfw-refund-modal__full-amount:focus {
+    background: #eaf9fb;
+    color: #067988;
+    outline: 0;
+}
+
 .tpfw-refund-modal__actions {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

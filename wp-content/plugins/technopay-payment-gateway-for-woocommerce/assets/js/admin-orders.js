@@ -5,6 +5,7 @@
     var activeTrigger = null;
     var refundForm = refundModal ? refundModal.querySelector('[data-refund-form]') : null;
     var amountInput = refundForm ? refundForm.querySelector('[name="requested_amount"]') : null;
+    var fullAmountButton = refundForm ? refundForm.querySelector('[data-refund-full-amount]') : null;
     var trackNumberInput = refundForm ? refundForm.querySelector('[name="track_number"]') : null;
     var reasonSelect = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason') : null;
     var reasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason-field') : null;
@@ -172,6 +173,13 @@
             amountInput.value = formattedAmount;
             amountInput.setSelectionRange(caretPosition, caretPosition);
             validateRefundAmount();
+        });
+
+        fullAmountButton.addEventListener('click', function () {
+            amountInput.value = formatAmount(amountInput.getAttribute('data-maximum') || '');
+            validateRefundAmount();
+            amountInput.focus();
+            amountInput.setSelectionRange(amountInput.value.length, amountInput.value.length);
         });
 
         reasonField.addEventListener('click', function (event) {

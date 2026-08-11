@@ -162,11 +162,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<input type="hidden" name="action" value="tpfw_create_refund">
 				<input type="hidden" name="track_number" value="">
 				<?php wp_nonce_field( 'tpfw_create_refund', 'tpfw_refund_nonce' ); ?>
-				<label class="tpfw-refund-modal__field tpfw-refund-modal__amount">
+				<div class="tpfw-refund-modal__field tpfw-refund-modal__amount">
 					<span>مبلغ:</span>
 					<input type="text" name="requested_amount" inputmode="numeric" autocomplete="off" placeholder="-------" aria-label="مبلغ استرداد" required>
 					<span>تومان</span>
-				</label>
+					<button type="button" class="tpfw-refund-modal__full-amount" data-refund-full-amount>کل مبلغ</button>
+				</div>
 				<label class="tpfw-refund-modal__field tpfw-refund-modal__reason-field">
 					<span>دلیل استرداد:</span>
 					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" aria-controls="tpfw-refund-custom-reason" aria-expanded="false" required>
