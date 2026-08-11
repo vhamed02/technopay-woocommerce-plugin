@@ -64,12 +64,13 @@ final class TPFW_Admin_Orders_Page {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$filters  = $this->get_filters();
-		$cursor   = $this->sanitize_cursor( $this->get_request_value( 'cursor' ) );
-		$response = ( new TPFW_Technopay_Api_Client() )->get_refunds( $this->get_api_query( $filters, $cursor ) );
-		$results  = array();
-		$metas    = array();
-		$error    = '';
+		$filters    = $this->get_filters();
+		$cursor     = $this->sanitize_cursor( $this->get_request_value( 'cursor' ) );
+		$row_offset = '' !== $cursor ? absint( $this->get_request_value( 'row_offset' ) ) : 0;
+		$response   = ( new TPFW_Technopay_Api_Client() )->get_refunds( $this->get_api_query( $filters, $cursor ) );
+		$results    = array();
+		$metas      = array();
+		$error      = '';
 
 		if ( is_wp_error( $response ) ) {
 			$error = $response->get_error_message();
@@ -78,12 +79,12 @@ final class TPFW_Admin_Orders_Page {
 			$metas   = $response['metas'];
 		}
 
-		$rows = $this->get_rows( $results );
+		$rows = $this->get_rows( $results, $row_offset );
 
 		$view = array(
 			'error'           => $error,
 			'filters'         => $filters,
-			'pagination'      => $this->get_pagination( $metas, $filters ),
+			'pagination'      => $this->get_pagination( $metas, $filters, $row_offset, count( $rows ) ),
 			'reset_url'       => admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
 			'rows'            => $rows,
 			'status_options'  => $this->get_status_options(),
@@ -158,7 +159,7 @@ final class TPFW_Admin_Orders_Page {
 		return '';
 	}
 
-	private function get_rows( $results ) {
+	private function get_rows( $results, $row_offset ) {
 		$rows = array();
 
 		foreach ( $results as $index => $result ) {
@@ -178,7 +179,7 @@ final class TPFW_Admin_Orders_Page {
 				'amount'              => $this->format_amount( $ticket_amount ),
 				'customer_mobile'     => $this->normalize_digits( $this->get_scalar_value( $result, 'customer_mobile' ) ),
 				'customer_name'       => $this->get_display_value( $this->get_scalar_value( $result, 'customer_full_name' ) ),
-				'number'              => (string) ( $index + 1 ),
+				'number'              => (string) ( $row_offset + $index + 1 ),
 				'paid_at'             => $this->format_date( $this->get_scalar_value( $result, 'paid_at' ) ),
 				'refund_amount'       => null !== $requested_amount && $requested_amount > 0 ? $this->format_amount( $requested_amount ) : '—',
 				'requested_amount_raw' => null === $requested_amount ? '' : (string) $requested_amount,
@@ -257,20 +258,23 @@ final class TPFW_Admin_Orders_Page {
 		);
 	}
 
-	private function get_pagination( $metas, $filters ) {
+	private function get_pagination( $metas, $filters, $row_offset, $visible_results ) {
 		$previous_cursor = isset( $metas['prev_cursor'] ) && is_scalar( $metas['prev_cursor'] ) ? (string) $metas['prev_cursor'] : '';
 		$next_cursor     = isset( $metas['next_cursor'] ) && is_scalar( $metas['next_cursor'] ) ? (string) $metas['next_cursor'] : '';
+		$previous_offset = max( 0, $row_offset - self::PER_PAGE );
+		$next_offset     = $row_offset + $visible_results;
 
 		return array(
-			'next_url'     => '' !== $next_cursor ? $this->get_cursor_url( $next_cursor, $filters ) : '',
-			'previous_url' => '' !== $previous_cursor ? $this->get_cursor_url( $previous_cursor, $filters ) : '',
+			'next_url'     => '' !== $next_cursor ? $this->get_cursor_url( $next_cursor, $filters, $next_offset ) : '',
+			'previous_url' => '' !== $previous_cursor ? $this->get_cursor_url( $previous_cursor, $filters, $previous_offset ) : '',
 		);
 	}
 
-	private function get_cursor_url( $cursor, $filters ) {
+	private function get_cursor_url( $cursor, $filters, $row_offset ) {
 		$query_args = array(
-			'page'   => self::PAGE_SLUG,
-			'cursor' => $cursor,
+			'page'       => self::PAGE_SLUG,
+			'cursor'     => $cursor,
+			'row_offset' => $row_offset,
 		);
 
 		if ( '' !== $filters['customer_mobile'] ) {
