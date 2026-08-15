@@ -125,15 +125,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<td class="tpfw-orders-table__money" data-label="مبلغ استرداد"><?php echo esc_html( $tpfw_row['refund_amount'] ); ?></td>
 							<td data-label="وضعیت"><span class="tpfw-status tpfw-status--<?php echo esc_attr( $tpfw_row['status_tone'] ); ?>"><?php echo esc_html( $tpfw_row['status_label'] ); ?></span></td>
 							<td data-label="اقدامات">
-								<?php if ( 'refund' === $tpfw_row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>" data-available-amount="<?php echo esc_attr( $tpfw_row['ticket_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
-								<?php elseif ( 'cancel' === $tpfw_row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست استرداد</button>
-								<?php elseif ( 'details' === $tpfw_row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--details" data-details-modal data-refund-reason="<?php echo esc_attr( $tpfw_row['refund_reason'] ); ?>" data-refund-reason-text="<?php echo esc_attr( $tpfw_row['refund_reason_text'] ); ?>" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button>
-								<?php else : ?>
-									<span aria-hidden="true">—</span>
-								<?php endif; ?>
+								<div class="tpfw-order-actions">
+									<?php if ( 'refund' === $tpfw_row['action'] ) : ?>
+										<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>" data-available-amount="<?php echo esc_attr( $tpfw_row['ticket_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
+									<?php elseif ( 'cancel' === $tpfw_row['action'] ) : ?>
+										<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست استرداد</button>
+									<?php elseif ( 'details' === $tpfw_row['action'] ) : ?>
+									<?php elseif ( ! $tpfw_row['has_reasons'] ) : ?>
+										<span aria-hidden="true">—</span>
+									<?php endif; ?>
+									<?php if ( $tpfw_row['has_reasons'] || 'details' === $tpfw_row['action'] ) : ?>
+										<button type="button" class="tpfw-order-action tpfw-order-action--details" data-details-modal data-refund-reasons="<?php echo esc_attr( wp_json_encode( $tpfw_row['refund_reasons'] ) ); ?>" data-reject-reasons="<?php echo esc_attr( wp_json_encode( $tpfw_row['reject_reasons'] ) ); ?>" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button>
+									<?php endif; ?>
+								</div>
 							</td>
 						</tr>
 					<?php endforeach; ?>
@@ -217,18 +221,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="tpfw-refund-modal tpfw-details-modal" role="dialog" aria-modal="true" aria-labelledby="tpfw-details-modal-title" aria-hidden="true" hidden>
 		<div class="tpfw-refund-modal__panel">
 			<button type="button" class="tpfw-refund-modal__close" data-refund-modal-close aria-label="بستن"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
-			<h2 id="tpfw-details-modal-title">دلایل استرداد</h2>
+			<h2 id="tpfw-details-modal-title">دلایل استرداد / رد درخواست</h2>
 			<p>در بخش زیر می‌توانید دلایل استرداد پرداخت و یا دلایل رد درخواست استرداد را مشاهده کنید</p>
-			<div class="tpfw-details-modal__fields">
-				<div class="tpfw-refund-modal__field">
-					<span>دلیل استرداد:</span>
-					<span data-details-reason></span>
-				</div>
-				<div class="tpfw-refund-modal__field" data-details-custom-row hidden>
-					<span>توضیحات:</span>
-					<span data-details-reason-text></span>
-				</div>
-			</div>
+			<div class="tpfw-details-modal__fields" data-details-reasons-list></div>
 			<div class="tpfw-refund-modal__actions tpfw-details-modal__actions">
 				<button type="button" class="tpfw-refund-modal__submit" data-refund-modal-close>متوجه شدم</button>
 			</div>

@@ -365,17 +365,19 @@ final class TPFW_Admin_Orders_Page {
 			$ticket_status    = $this->get_scalar_value( $result, 'ticket_status' );
 			$status           = $this->get_display_status( $refund_status, $ticket_status, $ticket_amount, $requested_amount );
 			$track_number     = $this->normalize_digits( $this->get_scalar_value( $result, 'track_number' ) );
-
-			$rows[] = array(
+			$refund_reasons   = $this->parse_reasons( isset( $result['refund_reasons'] ) ? $result['refund_reasons'] : array() );
+			$reject_reasons   = $this->parse_reasons( isset( $result['reject_reasons'] ) ? $result['reject_reasons'] : array() );
+			$display_reasons  = ! empty( $refund_reasons ) ? $refund_reasons : $reject_reasons;			$rows[] = array(
 				'action'               => $status['action'],
 				'amount'               => $this->format_amount( $ticket_amount ),
 				'customer_mobile'      => $this->normalize_digits( $this->get_scalar_value( $result, 'customer_mobile' ) ),
 				'customer_name'        => $this->get_display_value( $this->get_scalar_value( $result, 'customer_full_name' ) ),
+				'has_reasons'          => ! empty( $refund_reasons ) || ! empty( $reject_reasons ),
 				'number'               => (string) ( $row_offset + $index + 1 ),
 				'paid_at'              => $this->format_date( $this->get_scalar_value( $result, 'paid_at' ) ),
 				'refund_amount'        => null !== $requested_amount && $requested_amount > 0 ? $this->format_amount( $requested_amount ) : '—',
-				'refund_reason'        => $this->get_refund_reason_label( $this->get_scalar_value( $result, 'refund_reason' ) ),
-				'refund_reason_text'   => $this->get_scalar_value( $result, 'custom_refund_reason' ),
+				'refund_reasons'       => $refund_reasons,
+				'reject_reasons'       => $reject_reasons,
 				'requested_amount_raw' => null === $requested_amount ? '' : (string) $requested_amount,
 				'status_label'         => $status['label'],
 				'status_tone'          => $status['tone'],
@@ -391,7 +393,7 @@ final class TPFW_Admin_Orders_Page {
 		$refund_key = $this->normalize_status( $refund_status );
 		$ticket_key = $this->normalize_status( $ticket_status );
 		$pending    = array( 'pending', 'requested', 'waiting', 'in_progress', 'processing' );
-		$completed  = array( 'approved', 'completed', 'done', 'refunded', 'success', 'successful' );
+		$completed  = array( 'approved', 'completed', 'done', 'refunded', 'success', 'successful', 'partial_refunded' );
 		$is_settled = in_array( $ticket_key, array( 'settled', 'settle', 'completed', 'finalized' ), true );
 
 		if ( in_array( $refund_key, $pending, true ) ) {
@@ -531,6 +533,28 @@ final class TPFW_Admin_Orders_Page {
 			},
 			$reasons
 		);
+	}
+
+	private function parse_reasons( $reasons ) {
+		if ( ! is_array( $reasons ) ) {
+			return array();
+		}
+
+		$parsed = array();
+
+		foreach ( $reasons as $item ) {
+			if ( ! is_array( $item ) ) {
+				continue;
+			}
+
+			$parsed[] = array(
+				'code'        => isset( $item['code'] ) && is_scalar( $item['code'] ) ? sanitize_text_field( (string) $item['code'] ) : '',
+				'reason'      => isset( $item['reason'] ) && is_scalar( $item['reason'] ) ? sanitize_text_field( (string) $item['reason'] ) : '',
+				'description' => isset( $item['description'] ) && is_scalar( $item['description'] ) ? sanitize_text_field( (string) $item['description'] ) : '',
+			);
+		}
+
+		return $parsed;
 	}
 
 	private function get_refund_reason_label( $reason ) {

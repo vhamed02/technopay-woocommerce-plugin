@@ -281,32 +281,49 @@ final class TPFW_Refunds_Mock {
 	}
 
 	private function get_results() {
-		$names    = array( 'سپهر کیانی', 'نیلوفر رحیمی', 'آرش نادری', 'مهسا احمدی', 'میلاد صادقی' );
-		$statuses = array( 'none', 'pending', 'approved', 'canceled', 'rejected' );
-		$reasons  = array( '30001', '30002', '30003', '30004', '30005' );
-		$results  = array();
-		$now      = time();
+		$names          = array( 'سپهر کیانی', 'نیلوفر رحیمی', 'آرش نادری', 'مهسا احمدی', 'میلاد صادقی' );
+		$statuses       = array( 'none', 'pending', 'approved', 'canceled', 'rejected' );
+		$reason_samples = array(
+			array( 'code' => '30001', 'reason' => 'کالای آسیب‌دیده یا معیوب',    'description' => '' ),
+			array( 'code' => '30002', 'reason' => 'ارسال کالای اشتباه',            'description' => '' ),
+			array( 'code' => '30003', 'reason' => 'انصراف مشتری',                  'description' => '' ),
+			array( 'code' => '30004', 'reason' => 'پرداخت تکراری',                 'description' => '' ),
+			array( 'code' => '30005', 'reason' => 'سایر دلایل',                    'description' => 'توضیحات تکمیلی برای دلیل استرداد این سفارش' ),
+		);
+		$reject_samples = array(
+			array( 'code' => '30007', 'reason' => 'مستندات ناقص',                  'description' => '' ),
+			array( 'code' => '30009', 'reason' => 'مغایرت با قوانین بازگشت وجه',  'description' => 'این درخواست مطابق با قوانین بازگشت وجه نبوده است.' ),
+		);
+		$results = array();
+		$now     = time();
 
 		for ( $index = 0; $index < 24; $index++ ) {
 			$status           = $statuses[ $index % count( $statuses ) ];
 			$ticket_amount    = 1500000 + ( $index % 6 ) * 750000;
 			$requested_amount = 'none' === $status ? 0 : ( 'approved' === $status && 0 === $index % 2 ? $ticket_amount : (int) floor( $ticket_amount / 2 ) );
 			$paid_timestamp   = $now - $index * DAY_IN_SECONDS;
-			$reason           = 'none' !== $status ? $reasons[ $index % count( $reasons ) ] : '';
-			$custom_reason    = '30005' === $reason ? 'توضیحات تکمیلی برای دلیل استرداد این سفارش' : '';
+
+			$refund_reasons = array();
+			$reject_reasons = array();
+
+			if ( in_array( $status, array( 'approved', 'pending', 'canceled' ), true ) ) {
+				$refund_reasons = array( $reason_samples[ $index % count( $reason_samples ) ] );
+			} elseif ( 'rejected' === $status ) {
+				$reject_reasons = array( $reject_samples[ $index % count( $reject_samples ) ] );
+			}
 
 			$results[] = array(
-				'customer_full_name'   => $names[ $index % count( $names ) ],
-				'customer_mobile'      => '0912' . str_pad( (string) ( 1000000 + $index ), 7, '0', STR_PAD_LEFT ),
-				'track_number'         => '62194545' . str_pad( (string) ( 1000 + $index ), 4, '0', STR_PAD_LEFT ),
-				'ticket_amount'        => (string) $ticket_amount,
-				'requested_amount'     => (string) $requested_amount,
-				'refund_status'        => $status,
-				'ticket_status'        => 0 === $index % 7 ? 'settled' : 'paid',
-				'paid_at'              => gmdate( 'c', $paid_timestamp ),
-				'created_at'           => gmdate( 'c', $paid_timestamp + HOUR_IN_SECONDS ),
-				'refund_reason'        => $reason,
-				'custom_refund_reason' => $custom_reason,
+				'customer_full_name' => $names[ $index % count( $names ) ],
+				'customer_mobile'    => '0912' . str_pad( (string) ( 1000000 + $index ), 7, '0', STR_PAD_LEFT ),
+				'track_number'       => '62194545' . str_pad( (string) ( 1000 + $index ), 4, '0', STR_PAD_LEFT ),
+				'ticket_amount'      => (string) $ticket_amount,
+				'requested_amount'   => (string) $requested_amount,
+				'refund_status'      => $status,
+				'ticket_status'      => 0 === $index % 7 ? 'settled' : 'paid',
+				'paid_at'            => gmdate( 'c', $paid_timestamp ),
+				'created_at'         => gmdate( 'c', $paid_timestamp + HOUR_IN_SECONDS ),
+				'refund_reasons'     => $refund_reasons,
+				'reject_reasons'     => $reject_reasons,
 			);
 		}
 
@@ -319,11 +336,9 @@ final class TPFW_Refunds_Mock {
 
 			$req = $requests[ $result['track_number'] ];
 
-			$result['requested_amount']    = (string) $req['requested_amount'];
-			$result['refund_status']       = (string) $req['status'];
-			$result['created_at']          = gmdate( 'c' );
-			$result['refund_reason']       = isset( $req['refund_reason'] ) ? $req['refund_reason'] : $result['refund_reason'];
-			$result['custom_refund_reason'] = isset( $req['custom_refund_reason'] ) ? $req['custom_refund_reason'] : $result['custom_refund_reason'];
+			$result['requested_amount'] = (string) $req['requested_amount'];
+			$result['refund_status']    = (string) $req['status'];
+			$result['created_at']       = gmdate( 'c' );
 		}
 
 		unset( $result );

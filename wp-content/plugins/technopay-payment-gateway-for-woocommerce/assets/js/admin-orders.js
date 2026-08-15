@@ -15,9 +15,7 @@
     var reasonSelect = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason') : null;
     var descriptionField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__custom-reason') : null;
     var descriptionInput = descriptionField ? descriptionField.querySelector('input') : null;
-    var detailsReasonEl = detailsModal ? detailsModal.querySelector('[data-details-reason]') : null;
-    var detailsReasonTextEl = detailsModal ? detailsModal.querySelector('[data-details-reason-text]') : null;
-    var detailsCustomRow = detailsModal ? detailsModal.querySelector('[data-details-custom-row]') : null;
+    var detailsReasonsList = detailsModal ? detailsModal.querySelector('[data-details-reasons-list]') : null;
 
     var reasonSlim = null;
     var reasonSlimInitialized = false;
@@ -170,19 +168,55 @@
     }
 
     function prepareDetailsModal(trigger) {
-        var reason = trigger.getAttribute('data-refund-reason') || '';
-        var reasonText = trigger.getAttribute('data-refund-reason-text') || '';
-
-        if (detailsReasonEl) {
-            detailsReasonEl.textContent = reason;
+        if (!detailsReasonsList) {
+            return;
         }
 
-        if (detailsCustomRow) {
-            detailsCustomRow.hidden = reasonText === '';
+        var refundReasons = [];
+        var rejectReasons = [];
+
+        try { refundReasons = JSON.parse(trigger.getAttribute('data-refund-reasons') || '[]'); } catch (e) {}
+        try { rejectReasons = JSON.parse(trigger.getAttribute('data-reject-reasons') || '[]'); } catch (e) {}
+
+        detailsReasonsList.innerHTML = '';
+
+        function renderGroup(label, items) {
+            if (!items || !items.length) {
+                return;
+            }
+
+            var heading = document.createElement('p');
+            heading.className = 'tpfw-details-modal__group-label';
+            heading.textContent = label;
+            detailsReasonsList.appendChild(heading);
+
+            items.forEach(function (item) {
+                var row = document.createElement('div');
+                row.className = 'tpfw-refund-modal__field tpfw-details-modal__field';
+
+                var reasonEl = document.createElement('span');
+                reasonEl.textContent = item.reason || '';
+                row.appendChild(reasonEl);
+
+                if (item.description) {
+                    var descEl = document.createElement('span');
+                    descEl.className = 'tpfw-details-modal__desc';
+                    descEl.textContent = item.description;
+                    row.appendChild(descEl);
+                }
+
+                detailsReasonsList.appendChild(row);
+            });
         }
 
-        if (detailsReasonTextEl) {
-            detailsReasonTextEl.textContent = reasonText;
+        renderGroup('دلایل استرداد', refundReasons);
+        renderGroup('دلایل رد درخواست', rejectReasons);
+
+        if (!refundReasons.length && !rejectReasons.length) {
+            var emptyRow = document.createElement('div');
+            emptyRow.className = 'tpfw-refund-modal__field';
+            emptyRow.textContent = 'دلیلی ثبت نشده است.';
+            detailsReasonsList.appendChild(emptyRow);
         }
     }
 
