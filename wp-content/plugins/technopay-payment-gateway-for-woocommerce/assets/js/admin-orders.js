@@ -13,12 +13,52 @@
     var fullAmountButton = refundForm ? refundForm.querySelector('[data-refund-full-amount]') : null;
     var trackNumberInput = refundForm ? refundForm.querySelector('[name="track_number"]') : null;
     var reasonSelect = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason') : null;
-    var reasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason-field') : null;
     var descriptionField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__custom-reason') : null;
     var descriptionInput = descriptionField ? descriptionField.querySelector('input') : null;
     var detailsReasonEl = detailsModal ? detailsModal.querySelector('[data-details-reason]') : null;
     var detailsReasonTextEl = detailsModal ? detailsModal.querySelector('[data-details-reason-text]') : null;
     var detailsCustomRow = detailsModal ? detailsModal.querySelector('[data-details-custom-row]') : null;
+
+    var reasonSlim = null;
+
+    function initSlimSelects() {
+        document.querySelectorAll('.tpfw-orders-filters select').forEach(function (select) {
+            new SlimSelect({
+                select: select,
+                settings: {
+                    showSearch: false,
+                    openPosition: 'down',
+                    contentLocation: document.querySelector('.tpfw-orders-page'),
+                },
+            });
+        });
+
+        if (reasonSelect) {
+            reasonSlim = new SlimSelect({
+                select: reasonSelect,
+                settings: {
+                    showSearch: false,
+                    openPosition: 'down',
+                    contentLocation: refundModal.querySelector('.tpfw-refund-modal__panel'),
+                    placeholderText: 'انتخاب کنید...',
+                },
+                events: {
+                    afterChange: function (selected) {
+                        var group = selected.length ? selected[0].data['group'] : '';
+                        var isOtherGroup = group === 'other_issues';
+
+                        descriptionField.hidden = !isOtherGroup;
+                        descriptionInput.required = isOtherGroup;
+
+                        if (!isOtherGroup) {
+                            descriptionInput.value = '';
+                            descriptionInput.setCustomValidity('');
+                        }
+                    },
+                },
+            });
+        }
+    }
 
     function getAmountDigits(value) {
         return value.replace(/[۰-۹]/g, function (digit) {
@@ -98,6 +138,11 @@
 
     function prepareRefundModal(trigger) {
         refundForm.reset();
+
+        if (reasonSlim) {
+            reasonSlim.setSelected('');
+        }
+
         trackNumberInput.value = trigger.getAttribute('data-track-number') || '';
         amountInput.setAttribute('data-maximum', trigger.getAttribute('data-available-amount') || '');
         amountInput.setCustomValidity('');
@@ -234,38 +279,6 @@
             amountInput.setSelectionRange(amountInput.value.length, amountInput.value.length);
         });
 
-        reasonField.addEventListener('click', function (event) {
-            if (event.target === reasonSelect) {
-                return;
-            }
-
-            event.preventDefault();
-            reasonSelect.focus();
-
-            if (typeof reasonSelect.showPicker === 'function') {
-                try {
-                    reasonSelect.showPicker();
-                } catch (error) {
-                    reasonSelect.click();
-                }
-            } else {
-                reasonSelect.click();
-            }
-        });
-
-        reasonSelect.addEventListener('change', function () {
-            var selected = reasonSelect.options[reasonSelect.selectedIndex];
-            var isOtherGroup = selected && selected.getAttribute('data-group') === 'other_issues';
-
-            descriptionField.hidden = !isOtherGroup;
-            descriptionInput.required = isOtherGroup;
-
-            if (!isOtherGroup) {
-                descriptionInput.value = '';
-                descriptionInput.setCustomValidity('');
-            }
-        });
-
         descriptionInput.addEventListener('input', function () {
             descriptionInput.setCustomValidity('');
         });
@@ -291,4 +304,6 @@
             cancelForm.querySelector('[type="submit"]').textContent = tpfwAdminOrders.canceling;
         });
     }
+
+    initSlimSelects();
 }());
