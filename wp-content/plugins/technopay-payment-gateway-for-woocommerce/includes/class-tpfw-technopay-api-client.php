@@ -10,12 +10,14 @@ final class TPFW_Technopay_Api_Client {
 	private $base_url;
 	private $merchant_id;
 	private $merchant_secret;
+	private $testmode;
 
 	public function __construct() {
 		$settings              = get_option( 'woocommerce_technopay_settings', array() );
 		$this->merchant_id     = isset( $settings['merchant_id'] ) ? trim( (string) $settings['merchant_id'] ) : '';
 		$this->merchant_secret = isset( $settings['merchant_secret'] ) ? trim( (string) $settings['merchant_secret'] ) : '';
-		$this->base_url        = isset( $settings['testmode'] ) && 'yes' === $settings['testmode']
+		$this->testmode        = isset( $settings['testmode'] ) && 'yes' === $settings['testmode'];
+		$this->base_url        = $this->testmode
 			? 'https://credit-api.dev.tgms.ir/payment'
 			: 'https://api.technopay.ir/payment';
 	}
@@ -178,7 +180,7 @@ final class TPFW_Technopay_Api_Client {
 				'User-Agent'   => 'technopay-payment-gateway-for-woocommerce/' . TPFW_VERSION,
 			),
 			'method'    => $method,
-			'sslverify' => true,
+			'sslverify' => ! $this->testmode,
 			'timeout'   => 10,
 		);
 
