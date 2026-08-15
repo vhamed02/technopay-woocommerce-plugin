@@ -130,7 +130,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php elseif ( 'cancel' === $tpfw_row['action'] ) : ?>
 									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button>
 								<?php elseif ( 'details' === $tpfw_row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--details" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button>
+									<button type="button" class="tpfw-order-action tpfw-order-action--details" aria-label="مشاهده جزئیات" title="مشاهده جزئیات">
+										<img src="<?php echo esc_url( TPFW_PLUGIN_URL . 'assets/images/info-icon-svgrepo-com.svg' ); ?>" alt="" aria-hidden="true">
+									</button>
 								<?php else : ?>
 									<span aria-hidden="true">—</span>
 								<?php endif; ?>

@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'Vazirmatn';
+    src: url('../fonts/Vazirmatn-VariableFont.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 .woocommerce_page_technopay-orders #wpcontent {
     padding-right: 0;
 }
@@ -16,20 +24,37 @@
     background: #fff;
     color: var(--tpfw-ink);
     cursor: default;
-    font-family: Tahoma, Arial, sans-serif;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
 }
 
 .tpfw-orders-page *,
 .tpfw-orders-page *::before,
 .tpfw-orders-page *::after {
     box-sizing: border-box;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
 }
 
 .tpfw-orders-page input,
 .tpfw-orders-page select,
 .tpfw-orders-page button,
 .tpfw-orders-page textarea {
-    font-family: inherit;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+}
+
+.tpfw-orders-page h1,
+.tpfw-orders-page h2,
+.tpfw-orders-page h3,
+.tpfw-orders-page h4,
+.tpfw-orders-page h5,
+.tpfw-orders-page h6,
+.tpfw-orders-page p,
+.tpfw-orders-page span,
+.tpfw-orders-page a,
+.tpfw-orders-page label,
+.tpfw-orders-page th,
+.tpfw-orders-page td,
+.tpfw-orders-page div {
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
 }
 
 .tpfw-orders-page input,
@@ -464,10 +489,18 @@
 
 .tpfw-order-action--details {
     width: 34px;
+    height: 34px;
     padding: 0;
     background: transparent;
     color: #7a817d;
     font-size: 12px;
+}
+
+.tpfw-order-action--details svg,
+.tpfw-order-action--details img {
+    width: 24px;
+    height: 24px;
+    filter: grayscale(100%) brightness(1.5) opacity(0.4);
 }
 
 .tpfw-order-action--details .dashicons {
