@@ -128,7 +128,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php if ( 'refund' === $tpfw_row['action'] ) : ?>
 									<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>" data-available-amount="<?php echo esc_attr( $tpfw_row['ticket_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
 								<?php elseif ( 'cancel' === $tpfw_row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button>
+									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست استرداد</button>
 								<?php elseif ( 'details' === $tpfw_row['action'] ) : ?>
 									<button type="button" class="tpfw-order-action tpfw-order-action--details" data-details-modal data-refund-reason="<?php echo esc_attr( $tpfw_row['refund_reason'] ); ?>" data-refund-reason-text="<?php echo esc_attr( $tpfw_row['refund_reason_text'] ); ?>" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button>
 								<?php else : ?>
