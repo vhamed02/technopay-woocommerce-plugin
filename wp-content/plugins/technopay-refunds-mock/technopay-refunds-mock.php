@@ -1,4 +1,12 @@
 <?php
+/**
+ * Plugin Name: TechnoPay Refunds Mock
+ * Description: Intercepts TechnoPay API calls and returns mock data. Activate for local development, deactivate to use the real API.
+ * Version: 1.0.0
+ * Author: TechnoPay
+ * Text Domain: technopay-refunds-mock
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -32,10 +40,10 @@ final class TPFW_Refunds_Mock {
 		$query = array();
 		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $query );
 
-		$filters  = isset( $query['filters'] ) && is_array( $query['filters'] ) ? $query['filters'] : array();
-		$per_page = isset( $query['per_page'] ) ? max( 1, min( 50, absint( $query['per_page'] ) ) ) : 15;
-		$offset   = $this->get_offset( isset( $query['cursor'] ) ? $query['cursor'] : '' );
-		$results  = array_values(
+		$filters      = isset( $query['filters'] ) && is_array( $query['filters'] ) ? $query['filters'] : array();
+		$per_page     = isset( $query['per_page'] ) ? max( 1, min( 50, absint( $query['per_page'] ) ) ) : 15;
+		$offset       = $this->get_offset( isset( $query['cursor'] ) ? $query['cursor'] : '' );
+		$results      = array_values(
 			array_filter(
 				$this->get_results(),
 				function ( $result ) use ( $filters ) {
@@ -43,10 +51,10 @@ final class TPFW_Refunds_Mock {
 				}
 			)
 		);
-		$total       = count( $results );
+		$total        = count( $results );
 		$page_results = array_slice( $results, $offset, $per_page );
-		$next_offset = $offset + $per_page;
-		$prev_offset = max( 0, $offset - $per_page );
+		$next_offset  = $offset + $per_page;
+		$prev_offset  = max( 0, $offset - $per_page );
 
 		return array(
 			'headers'  => array( 'content-type' => 'application/json' ),
@@ -152,7 +160,13 @@ final class TPFW_Refunds_Mock {
 			}
 		}
 
-		if ( null === $ticket || $amount < 1 || $amount > (int) $ticket['ticket_amount'] || in_array( $ticket['ticket_status'], array( 'settled', 'completed', 'finalized' ), true ) || ! in_array( $ticket['refund_status'], array( 'none', 'canceled', 'cancelled', 'rejected', 'failed' ), true ) ) {
+		if (
+			null === $ticket ||
+			$amount < 1 ||
+			$amount > (int) $ticket['ticket_amount'] ||
+			in_array( $ticket['ticket_status'], array( 'settled', 'completed', 'finalized' ), true ) ||
+			! in_array( $ticket['refund_status'], array( 'none', 'canceled', 'cancelled', 'rejected', 'failed' ), true )
+		) {
 			return $this->get_response(
 				422,
 				array(
@@ -252,22 +266,20 @@ final class TPFW_Refunds_Mock {
 			$ticket_amount    = 1500000 + ( $index % 6 ) * 750000;
 			$requested_amount = 'none' === $status ? 0 : ( 'approved' === $status && 0 === $index % 2 ? $ticket_amount : (int) floor( $ticket_amount / 2 ) );
 			$paid_timestamp   = $now - $index * DAY_IN_SECONDS;
-			$reason           = 'approved' === $status || 'pending' === $status || 'canceled' === $status || 'rejected' === $status
-				? $reasons[ $index % count( $reasons ) ]
-				: '';
+			$reason           = 'none' !== $status ? $reasons[ $index % count( $reasons ) ] : '';
 			$custom_reason    = 'other' === $reason ? 'توضیحات تکمیلی برای دلیل استرداد این سفارش' : '';
 
 			$results[] = array(
-				'customer_full_name'  => $names[ $index % count( $names ) ],
-				'customer_mobile'     => '0912' . str_pad( (string) ( 1000000 + $index ), 7, '0', STR_PAD_LEFT ),
-				'track_number'        => '62194545' . str_pad( (string) ( 1000 + $index ), 4, '0', STR_PAD_LEFT ),
-				'ticket_amount'       => (string) $ticket_amount,
-				'requested_amount'    => (string) $requested_amount,
-				'refund_status'       => $status,
-				'ticket_status'       => 0 === $index % 7 ? 'settled' : 'paid',
-				'paid_at'             => gmdate( 'c', $paid_timestamp ),
-				'created_at'          => gmdate( 'c', $paid_timestamp + HOUR_IN_SECONDS ),
-				'refund_reason'       => $reason,
+				'customer_full_name'   => $names[ $index % count( $names ) ],
+				'customer_mobile'      => '0912' . str_pad( (string) ( 1000000 + $index ), 7, '0', STR_PAD_LEFT ),
+				'track_number'         => '62194545' . str_pad( (string) ( 1000 + $index ), 4, '0', STR_PAD_LEFT ),
+				'ticket_amount'        => (string) $ticket_amount,
+				'requested_amount'     => (string) $requested_amount,
+				'refund_status'        => $status,
+				'ticket_status'        => 0 === $index % 7 ? 'settled' : 'paid',
+				'paid_at'              => gmdate( 'c', $paid_timestamp ),
+				'created_at'           => gmdate( 'c', $paid_timestamp + HOUR_IN_SECONDS ),
+				'refund_reason'        => $reason,
 				'custom_refund_reason' => $custom_reason,
 			);
 		}
