@@ -685,7 +685,7 @@ body.tpfw-refund-modal-open {
 }
 
 .tpfw-refund-modal p {
-    margin: 0 auto 10px;
+    margin: 0 auto 0px;
     color: #394451;
     font-size: 14px;
     line-height: 2;

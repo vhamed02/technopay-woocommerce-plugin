@@ -372,7 +372,7 @@ final class TPFW_Admin_Orders_Page {
 				'amount'               => $this->format_amount( $ticket_amount ),
 				'customer_mobile'      => $this->normalize_digits( $this->get_scalar_value( $result, 'customer_mobile' ) ),
 				'customer_name'        => $this->get_display_value( $this->get_scalar_value( $result, 'customer_full_name' ) ),
-				'has_reasons'          => ! empty( $refund_reasons ) || ! empty( $reject_reasons ),
+				'has_reasons'          => ( ! empty( $refund_reasons ) || ! empty( $reject_reasons ) ) && ! in_array( $this->normalize_status( $refund_status ), array( 'canceled', 'cancelled' ), true ),
 				'number'               => (string) ( $row_offset + $index + 1 ),
 				'paid_at'              => $this->format_date( $this->get_scalar_value( $result, 'paid_at' ) ),
 				'refund_amount'        => null !== $requested_amount && $requested_amount > 0 ? $this->format_amount( $requested_amount ) : '—',
