@@ -17,6 +17,7 @@
     --tpfw-muted: #66717d;
     --tpfw-line: #e4e7ea;
     --tpfw-danger: #c93f3f;
+    position: relative;
     box-sizing: border-box;
     min-height: calc(100vh - 32px);
     margin: 0;

@@ -30,6 +30,8 @@
                     showSearch: false,
                     openPosition: 'down',
                     contentLocation: document.querySelector('.tpfw-orders-page'),
+                    contentPosition: 'absolute',
+                    contentClass: 'tpfw-ss-content',
                 },
             });
         });
@@ -48,6 +50,8 @@
                 showSearch: false,
                 openPosition: 'down',
                 contentLocation: document.body,
+                contentPosition: 'absolute',
+                contentClass: 'tpfw-ss-content',
                 placeholderText: 'انتخاب کنید...',
             },
             events: {
