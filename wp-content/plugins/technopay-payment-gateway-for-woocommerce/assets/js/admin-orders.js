@@ -31,7 +31,7 @@
                     openPosition: 'down',
                     contentLocation: document.querySelector('.tpfw-orders-page'),
                     contentPosition: 'absolute',
-                    contentClass: 'tpfw-ss-content',
+                    class: 'tpfw-slim',
                 },
             });
         });
@@ -51,7 +51,7 @@
                 openPosition: 'down',
                 contentLocation: document.body,
                 contentPosition: 'absolute',
-                contentClass: 'tpfw-ss-content',
+                class: 'tpfw-slim',
                 placeholderText: 'انتخاب کنید...',
             },
             events: {

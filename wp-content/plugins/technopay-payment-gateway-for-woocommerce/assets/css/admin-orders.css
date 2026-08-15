@@ -834,6 +834,7 @@ body.tpfw-refund-modal-open {
     object-fit: contain;
 }
 
+.tpfw-slim.ss-main,
 .tpfw-orders-page .ss-main {
     min-height: 46px;
     padding: 0 14px;
@@ -846,62 +847,64 @@ body.tpfw-refund-modal-open {
     box-shadow: none;
 }
 
+.tpfw-slim.ss-main:focus,
 .tpfw-orders-page .ss-main:focus {
     border-color: var(--tpfw-cyan);
     box-shadow: 0 0 0 1px var(--tpfw-cyan);
     outline: 0;
 }
 
-.tpfw-orders-page .ss-main .ss-single-selected {
-    height: 44px;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-}
-
-.tpfw-orders-page .ss-main .ss-arrow span {
-    border-color: var(--tpfw-muted) transparent transparent transparent;
-}
-
+.tpfw-slim.ss-main.ss-open-below,
+.tpfw-slim.ss-main.ss-open-above,
 .tpfw-orders-page .ss-main.ss-open-below,
 .tpfw-orders-page .ss-main.ss-open-above {
     border-color: var(--tpfw-cyan);
     box-shadow: 0 0 0 1px var(--tpfw-cyan);
 }
 
+.tpfw-slim.ss-content,
 .tpfw-orders-page .ss-content {
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+    margin-top: -4px;
     border: 1px solid #cfd4d8;
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(32, 45, 57, 0.12);
     direction: rtl;
     overflow: hidden;
+    z-index: 200001 !important;
 }
 
+.tpfw-slim.ss-content .ss-list .ss-option,
 .tpfw-orders-page .ss-content .ss-list .ss-option {
     padding: 10px 14px;
     font-size: 13px;
     color: var(--tpfw-ink);
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
 }
 
+.tpfw-slim.ss-content .ss-list .ss-option:hover,
+.tpfw-slim.ss-content .ss-list .ss-option.ss-highlighted,
 .tpfw-orders-page .ss-content .ss-list .ss-option:hover,
 .tpfw-orders-page .ss-content .ss-list .ss-option.ss-highlighted {
     background: #eaf9fb;
     color: var(--tpfw-cyan-dark);
 }
 
+.tpfw-slim.ss-content .ss-list .ss-option.ss-selected,
 .tpfw-orders-page .ss-content .ss-list .ss-option.ss-selected {
     background: #eaf9fb;
     color: var(--tpfw-cyan-dark);
     font-weight: 600;
 }
 
+.tpfw-slim.ss-content .ss-list .ss-option.ss-disabled,
 .tpfw-orders-page .ss-content .ss-list .ss-option.ss-disabled {
     color: var(--tpfw-muted);
     background: transparent;
 }
 
-.tpfw-refund-modal__panel .ss-main {
+.tpfw-refund-modal__panel .ss-main,
+.tpfw-refund-modal__panel .tpfw-slim.ss-main {
     min-height: 58px;
     padding: 0 20px;
     border: 0;
@@ -912,19 +915,15 @@ body.tpfw-refund-modal-open {
     box-shadow: none !important;
 }
 
-.tpfw-refund-modal__panel .ss-main:focus {
+.tpfw-refund-modal__panel .ss-main:focus,
+.tpfw-refund-modal__panel .ss-main.ss-open-below,
+.tpfw-refund-modal__panel .ss-main.ss-open-above,
+.tpfw-refund-modal__panel .tpfw-slim.ss-main:focus,
+.tpfw-refund-modal__panel .tpfw-slim.ss-main.ss-open-below,
+.tpfw-refund-modal__panel .tpfw-slim.ss-main.ss-open-above {
     border: 0;
     box-shadow: none !important;
     outline: 0;
-}
-
-.tpfw-refund-modal__panel .ss-content {
-    border-radius: 8px;
-    font-size: 14px;
-}
-
-.tpfw-refund-modal__panel .ss-content .ss-list .ss-option {
-    font-size: 14px;
 }
 
 .ss-content {
