@@ -49,7 +49,7 @@
             settings: {
                 showSearch: false,
                 openPosition: 'down',
-                contentLocation: document.body,
+                contentLocation: document.querySelector('.tpfw-orders-page'),
                 contentPosition: 'absolute',
                 class: 'tpfw-slim',
                 placeholderText: 'انتخاب کنید...',
