@@ -800,9 +800,10 @@ body.tpfw-refund-modal-open {
 }
 
 .tpfw-details-modal__fields .tpfw-refund-modal__field {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     min-height: auto;
     padding: 14px 20px;
 }
