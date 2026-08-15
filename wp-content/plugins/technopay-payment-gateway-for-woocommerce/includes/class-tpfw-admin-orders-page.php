@@ -122,16 +122,32 @@ final class TPFW_Admin_Orders_Page {
 		$track_number = trim( $this->normalize_digits( sanitize_text_field( $this->get_post_value( 'track_number' ) ) ) );
 		$amount       = $this->sanitize_amount( $this->get_post_value( 'requested_amount' ) );
 		$reason_code  = sanitize_text_field( $this->get_post_value( 'refund_reason' ) );
+		$description  = trim( sanitize_text_field( $this->get_post_value( 'refund_description' ) ) );
 
 		if ( '' === $track_number || '' === $amount || 0 >= (int) $amount || '' === $reason_code ) {
 			$this->redirect_with_notice( 'error', __( 'اطلاعات درخواست استرداد کامل یا معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$api_client    = new TPFW_Technopay_Api_Client();
-		$valid_codes   = $this->get_valid_reason_codes( $api_client );
+		$api_client  = new TPFW_Technopay_Api_Client();
+		$reasons     = $this->get_cached_reasons( $api_client );
+		$valid_codes = $this->get_valid_reason_codes( $api_client );
 
 		if ( ! in_array( $reason_code, $valid_codes, true ) ) {
 			$this->redirect_with_notice( 'error', __( 'دلیل استرداد انتخاب‌شده معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
+		}
+
+		$selected_reason = null;
+		foreach ( $reasons as $reason ) {
+			if ( isset( $reason['code'] ) && (string) $reason['code'] === $reason_code ) {
+				$selected_reason = $reason;
+				break;
+			}
+		}
+
+		$requires_description = $selected_reason && isset( $selected_reason['group'] ) && 'other_issues' === $selected_reason['group'];
+
+		if ( $requires_description && '' === $description ) {
+			$this->redirect_with_notice( 'error', __( 'وارد کردن توضیحات برای این دلیل الزامی است.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
 		$available_amount = $this->get_refundable_amount( $api_client, $track_number );
@@ -144,7 +160,12 @@ final class TPFW_Admin_Orders_Page {
 			$this->redirect_with_notice( 'error', __( 'مبلغ استرداد نمی‌تواند بیشتر از مبلغ قابل استرداد باشد.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$response = $api_client->create_refund( $track_number, (int) $amount, array( $reason_code ) );
+		$response = $api_client->create_refund(
+			$track_number,
+			(int) $amount,
+			array( $reason_code ),
+			$requires_description ? $description : null
+		);
 
 		if ( is_wp_error( $response ) ) {
 			$this->redirect_with_notice( 'error', $response->get_error_message() );

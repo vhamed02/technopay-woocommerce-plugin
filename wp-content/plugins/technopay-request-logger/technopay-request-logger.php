@@ -30,6 +30,10 @@ final class TPFW_Request_Logger {
 		$headers = isset( $args['headers'] ) && is_array( $args['headers'] ) ? $args['headers'] : array();
 		$body    = isset( $args['body'] ) ? $args['body'] : '';
 
+        if ($method === 'GET') {
+            return;
+        }
+
 		// Build cURL command.
 		$curl = "curl --location --request {$method} \\\n";
 		$curl .= "  '" . $url . "'";

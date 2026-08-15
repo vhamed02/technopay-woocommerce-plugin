@@ -6,3 +6,4 @@
 /.idea
 wp-content/plugins/plugin-check
 .DS_Store
+/wp-content/technopay-logs

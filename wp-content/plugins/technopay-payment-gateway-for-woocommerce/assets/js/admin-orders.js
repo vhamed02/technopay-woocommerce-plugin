@@ -14,6 +14,8 @@
     var trackNumberInput = refundForm ? refundForm.querySelector('[name="track_number"]') : null;
     var reasonSelect = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason') : null;
     var reasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason-field') : null;
+    var descriptionField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__custom-reason') : null;
+    var descriptionInput = descriptionField ? descriptionField.querySelector('input') : null;
     var detailsReasonEl = detailsModal ? detailsModal.querySelector('[data-details-reason]') : null;
     var detailsReasonTextEl = detailsModal ? detailsModal.querySelector('[data-details-reason-text]') : null;
     var detailsCustomRow = detailsModal ? detailsModal.querySelector('[data-details-custom-row]') : null;
@@ -99,7 +101,9 @@
         trackNumberInput.value = trigger.getAttribute('data-track-number') || '';
         amountInput.setAttribute('data-maximum', trigger.getAttribute('data-available-amount') || '');
         amountInput.setCustomValidity('');
-        reasonSelect.setAttribute('aria-expanded', 'false');
+        descriptionField.hidden = true;
+        descriptionInput.required = false;
+        descriptionInput.setCustomValidity('');
     }
 
     function prepareCancelModal(trigger) {
@@ -247,6 +251,23 @@
             } else {
                 reasonSelect.click();
             }
+        });
+
+        reasonSelect.addEventListener('change', function () {
+            var selected = reasonSelect.options[reasonSelect.selectedIndex];
+            var isOtherGroup = selected && selected.getAttribute('data-group') === 'other_issues';
+
+            descriptionField.hidden = !isOtherGroup;
+            descriptionInput.required = isOtherGroup;
+
+            if (!isOtherGroup) {
+                descriptionInput.value = '';
+                descriptionInput.setCustomValidity('');
+            }
+        });
+
+        descriptionInput.addEventListener('input', function () {
+            descriptionInput.setCustomValidity('');
         });
 
         refundForm.addEventListener('submit', function (event) {

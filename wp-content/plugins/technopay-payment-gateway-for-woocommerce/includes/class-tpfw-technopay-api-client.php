@@ -60,17 +60,18 @@ final class TPFW_Technopay_Api_Client {
 		);
 	}
 
-	public function create_refund( $track_number, $requested_amount, array $reason_codes ) {
+	public function create_refund( $track_number, $requested_amount, array $reason_codes, $description = null ) {
+		$body_data = array(
+			'track_number'     => (string) $track_number,
+			'requested_amount' => (int) $requested_amount,
+			'reason_codes'     => $reason_codes,
+			'description'      => $description,
+		);
+
 		$body = $this->request(
 			'POST',
 			'/refund',
-			array(
-				'body' => array(
-					'track_number'     => (string) $track_number,
-					'requested_amount' => (int) $requested_amount,
-					'reason_codes'     => $reason_codes,
-				),
-			),
+			array( 'body' => $body_data ),
 			'refund'
 		);
 

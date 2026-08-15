@@ -179,9 +179,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" required>
 						<option value="">انتخاب کنید...</option>
 						<?php foreach ( $view['reasons'] as $tpfw_reason ) : ?>
-							<option value="<?php echo esc_attr( $tpfw_reason['code'] ); ?>"><?php echo esc_html( $tpfw_reason['reason'] ); ?></option>
+							<option value="<?php echo esc_attr( $tpfw_reason['code'] ); ?>" data-group="<?php echo esc_attr( $tpfw_reason['group'] ); ?>"><?php echo esc_html( $tpfw_reason['reason'] ); ?></option>
 						<?php endforeach; ?>
 					</select>
+				</label>
+				<label class="tpfw-refund-modal__field tpfw-refund-modal__custom-reason" hidden>
+					<span>توضیحات:</span>
+					<input type="text" name="refund_description" autocomplete="off" placeholder="توضیحات را وارد کنید" aria-label="توضیحات استرداد">
 				</label>
 				<div class="tpfw-refund-modal__actions">
 					<button type="button" class="tpfw-refund-modal__cancel" data-refund-modal-close>فعلا نه</button>
