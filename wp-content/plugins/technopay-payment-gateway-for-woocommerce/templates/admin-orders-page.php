@@ -130,7 +130,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<?php elseif ( 'cancel' === $tpfw_row['action'] ) : ?>
 									<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست ریفاند</button>
 								<?php elseif ( 'details' === $tpfw_row['action'] ) : ?>
-									<button type="button" class="tpfw-order-action tpfw-order-action--details" aria-label="مشاهده جزئیات" title="مشاهده جزئیات">
+									<button type="button" class="tpfw-order-action tpfw-order-action--details" data-details-modal data-refund-reason="<?php echo esc_attr( $tpfw_row['refund_reason'] ); ?>" data-refund-reason-text="<?php echo esc_attr( $tpfw_row['refund_reason_text'] ); ?>" aria-label="مشاهده جزئیات" title="مشاهده جزئیات">
 										<img src="<?php echo esc_url( TPFW_PLUGIN_URL . 'assets/images/info-icon-svgrepo-com.svg' ); ?>" alt="" aria-hidden="true">
 									</button>
 								<?php else : ?>
@@ -213,6 +213,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<button type="submit" class="tpfw-refund-modal__submit">بله مطمئن هستم</button>
 				</div>
 			</form>
+		</div>
+	</div>
+
+	<div class="tpfw-refund-modal tpfw-details-modal" role="dialog" aria-modal="true" aria-labelledby="tpfw-details-modal-title" aria-hidden="true" hidden>
+		<div class="tpfw-refund-modal__panel">
+			<button type="button" class="tpfw-refund-modal__close" data-refund-modal-close aria-label="بستن"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
+			<h2 id="tpfw-details-modal-title">دلایل استرداد</h2>
+			<p>در بخش زیر می‌توانید دلایل استرداد پرداخت و یا دلایل رد درخواست استرداد را مشاهده کنید</p>
+			<div class="tpfw-details-modal__fields">
+				<div class="tpfw-refund-modal__field">
+					<span>دلیل استرداد:</span>
+					<span data-details-reason></span>
+				</div>
+				<div class="tpfw-refund-modal__field" data-details-custom-row hidden>
+					<span>توضیحات:</span>
+					<span data-details-reason-text></span>
+				</div>
+			</div>
+			<div class="tpfw-refund-modal__actions tpfw-details-modal__actions">
+				<button type="button" class="tpfw-refund-modal__submit" data-refund-modal-close>متوجه شدم</button>
+			</div>
 		</div>
 	</div>
 </div>

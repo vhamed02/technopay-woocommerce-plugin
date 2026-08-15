@@ -1,6 +1,7 @@
 (function () {
-    var refundModal = document.querySelector('.tpfw-refund-modal:not(.tpfw-cancel-modal)');
+    var refundModal = document.querySelector('.tpfw-refund-modal:not(.tpfw-cancel-modal):not(.tpfw-details-modal)');
     var cancelModal = document.querySelector('.tpfw-cancel-modal');
+    var detailsModal = document.querySelector('.tpfw-details-modal');
     var activeModal = null;
     var activeTrigger = null;
     var filtersForm = document.querySelector('.tpfw-orders-filters');
@@ -15,6 +16,9 @@
     var reasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason-field') : null;
     var customReasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__custom-reason') : null;
     var customReasonInput = customReasonField ? customReasonField.querySelector('input') : null;
+    var detailsReasonEl = detailsModal ? detailsModal.querySelector('[data-details-reason]') : null;
+    var detailsReasonTextEl = detailsModal ? detailsModal.querySelector('[data-details-reason-text]') : null;
+    var detailsCustomRow = detailsModal ? detailsModal.querySelector('[data-details-custom-row]') : null;
 
     function getAmountDigits(value) {
         return value.replace(/[۰-۹]/g, function (digit) {
@@ -114,6 +118,23 @@
         cancelTrackNumberInput.value = trigger.getAttribute('data-track-number') || '';
     }
 
+    function prepareDetailsModal(trigger) {
+        var reason = trigger.getAttribute('data-refund-reason') || '';
+        var reasonText = trigger.getAttribute('data-refund-reason-text') || '';
+
+        if (detailsReasonEl) {
+            detailsReasonEl.textContent = reason;
+        }
+
+        if (detailsCustomRow) {
+            detailsCustomRow.hidden = reasonText === '';
+        }
+
+        if (detailsReasonTextEl) {
+            detailsReasonTextEl.textContent = reasonText;
+        }
+    }
+
     function openModal(modal, trigger) {
         if (!modal) {
             return;
@@ -174,6 +195,13 @@
         if (button) {
             prepareCancelModal(button);
             openModal(cancelModal, button);
+            return;
+        }
+
+        button = event.target.closest('[data-details-modal]');
+        if (button) {
+            prepareDetailsModal(button);
+            openModal(detailsModal, button);
             return;
         }
 

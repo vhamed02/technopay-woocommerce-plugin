@@ -34,6 +34,17 @@
     font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
 }
 
+.tpfw-orders-page i,
+.tpfw-orders-page i *,
+.tpfw-orders-page i::before,
+.tpfw-orders-page i::after,
+.tpfw-orders-page .dashicons,
+.tpfw-orders-page .dashicons *,
+.tpfw-orders-page .dashicons::before,
+.tpfw-orders-page .dashicons::after {
+    font-family: dashicons !important;
+}
+
 .tpfw-orders-page input,
 .tpfw-orders-page select,
 .tpfw-orders-page button,
@@ -503,12 +514,6 @@
     filter: grayscale(100%) brightness(1.5) opacity(0.4);
 }
 
-.tpfw-order-action--details .dashicons {
-    width: 24px;
-    height: 24px;
-    font-size: 24px;
-}
-
 .tpfw-orders-table__empty {
     height: 180px !important;
     color: var(--tpfw-muted) !important;
@@ -786,6 +791,39 @@ body.tpfw-refund-modal-open {
 
 .tpfw-cancel-modal__form {
     margin-top: 38px;
+}
+
+.tpfw-details-modal__fields {
+    display: grid;
+    gap: 16px;
+    margin-top: 28px;
+    text-align: right;
+}
+
+.tpfw-details-modal__fields .tpfw-refund-modal__field {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-height: auto;
+    padding: 14px 20px;
+}
+
+.tpfw-details-modal__fields .tpfw-refund-modal__field > span:first-child {
+    color: #5a6573;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.tpfw-details-modal__fields .tpfw-refund-modal__field > span:last-child {
+    color: #28323e;
+    font-size: 14px;
+    line-height: 1.8;
+    word-break: break-word;
+}
+
+.tpfw-details-modal__actions {
+    grid-template-columns: 1fr;
+    margin-top: 28px;
 }
 
 #adminmenu .toplevel_page_technopay-orders .wp-menu-image img {

@@ -326,18 +326,20 @@ final class TPFW_Admin_Orders_Page {
 			$track_number     = $this->normalize_digits( $this->get_scalar_value( $result, 'track_number' ) );
 
 			$rows[] = array(
-				'action'              => $status['action'],
-				'amount'              => $this->format_amount( $ticket_amount ),
-				'customer_mobile'     => $this->normalize_digits( $this->get_scalar_value( $result, 'customer_mobile' ) ),
-				'customer_name'       => $this->get_display_value( $this->get_scalar_value( $result, 'customer_full_name' ) ),
-				'number'              => (string) ( $row_offset + $index + 1 ),
-				'paid_at'             => $this->format_date( $this->get_scalar_value( $result, 'paid_at' ) ),
-				'refund_amount'       => null !== $requested_amount && $requested_amount > 0 ? $this->format_amount( $requested_amount ) : '—',
+				'action'               => $status['action'],
+				'amount'               => $this->format_amount( $ticket_amount ),
+				'customer_mobile'      => $this->normalize_digits( $this->get_scalar_value( $result, 'customer_mobile' ) ),
+				'customer_name'        => $this->get_display_value( $this->get_scalar_value( $result, 'customer_full_name' ) ),
+				'number'               => (string) ( $row_offset + $index + 1 ),
+				'paid_at'              => $this->format_date( $this->get_scalar_value( $result, 'paid_at' ) ),
+				'refund_amount'        => null !== $requested_amount && $requested_amount > 0 ? $this->format_amount( $requested_amount ) : '—',
+				'refund_reason'        => $this->get_refund_reason_label( $this->get_scalar_value( $result, 'refund_reason' ) ),
+				'refund_reason_text'   => $this->get_scalar_value( $result, 'custom_refund_reason' ),
 				'requested_amount_raw' => null === $requested_amount ? '' : (string) $requested_amount,
-				'status_label'        => $status['label'],
-				'status_tone'         => $status['tone'],
-				'ticket_amount_raw'   => null === $ticket_amount ? '' : (string) $ticket_amount,
-				'track_number'        => $track_number,
+				'status_label'         => $status['label'],
+				'status_tone'          => $status['tone'],
+				'ticket_amount_raw'    => null === $ticket_amount ? '' : (string) $ticket_amount,
+				'track_number'         => $track_number,
 			);
 		}
 
@@ -457,6 +459,17 @@ final class TPFW_Admin_Orders_Page {
 			'rejected' => __( 'رد شده', 'technopay-payment-gateway-for-woocommerce' ),
 			'canceled' => __( 'لغو شده', 'technopay-payment-gateway-for-woocommerce' ),
 		);
+	}
+
+	private function get_refund_reason_label( $reason ) {
+		$map = array(
+			'returned-order'        => __( 'مرجوع سفارش', 'technopay-payment-gateway-for-woocommerce' ),
+			'customer-cancellation' => __( 'انصراف مشتری', 'technopay-payment-gateway-for-woocommerce' ),
+			'payment-error'         => __( 'خطا در پرداخت', 'technopay-payment-gateway-for-woocommerce' ),
+			'other'                 => __( 'سایر', 'technopay-payment-gateway-for-woocommerce' ),
+		);
+
+		return isset( $map[ $reason ] ) ? $map[ $reason ] : $reason;
 	}
 
 	private function get_request_value( $key ) {
