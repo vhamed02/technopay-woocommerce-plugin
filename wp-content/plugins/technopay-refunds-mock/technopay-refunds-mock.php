@@ -283,7 +283,7 @@ final class TPFW_Refunds_Mock {
 	private function get_results() {
 		$names    = array( 'سپهر کیانی', 'نیلوفر رحیمی', 'آرش نادری', 'مهسا احمدی', 'میلاد صادقی' );
 		$statuses = array( 'none', 'pending', 'approved', 'canceled', 'rejected' );
-		$reasons  = array( 'returned-order', 'customer-cancellation', 'payment-error', 'other' );
+		$reasons  = array( '30001', '30002', '30003', '30004', '30005' );
 		$results  = array();
 		$now      = time();
 
@@ -293,7 +293,7 @@ final class TPFW_Refunds_Mock {
 			$requested_amount = 'none' === $status ? 0 : ( 'approved' === $status && 0 === $index % 2 ? $ticket_amount : (int) floor( $ticket_amount / 2 ) );
 			$paid_timestamp   = $now - $index * DAY_IN_SECONDS;
 			$reason           = 'none' !== $status ? $reasons[ $index % count( $reasons ) ] : '';
-			$custom_reason    = 'other' === $reason ? 'توضیحات تکمیلی برای دلیل استرداد این سفارش' : '';
+			$custom_reason    = '30005' === $reason ? 'توضیحات تکمیلی برای دلیل استرداد این سفارش' : '';
 
 			$results[] = array(
 				'customer_full_name'   => $names[ $index % count( $names ) ],

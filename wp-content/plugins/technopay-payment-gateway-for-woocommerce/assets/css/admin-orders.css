@@ -926,6 +926,10 @@ body.tpfw-refund-modal-open {
     font-size: 14px;
 }
 
+.ss-content {
+    z-index: 200001 !important;
+}
+
 @media screen and (max-width: 1280px) {
     .tpfw-orders-filters {
         grid-template-columns: repeat(2, minmax(220px, 1fr));

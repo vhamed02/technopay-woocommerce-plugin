@@ -20,8 +20,9 @@
     var detailsCustomRow = detailsModal ? detailsModal.querySelector('[data-details-custom-row]') : null;
 
     var reasonSlim = null;
+    var reasonSlimInitialized = false;
 
-    function initSlimSelects() {
+    function initFilterSelects() {
         document.querySelectorAll('.tpfw-orders-filters select').forEach(function (select) {
             new SlimSelect({
                 select: select,
@@ -32,32 +33,38 @@
                 },
             });
         });
+    }
 
-        if (reasonSelect) {
-            reasonSlim = new SlimSelect({
-                select: reasonSelect,
-                settings: {
-                    showSearch: false,
-                    openPosition: 'down',
-                    contentLocation: refundModal.querySelector('.tpfw-refund-modal__panel'),
-                    placeholderText: 'انتخاب کنید...',
-                },
-                events: {
-                    afterChange: function (selected) {
-                        var group = selected.length ? selected[0].data['group'] : '';
-                        var isOtherGroup = group === 'other_issues';
-
-                        descriptionField.hidden = !isOtherGroup;
-                        descriptionInput.required = isOtherGroup;
-
-                        if (!isOtherGroup) {
-                            descriptionInput.value = '';
-                            descriptionInput.setCustomValidity('');
-                        }
-                    },
-                },
-            });
+    function initReasonSlim() {
+        if (reasonSlimInitialized || !reasonSelect) {
+            return;
         }
+
+        reasonSlimInitialized = true;
+
+        reasonSlim = new SlimSelect({
+            select: reasonSelect,
+            settings: {
+                showSearch: false,
+                openPosition: 'down',
+                contentLocation: document.body,
+                placeholderText: 'انتخاب کنید...',
+            },
+            events: {
+                afterChange: function (selected) {
+                    var group = selected.length ? selected[0].data['group'] : '';
+                    var isOtherGroup = group === 'other_issues';
+
+                    descriptionField.hidden = !isOtherGroup;
+                    descriptionInput.required = isOtherGroup;
+
+                    if (!isOtherGroup) {
+                        descriptionInput.value = '';
+                        descriptionInput.setCustomValidity('');
+                    }
+                },
+            },
+        });
     }
 
     function getAmountDigits(value) {
@@ -137,6 +144,8 @@
     }
 
     function prepareRefundModal(trigger) {
+        initReasonSlim();
+
         refundForm.reset();
 
         if (reasonSlim) {
@@ -305,5 +314,5 @@
         });
     }
 
-    initSlimSelects();
+    initFilterSelects();
 }());
