@@ -33,6 +33,10 @@ final class TPFW_Refunds_Mock {
 			return $this->create_refund( $args );
 		}
 
+		if ( 'GET' === $method && '/payment/reasons' === $path ) {
+			return $this->get_reasons();
+		}
+
 		if ( 'GET' !== $method || '/payment/refunds' !== $path ) {
 			return $preempt;
 		}
@@ -77,6 +81,28 @@ final class TPFW_Refunds_Mock {
 			),
 			'cookies'  => array(),
 			'filename' => null,
+		);
+	}
+
+	private function get_reasons() {
+		return $this->get_response(
+			200,
+			array(
+				'succeed' => true,
+				'message' => 'درخواست شما با موفقیت انجام شد.',
+				'results' => array(
+					array( 'code' => '30001', 'reason' => 'کالای آسیب‌دیده یا معیوب',          'text' => null, 'type' => 'REFUND', 'group' => 'refund_request' ),
+					array( 'code' => '30002', 'reason' => 'ارسال کالای اشتباه',                 'text' => null, 'type' => 'REFUND', 'group' => 'refund_request' ),
+					array( 'code' => '30003', 'reason' => 'انصراف مشتری',                       'text' => null, 'type' => 'REFUND', 'group' => 'refund_request' ),
+					array( 'code' => '30004', 'reason' => 'پرداخت تکراری',                      'text' => null, 'type' => 'REFUND', 'group' => 'refund_request' ),
+					array( 'code' => '30005', 'reason' => 'سایر دلایل',                         'text' => null, 'type' => 'REFUND', 'group' => 'other_issues' ),
+					array( 'code' => '30006', 'reason' => 'درخواست تکراری',                     'text' => null, 'type' => 'REFUND_REJECTION', 'group' => 'refund_request' ),
+					array( 'code' => '30007', 'reason' => 'مستندات ناقص',                       'text' => null, 'type' => 'REFUND_REJECTION', 'group' => 'refund_request' ),
+					array( 'code' => '30008', 'reason' => 'درخواست متقلبانه',                   'text' => null, 'type' => 'REFUND_REJECTION', 'group' => 'refund_request' ),
+					array( 'code' => '30009', 'reason' => 'مغایرت با قوانین بازگشت وجه',       'text' => null, 'type' => 'REFUND_REJECTION', 'group' => 'refund_request' ),
+					array( 'code' => '30010', 'reason' => 'سایر دلایل',                         'text' => null, 'type' => 'REFUND_REJECTION', 'group' => 'other_issues' ),
+				),
+			)
 		);
 	}
 
@@ -139,7 +165,7 @@ final class TPFW_Refunds_Mock {
 	private function create_refund( $args ) {
 		$payload = isset( $args['body'] ) ? json_decode( (string) $args['body'], true ) : null;
 
-		if ( ! is_array( $payload ) || empty( $payload['track_number'] ) || empty( $payload['requested_amount'] ) ) {
+		if ( ! is_array( $payload ) || empty( $payload['track_number'] ) || empty( $payload['requested_amount'] ) || empty( $payload['reason_codes'] ) ) {
 			return $this->get_response(
 				422,
 				array(

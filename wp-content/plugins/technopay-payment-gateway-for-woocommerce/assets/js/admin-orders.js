@@ -14,8 +14,6 @@
     var trackNumberInput = refundForm ? refundForm.querySelector('[name="track_number"]') : null;
     var reasonSelect = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason') : null;
     var reasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__reason-field') : null;
-    var customReasonField = refundForm ? refundForm.querySelector('.tpfw-refund-modal__custom-reason') : null;
-    var customReasonInput = customReasonField ? customReasonField.querySelector('input') : null;
     var detailsReasonEl = detailsModal ? detailsModal.querySelector('[data-details-reason]') : null;
     var detailsReasonTextEl = detailsModal ? detailsModal.querySelector('[data-details-reason-text]') : null;
     var detailsCustomRow = detailsModal ? detailsModal.querySelector('[data-details-custom-row]') : null;
@@ -96,20 +94,11 @@
         return digits;
     }
 
-    function validateCustomReason() {
-        var isRequired = reasonSelect.value === 'other';
-
-        customReasonInput.setCustomValidity(isRequired && customReasonInput.value.trim() === '' ? tpfwAdminOrders.reasonRequired : '');
-    }
-
     function prepareRefundModal(trigger) {
         refundForm.reset();
         trackNumberInput.value = trigger.getAttribute('data-track-number') || '';
         amountInput.setAttribute('data-maximum', trigger.getAttribute('data-available-amount') || '');
         amountInput.setCustomValidity('');
-        customReasonInput.setCustomValidity('');
-        customReasonInput.required = false;
-        customReasonField.hidden = true;
         reasonSelect.setAttribute('aria-expanded', 'false');
     }
 
@@ -260,27 +249,8 @@
             }
         });
 
-        reasonSelect.addEventListener('change', function () {
-            var isOther = reasonSelect.value === 'other';
-
-            customReasonField.hidden = !isOther;
-            customReasonInput.required = isOther;
-            reasonSelect.setAttribute('aria-expanded', isOther ? 'true' : 'false');
-            validateCustomReason();
-
-            if (isOther) {
-                customReasonInput.focus();
-            } else {
-                customReasonInput.value = '';
-            }
-        });
-
-        customReasonInput.addEventListener('input', validateCustomReason);
-
         refundForm.addEventListener('submit', function (event) {
             var amount = validateRefundAmount();
-
-            validateCustomReason();
 
             if (!refundForm.checkValidity()) {
                 event.preventDefault();

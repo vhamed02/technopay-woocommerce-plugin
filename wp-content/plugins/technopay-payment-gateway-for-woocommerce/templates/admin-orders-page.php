@@ -176,16 +176,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 				<label class="tpfw-refund-modal__field tpfw-refund-modal__reason-field">
 					<span>دلیل استرداد:</span>
-					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" aria-controls="tpfw-refund-custom-reason" aria-expanded="false" required>
-						<option value="returned-order">مرجوع سفارش</option>
-						<option value="customer-cancellation">انصراف مشتری</option>
-						<option value="payment-error">خطا در پرداخت</option>
-						<option value="other">سایر</option>
+					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" required>
+						<option value="">انتخاب کنید...</option>
+						<?php foreach ( $view['reasons'] as $tpfw_reason ) : ?>
+							<option value="<?php echo esc_attr( $tpfw_reason['code'] ); ?>"><?php echo esc_html( $tpfw_reason['reason'] ); ?></option>
+						<?php endforeach; ?>
 					</select>
-				</label>
-				<label id="tpfw-refund-custom-reason" class="tpfw-refund-modal__field tpfw-refund-modal__custom-reason" hidden>
-					<span>دلیل:</span>
-					<input type="text" name="custom_refund_reason" autocomplete="off" placeholder="دلیل استرداد را وارد کنید" aria-label="دلیل استرداد سفارشی">
 				</label>
 				<div class="tpfw-refund-modal__actions">
 					<button type="button" class="tpfw-refund-modal__cancel" data-refund-modal-close>فعلا نه</button>

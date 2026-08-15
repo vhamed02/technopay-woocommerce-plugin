@@ -60,7 +60,6 @@ final class TPFW_Admin_Orders_Page {
 				'canceling'      => __( 'در حال لغو...', 'technopay-payment-gateway-for-woocommerce' ),
 				'copied'         => __( 'کپی شد', 'technopay-payment-gateway-for-woocommerce' ),
 				'copy'           => __( 'کپی', 'technopay-payment-gateway-for-woocommerce' ),
-				'reasonRequired' => __( 'دلیل استرداد را وارد کنید.', 'technopay-payment-gateway-for-woocommerce' ),
 				'submitting'     => __( 'در حال ثبت...', 'technopay-payment-gateway-for-woocommerce' ),
 			)
 		);
@@ -71,10 +70,11 @@ final class TPFW_Admin_Orders_Page {
 			wp_die( esc_html__( 'شما اجازه دسترسی به این صفحه را ندارید.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
+		$api_client = new TPFW_Technopay_Api_Client();
 		$filters    = $this->get_filters();
 		$cursor     = $this->sanitize_cursor( $this->get_request_value( 'cursor' ) );
 		$row_offset = '' !== $cursor ? absint( $this->get_request_value( 'row_offset' ) ) : 0;
-		$response   = ( new TPFW_Technopay_Api_Client() )->get_refunds( $this->get_api_query( $filters, $cursor ) );
+		$response   = $api_client->get_refunds( $this->get_api_query( $filters, $cursor ) );
 		$results    = array();
 		$metas      = array();
 		$error      = '';
@@ -86,13 +86,15 @@ final class TPFW_Admin_Orders_Page {
 			$metas   = $response['metas'];
 		}
 
-		$rows = $this->get_rows( $results, $row_offset );
+		$rows    = $this->get_rows( $results, $row_offset );
+		$reasons = $this->get_cached_reasons( $api_client );
 
 		$view = array(
 			'error'           => $error,
 			'filters'         => $filters,
 			'notice'          => $this->get_notice(),
 			'pagination'      => $this->get_pagination( $metas, $filters, $row_offset, count( $rows ) ),
+			'reasons'         => $reasons,
 			'reset_url'       => admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
 			'rows'            => $rows,
 			'status_options'  => $this->get_status_options(),
@@ -119,18 +121,19 @@ final class TPFW_Admin_Orders_Page {
 
 		$track_number = trim( $this->normalize_digits( sanitize_text_field( $this->get_post_value( 'track_number' ) ) ) );
 		$amount       = $this->sanitize_amount( $this->get_post_value( 'requested_amount' ) );
-		$reason       = sanitize_key( $this->get_post_value( 'refund_reason' ) );
-		$reasons      = array( 'returned-order', 'customer-cancellation', 'payment-error', 'other' );
+		$reason_code  = sanitize_text_field( $this->get_post_value( 'refund_reason' ) );
 
-		if ( '' === $track_number || '' === $amount || 0 >= (int) $amount || ! in_array( $reason, $reasons, true ) ) {
+		if ( '' === $track_number || '' === $amount || 0 >= (int) $amount || '' === $reason_code ) {
 			$this->redirect_with_notice( 'error', __( 'اطلاعات درخواست استرداد کامل یا معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		if ( 'other' === $reason && '' === trim( sanitize_text_field( $this->get_post_value( 'custom_refund_reason' ) ) ) ) {
-			$this->redirect_with_notice( 'error', __( 'وارد کردن دلیل استرداد الزامی است.', 'technopay-payment-gateway-for-woocommerce' ) );
+		$api_client    = new TPFW_Technopay_Api_Client();
+		$valid_codes   = $this->get_valid_reason_codes( $api_client );
+
+		if ( ! in_array( $reason_code, $valid_codes, true ) ) {
+			$this->redirect_with_notice( 'error', __( 'دلیل استرداد انتخاب‌شده معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$api_client       = new TPFW_Technopay_Api_Client();
 		$available_amount = $this->get_refundable_amount( $api_client, $track_number );
 
 		if ( is_wp_error( $available_amount ) ) {
@@ -141,7 +144,7 @@ final class TPFW_Admin_Orders_Page {
 			$this->redirect_with_notice( 'error', __( 'مبلغ استرداد نمی‌تواند بیشتر از مبلغ قابل استرداد باشد.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$response = $api_client->create_refund( $track_number, (int) $amount );
+		$response = $api_client->create_refund( $track_number, (int) $amount, array( $reason_code ) );
 
 		if ( is_wp_error( $response ) ) {
 			$this->redirect_with_notice( 'error', $response->get_error_message() );
@@ -461,15 +464,49 @@ final class TPFW_Admin_Orders_Page {
 		);
 	}
 
-	private function get_refund_reason_label( $reason ) {
-		$map = array(
-			'returned-order'        => __( 'مرجوع سفارش', 'technopay-payment-gateway-for-woocommerce' ),
-			'customer-cancellation' => __( 'انصراف مشتری', 'technopay-payment-gateway-for-woocommerce' ),
-			'payment-error'         => __( 'خطا در پرداخت', 'technopay-payment-gateway-for-woocommerce' ),
-			'other'                 => __( 'سایر', 'technopay-payment-gateway-for-woocommerce' ),
-		);
+	private function get_cached_reasons( $api_client ) {
+		$cached = get_transient( 'tpfw_refund_reasons' );
 
-		return isset( $map[ $reason ] ) ? $map[ $reason ] : $reason;
+		if ( is_array( $cached ) ) {
+			return $cached;
+		}
+
+		$reasons = $api_client->get_reasons();
+
+		if ( is_wp_error( $reasons ) ) {
+			return array();
+		}
+
+		$reasons = array_values( $reasons );
+
+		set_transient( 'tpfw_refund_reasons', $reasons, HOUR_IN_SECONDS );
+
+		return $reasons;
+	}
+
+	private function get_valid_reason_codes( $api_client ) {
+		$reasons = $this->get_cached_reasons( $api_client );
+
+		return array_map(
+			function ( $reason ) {
+				return (string) $reason['code'];
+			},
+			$reasons
+		);
+	}
+
+	private function get_refund_reason_label( $reason ) {
+		$cached = get_transient( 'tpfw_refund_reasons' );
+
+		if ( is_array( $cached ) ) {
+			foreach ( $cached as $item ) {
+				if ( isset( $item['code'] ) && (string) $item['code'] === (string) $reason ) {
+					return isset( $item['reason'] ) ? (string) $item['reason'] : $reason;
+				}
+			}
+		}
+
+		return $reason;
 	}
 
 	private function get_request_value( $key ) {

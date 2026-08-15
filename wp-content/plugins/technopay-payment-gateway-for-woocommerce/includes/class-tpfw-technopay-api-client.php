@@ -26,6 +26,27 @@ final class TPFW_Technopay_Api_Client {
 		return '' !== $this->merchant_id && '' !== $this->merchant_secret;
 	}
 
+	public function get_reasons() {
+		$body = $this->request( 'GET', '/reasons', array(), 'reasons' );
+
+		if ( is_wp_error( $body ) ) {
+			return $body;
+		}
+
+		if ( ! isset( $body['results'] ) || ! is_array( $body['results'] ) ) {
+			return new WP_Error( 'tpfw_api_invalid_response', __( 'پاسخ سرویس تکنوپی معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
+		}
+
+		return array_filter(
+			$body['results'],
+			function ( $item ) {
+				return is_array( $item )
+					&& isset( $item['code'], $item['reason'], $item['type'] )
+					&& 'REFUND' === $item['type'];
+			}
+		);
+	}
+
 	public function get_refunds( $query_args ) {
 		$body = $this->request( 'GET', '/refunds', array( 'query' => $query_args ), 'refunds' );
 
@@ -39,7 +60,7 @@ final class TPFW_Technopay_Api_Client {
 		);
 	}
 
-	public function create_refund( $track_number, $requested_amount ) {
+	public function create_refund( $track_number, $requested_amount, array $reason_codes ) {
 		$body = $this->request(
 			'POST',
 			'/refund',
@@ -47,6 +68,7 @@ final class TPFW_Technopay_Api_Client {
 				'body' => array(
 					'track_number'     => (string) $track_number,
 					'requested_amount' => (int) $requested_amount,
+					'reason_codes'     => $reason_codes,
 				),
 			),
 			'refund'
@@ -224,9 +246,15 @@ final class TPFW_Technopay_Api_Client {
 				return __( 'سرویس ثبت درخواست استرداد تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
 			}
 
-			return 'refund_cancel' === $operation
-				? __( 'سرویس لغو درخواست استرداد تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' )
-				: __( 'سرویس لیست استردادهای تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
+			if ( 'refund_cancel' === $operation ) {
+				return __( 'سرویس لغو درخواست استرداد تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
+			}
+
+			if ( 'reasons' === $operation ) {
+				return __( 'سرویس دریافت دلایل استرداد تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
+			}
+
+			return __( 'سرویس لیست استردادهای تکنوپی در دسترس نیست.', 'technopay-payment-gateway-for-woocommerce' );
 		}
 
 		if ( 422 === $status_code ) {
