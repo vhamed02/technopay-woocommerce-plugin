@@ -1,7 +1,14 @@
 @font-face {
-    font-family: 'Vazirmatn';
-    src: url('../fonts/Vazirmatn-VariableFont.ttf') format('truetype');
-    font-weight: 100 900;
+    font-family: 'YekanBakh';
+    src: url('../fonts/YekanBakhFaNum-Regular-B4cV0wVW.woff2') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'YekanBakh';
+    src: url('../fonts/YekanBakhFaNum-SemiBold-C4JCeP6F.woff2') format('truetype');
+    font-weight: 500;
     font-style: normal;
     font-display: swap;
 }
@@ -25,14 +32,14 @@
     background: #fff;
     color: var(--tpfw-ink);
     cursor: default;
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
+    font-family: 'YekanBakh', Tahoma, Arial, sans-serif;
 }
 
 .tpfw-orders-page *,
 .tpfw-orders-page *::before,
 .tpfw-orders-page *::after {
     box-sizing: border-box;
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+    font-family: 'YekanBakh', Tahoma, Arial, sans-serif !important;
 }
 
 .tpfw-orders-page i,
@@ -50,7 +57,7 @@
 .tpfw-orders-page select,
 .tpfw-orders-page button,
 .tpfw-orders-page textarea {
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+    font-family: 'YekanBakh', Tahoma, Arial, sans-serif !important;
 }
 
 .tpfw-orders-page h1,
@@ -66,7 +73,7 @@
 .tpfw-orders-page th,
 .tpfw-orders-page td,
 .tpfw-orders-page div {
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+    font-family: 'YekanBakh', Tahoma, Arial, sans-serif !important;
 }
 
 .tpfw-orders-page input,
@@ -382,7 +389,7 @@
 }
 
 .tpfw-orders-table th:nth-child(9) {
-    width: 13%;
+    width: 15%;
 }
 
 .tpfw-orders-table__name {
@@ -506,8 +513,8 @@
 }
 
 .tpfw-order-action--details {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     padding: 0;
     background: transparent;
     color: #a5adb4;
@@ -515,9 +522,9 @@
 }
 
 .tpfw-order-action--details .dashicons {
-    width: 24px;
-    height: 24px;
-    font-size: 24px;
+    width: 22px;
+    height: 22px;
+    font-size: 22px;
 }
 
 .tpfw-orders-table__empty {
@@ -883,7 +890,7 @@ body.tpfw-refund-modal-open {
 
 .tpfw-slim.ss-content,
 .tpfw-orders-page .ss-content {
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+    font-family: 'YekanBakh', Tahoma, Arial, sans-serif !important;
     margin-top: -24px !important;
     border: 1px solid #cfd4d8;
     border-radius: 8px;
@@ -898,7 +905,7 @@ body.tpfw-refund-modal-open {
     padding: 10px 14px;
     font-size: 13px;
     color: var(--tpfw-ink);
-    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+    font-family: 'YekanBakh', Tahoma, Arial, sans-serif !important;
 }
 
 .tpfw-slim.ss-content .ss-list .ss-option:hover,

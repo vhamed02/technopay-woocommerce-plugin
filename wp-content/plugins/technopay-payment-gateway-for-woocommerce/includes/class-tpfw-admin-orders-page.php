@@ -399,7 +399,7 @@ final class TPFW_Admin_Orders_Page {
 		if ( in_array( $refund_key, $pending, true ) ) {
 			return array(
 				'action' => 'cancel',
-				'label'  => __( 'در انتظار استرداد پرداخت', 'technopay-payment-gateway-for-woocommerce' ),
+				'label'  => __( 'در انتظار استرداد', 'technopay-payment-gateway-for-woocommerce' ),
 				'tone'   => 'warning',
 			);
 		}
@@ -497,7 +497,7 @@ final class TPFW_Admin_Orders_Page {
 
 	private function get_status_options() {
 		return array(
-			'pending'  => __( 'در انتظار استرداد پرداخت', 'technopay-payment-gateway-for-woocommerce' ),
+			'pending'  => __( 'در انتظار استرداد', 'technopay-payment-gateway-for-woocommerce' ),
 			'approved' => __( 'استرداد شده', 'technopay-payment-gateway-for-woocommerce' ),
 			'rejected' => __( 'رد شده', 'technopay-payment-gateway-for-woocommerce' ),
 			'canceled' => __( 'لغو شده', 'technopay-payment-gateway-for-woocommerce' ),
