@@ -1,6 +1,6 @@
 === تکنوپی برای ووکامرس | Technopay ===
 Contributors: vhamed32
-Tags: technopay, woocommerce, تکنوپی
+Tags: technopay, woocommerce, تکنوپی, تکنو پی, تکنولایف
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 7.4
