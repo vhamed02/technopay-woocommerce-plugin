@@ -4,7 +4,7 @@ Tags: technopay, woocommerce, تکنوپی
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.4
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,18 @@ Visit technopay.ir website to create an account.
 Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
+
+= 1.2.0 =
+* New: Refund orders admin page under WooCommerce with full RTL support
+* New: Vazirmatn variable font applied to entire admin page
+* New: Custom SlimSelect dropdowns replacing native selects in filters and modals
+* New: Dynamic refund reasons loaded from TechnoPay API (/payment/reasons)
+* New: Refund reason codes sent to API on refund creation (reason_codes + description)
+* New: Details modal showing refund_reasons and reject_reasons per order
+* New: Info icon shown for rejected orders with reasons
+* New: SVN-publishable plugin, mock plugin and request logger as separate toggleable plugins
+* Fix: SSL verification disabled in test/staging mode
+* Fix: Correct reason label displayed in details modal (Persian text from API)
 
 = 1.1.4 =
 * Fix: Improved AJAX checkout compatibility for third-party plugins
