@@ -1,10 +1,10 @@
 <?php
 /**
- * Plugin Name: TechnoPay Payment Gateway for WooCommerce
- * Description: Secure credit payment gateway plugin for WooCommerce by TechnoPay
- * Version: 1.2.0
- * Author: vhamed32
- * Author URI: https://technopay.ir
+ * Plugin Name: تکنوپی برای ووکامرس | Technopay
+ * Description: افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی
+ * Version: 1.2.1
+ * Author: حامد نجاری
+ * Author URI: https://www.linkedin.com/in/hamed-najari
  * Text Domain: technopay-payment-gateway-for-woocommerce
  * Requires at least: 5.0
  * Tested up to: 7.0
@@ -20,7 +20,7 @@ use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
 if (!defined('ABSPATH')) exit;
 
-define('TPFW_VERSION', '1.2.0');
+define('TPFW_VERSION', '1.2.1');
 define('TPFW_PLUGIN_FILE', __FILE__);
 define('TPFW_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('TPFW_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -119,11 +119,7 @@ class TPFW_Main {
         $plugin_file = plugin_basename(__FILE__);
         
         if (isset($plugins[$plugin_file])) {
-            if (get_locale() === 'fa_IR') {
-                $plugins[$plugin_file]['Name'] = 'تکنوپی برای ووکامرس';
-                $plugins[$plugin_file]['Description'] = 'افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی';
-                $plugins[$plugin_file]['Author'] = 'تکنوپی';
-            } else {
+            if (get_locale() !== 'fa_IR') {
                 $plugins[$plugin_file]['Name'] = __('TechnoPay Payment Gateway for WooCommerce', 'technopay-payment-gateway-for-woocommerce');
                 $plugins[$plugin_file]['Description'] = __('Secure credit payment gateway plugin for WooCommerce by TechnoPay', 'technopay-payment-gateway-for-woocommerce');
                 $plugins[$plugin_file]['Author'] = __('vhamed32', 'technopay-payment-gateway-for-woocommerce');

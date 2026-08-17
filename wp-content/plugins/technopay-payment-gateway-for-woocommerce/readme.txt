@@ -1,10 +1,10 @@
-=== TechnoPay Payment Gateway for WooCommerce ===
+=== تکنوپی برای ووکامرس | Technopay ===
 Contributors: vhamed32
 Tags: technopay, woocommerce, تکنوپی
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,11 @@ Visit technopay.ir website to create an account.
 Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
+
+= 1.2.1 =
+* Update: Plugin name updated to تکنوپی برای ووکامرس | Technopay
+* Update: Plugin description updated to Persian
+* Update: Author name and URI updated
 
 = 1.2.0 =
 * New: Refund orders admin page under WooCommerce with full RTL support
