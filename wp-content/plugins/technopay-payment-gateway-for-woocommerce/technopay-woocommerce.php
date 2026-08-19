@@ -2,7 +2,7 @@
 /**
  * Plugin Name: تکنوپی برای ووکامرس | Technopay
  * Description: افزونه درگاه پرداخت اعتباری امن برای ووکامرس توسط تکنوپی
- * Version: 1.2.1
+ * Version: 1.2.2
  * Author: حامد نجاری
  * Author URI: https://www.linkedin.com/in/hamed-najari
  * Text Domain: technopay-payment-gateway-for-woocommerce
@@ -20,7 +20,7 @@ use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
 if (!defined('ABSPATH')) exit;
 
-define('TPFW_VERSION', '1.2.1');
+define('TPFW_VERSION', '1.2.2');
 define('TPFW_PLUGIN_FILE', __FILE__);
 define('TPFW_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('TPFW_PLUGIN_URL', plugin_dir_url(__FILE__));

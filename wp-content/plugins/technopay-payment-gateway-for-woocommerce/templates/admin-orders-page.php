@@ -167,7 +167,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h2 id="tpfw-refund-modal-title">ثبت درخواست استرداد پرداخت</h2>
 			<p>شما می‌توانید تمام یا بخشی از مبلغ این سفارش را استرداد کنید. این امکان تا 7 روز پس از تأیید سفارش در دسترس است.</p>
 			<p>مبلغ موردنظر برای استرداد را در این بخش وارد کنید و دلیل استرداد وجه را نیز ثبت نمایید.</p>
-
+            <p>
+                 <b>فقط یکبار</b> امکان استراداد تراکنش وجود دارد.
+            </p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="tpfw-refund-modal__form" data-refund-form>
 				<input type="hidden" name="action" value="tpfw_create_refund">
 				<input type="hidden" name="track_number" value="">
