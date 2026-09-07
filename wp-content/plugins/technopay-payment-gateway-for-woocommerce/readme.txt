@@ -4,7 +4,7 @@ Tags: technopay, woocommerce, تکنوپی, تکنو پی, تکنولایف
 Requires at least: 5.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,15 @@ Visit technopay.ir website to create an account.
 Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
+
+= 1.3.0 =
+* New: Refund admin page split into two tabs - refundable payments and refund requests
+* New: Refundable payments tab lists only payments that can still be refunded and is the only place a refund request is submitted
+* New: Refund requests tab loads from the /payment/refunds endpoint and handles refund cancellation
+* New: Payment ID filter added to the refund admin page
+* Update: Submitting a refund request now opens the refund requests tab
+* Fix: Refund reasons list was empty because reasons were matched against the wrong type
+* Fix: Description field now appears for every reason that requires one
 
 = 1.2.2 =
 * Update: Added one-time refund notice to the refund modal

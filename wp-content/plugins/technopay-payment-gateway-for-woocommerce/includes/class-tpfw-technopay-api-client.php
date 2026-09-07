@@ -42,7 +42,7 @@ final class TPFW_Technopay_Api_Client {
 			function ( $item ) {
 				return is_array( $item )
 					&& isset( $item['code'], $item['reason'], $item['type'] )
-					&& 'REFUND' === $item['type'];
+					&& 'REFUND_REQUEST' === $item['type'];
 			}
 		);
 	}

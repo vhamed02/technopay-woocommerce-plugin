@@ -2,6 +2,8 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$tpfw_is_refundable_tab = TPFW_Refundable_Tickets_Tab::SLUG === $view['active_tab'];
 ?>
 <div class="wrap tpfw-orders-page" dir="rtl">
 	<?php if ( ! empty( $view['notice'] ) ) : ?>
@@ -26,12 +28,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 	</header>
 
+	<nav class="tpfw-orders-tabs" aria-label="بخش‌های استرداد">
+		<?php foreach ( $view['tabs'] as $tpfw_tab ) : ?>
+			<a href="<?php echo esc_url( $tpfw_tab['url'] ); ?>" class="tpfw-orders-tab<?php echo $tpfw_tab['is_active'] ? ' is-active' : ''; ?>"<?php echo $tpfw_tab['is_active'] ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $tpfw_tab['label'] ); ?></a>
+		<?php endforeach; ?>
+	</nav>
+
 	<form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" class="tpfw-orders-filters">
 		<input type="hidden" name="page" value="<?php echo esc_attr( TPFW_Admin_Orders_Page::PAGE_SLUG ); ?>">
+		<input type="hidden" name="tab" value="<?php echo esc_attr( $view['active_tab'] ); ?>">
 
 		<label class="tpfw-orders-field">
 			<span>شماره تماس کاربر</span>
 			<input type="text" name="customer_mobile" value="<?php echo esc_attr( $view['filters']['customer_mobile'] ); ?>" inputmode="tel" autocomplete="off" placeholder="09121234567">
+		</label>
+
+		<label class="tpfw-orders-field">
+			<span>شناسه پرداخت</span>
+			<input type="text" name="track_number" value="<?php echo esc_attr( $view['filters']['track_number'] ); ?>" inputmode="numeric" autocomplete="off" placeholder="شناسه دقیق پرداخت" dir="ltr">
 		</label>
 
 		<div class="tpfw-orders-field">
@@ -42,15 +56,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 
-		<label class="tpfw-orders-field">
-			<span>وضعیت</span>
-			<select name="order_status">
-				<option value="">همه وضعیت‌ها</option>
-				<?php foreach ( $view['status_options'] as $tpfw_status_key => $tpfw_status_label ) : ?>
-					<option value="<?php echo esc_attr( $tpfw_status_key ); ?>" <?php selected( $view['filters']['status'], $tpfw_status_key ); ?>><?php echo esc_html( $tpfw_status_label ); ?></option>
-				<?php endforeach; ?>
-			</select>
-		</label>
+		<?php if ( $view['supports_status'] ) : ?>
+			<label class="tpfw-orders-field">
+				<span>وضعیت</span>
+				<select name="order_status">
+					<option value="">همه وضعیت‌ها</option>
+					<?php foreach ( $view['status_options'] as $tpfw_status_key => $tpfw_status_label ) : ?>
+						<option value="<?php echo esc_attr( $tpfw_status_key ); ?>" <?php selected( $view['filters']['status'], $tpfw_status_key ); ?>><?php echo esc_html( $tpfw_status_label ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</label>
+		<?php endif; ?>
 
 		<label class="tpfw-orders-field">
 			<span>بازه زمانی ثبت سفارش</span>
@@ -84,9 +100,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<th scope="col">نام و نام خانوادگی کاربر</th>
 					<th scope="col">شماره تماس کاربر</th>
 					<th scope="col">شناسه پرداخت</th>
-					<th scope="col">تاریخ ثبت پرداخت</th>
+					<th scope="col"><?php echo esc_html( $view['date_label'] ); ?></th>
 					<th scope="col">مبلغ پرداخت</th>
-					<th scope="col">مبلغ استرداد</th>
+					<th scope="col"><?php echo esc_html( $view['refund_label'] ); ?></th>
 					<th scope="col">وضعیت</th>
 					<th scope="col">اقدامات</th>
 				</tr>
@@ -96,7 +112,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<tr>
 						<td colspan="9" class="tpfw-orders-table__empty">
 							<span class="dashicons dashicons-search" aria-hidden="true"></span>
-							سفارشی مطابق با این فیلترها پیدا نشد.
+							<?php echo esc_html( $view['empty_message'] ); ?>
 						</td>
 					</tr>
 				<?php else : ?>
@@ -120,9 +136,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<?php endif; ?>
 								</div>
 							</td>
-							<td data-label="تاریخ ثبت پرداخت"><?php echo esc_html( $tpfw_row['paid_at'] ); ?></td>
+							<td data-label="<?php echo esc_attr( $view['date_label'] ); ?>"><?php echo esc_html( $tpfw_row['date'] ); ?></td>
 							<td class="tpfw-orders-table__money" data-label="مبلغ پرداخت"><?php echo esc_html( $tpfw_row['amount'] ); ?></td>
-							<td class="tpfw-orders-table__money" data-label="مبلغ استرداد"><?php echo esc_html( $tpfw_row['refund_amount'] ); ?></td>
+							<td class="tpfw-orders-table__money" data-label="<?php echo esc_attr( $view['refund_label'] ); ?>"><?php echo esc_html( $tpfw_row['refund_amount'] ); ?></td>
 							<td data-label="وضعیت"><span class="tpfw-status tpfw-status--<?php echo esc_attr( $tpfw_row['status_tone'] ); ?>"><?php echo esc_html( $tpfw_row['status_label'] ); ?></span></td>
 							<td data-label="اقدامات">
 								<div class="tpfw-order-actions">
@@ -130,11 +146,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 										<button type="button" class="tpfw-order-action tpfw-order-action--refund" data-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>" data-available-amount="<?php echo esc_attr( $tpfw_row['available_amount_raw'] ); ?>"><span class="dashicons dashicons-undo" aria-hidden="true"></span>استرداد پرداخت</button>
 									<?php elseif ( 'cancel' === $tpfw_row['action'] ) : ?>
 										<button type="button" class="tpfw-order-action tpfw-order-action--cancel" data-cancel-refund-modal data-track-number="<?php echo esc_attr( $tpfw_row['track_number'] ); ?>"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span>لغو درخواست استرداد</button>
-									<?php elseif ( 'details' === $tpfw_row['action'] ) : ?>
-									<?php elseif ( ! $tpfw_row['has_reasons'] ) : ?>
+									<?php elseif ( ! $tpfw_row['has_details'] ) : ?>
 										<span aria-hidden="true">—</span>
 									<?php endif; ?>
-									<?php if ( $tpfw_row['has_reasons'] || 'details' === $tpfw_row['action'] ) : ?>
+									<?php if ( $tpfw_row['has_details'] ) : ?>
 										<button type="button" class="tpfw-order-action tpfw-order-action--details" data-details-modal data-refund-reasons="<?php echo esc_attr( wp_json_encode( $tpfw_row['refund_reasons'] ) ); ?>" data-reject-reasons="<?php echo esc_attr( wp_json_encode( $tpfw_row['reject_reasons'] ) ); ?>" aria-label="مشاهده جزئیات" title="مشاهده جزئیات"><span class="dashicons dashicons-info-outline" aria-hidden="true"></span></button>
 									<?php endif; ?>
 								</div>
@@ -160,6 +175,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</nav>
 	<?php endif; ?>
 
+	<?php if ( $tpfw_is_refundable_tab ) : ?>
 	<div class="tpfw-refund-modal" role="dialog" aria-modal="true" aria-labelledby="tpfw-refund-modal-title" aria-hidden="true" hidden>
 		<div class="tpfw-refund-modal__panel">
 			<button type="button" class="tpfw-refund-modal__close" data-refund-modal-close aria-label="بستن"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
@@ -167,9 +183,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<h2 id="tpfw-refund-modal-title">ثبت درخواست استرداد پرداخت</h2>
 			<p>شما می‌توانید تمام یا بخشی از مبلغ این سفارش را استرداد کنید. این امکان تا 7 روز پس از تأیید سفارش در دسترس است.</p>
 			<p>مبلغ موردنظر برای استرداد را در این بخش وارد کنید و دلیل استرداد وجه را نیز ثبت نمایید.</p>
-            <p>
-                 <b>فقط یکبار</b> امکان استراداد تراکنش وجود دارد.
-            </p>
+			<p>
+				<b>فقط یکبار</b> امکان استراداد تراکنش وجود دارد.
+			</p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="tpfw-refund-modal__form" data-refund-form>
 				<input type="hidden" name="action" value="tpfw_create_refund">
 				<input type="hidden" name="track_number" value="">
@@ -185,7 +201,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" required>
 						<option value="">انتخاب کنید...</option>
 						<?php foreach ( $view['reasons'] as $tpfw_reason ) : ?>
-							<option value="<?php echo esc_attr( $tpfw_reason['code'] ); ?>" data-group="<?php echo esc_attr( $tpfw_reason['group'] ); ?>"><?php echo esc_html( $tpfw_reason['reason'] ); ?></option>
+							<option value="<?php echo esc_attr( $tpfw_reason['code'] ); ?>" data-needs-description="<?php echo $tpfw_reason['requires_description'] ? '1' : '0'; ?>" title="<?php echo esc_attr( $tpfw_reason['text'] ); ?>"><?php echo esc_html( $tpfw_reason['reason'] ); ?></option>
 						<?php endforeach; ?>
 					</select>
 				</label>
@@ -200,7 +216,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</form>
 		</div>
 	</div>
-
+	<?php else : ?>
 	<div class="tpfw-refund-modal tpfw-cancel-modal" role="dialog" aria-modal="true" aria-labelledby="tpfw-cancel-modal-title" aria-hidden="true" hidden>
 		<div class="tpfw-refund-modal__panel">
 			<button type="button" class="tpfw-refund-modal__close" data-refund-modal-close aria-label="بستن"><span class="dashicons dashicons-no-alt" aria-hidden="true"></span></button>
@@ -219,6 +235,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</form>
 		</div>
 	</div>
+	<?php endif; ?>
 
 	<div class="tpfw-refund-modal tpfw-details-modal" role="dialog" aria-modal="true" aria-labelledby="tpfw-details-modal-title" aria-hidden="true" hidden>
 		<div class="tpfw-refund-modal__panel">

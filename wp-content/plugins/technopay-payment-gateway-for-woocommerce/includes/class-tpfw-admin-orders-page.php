@@ -3,14 +3,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+require_once TPFW_PLUGIN_PATH . 'includes/orders/class-tpfw-orders-formatter.php';
+require_once TPFW_PLUGIN_PATH . 'includes/orders/class-tpfw-refund-status.php';
+require_once TPFW_PLUGIN_PATH . 'includes/orders/interface-tpfw-orders-tab.php';
+require_once TPFW_PLUGIN_PATH . 'includes/orders/class-tpfw-refundable-tickets-tab.php';
+require_once TPFW_PLUGIN_PATH . 'includes/orders/class-tpfw-refunds-tab.php';
+
 final class TPFW_Admin_Orders_Page {
 
-	const PAGE_SLUG = 'technopay-orders';
-	const PER_PAGE  = 10;
+	const PAGE_SLUG         = 'technopay-orders';
+	const PER_PAGE          = 10;
+	const REASONS_TRANSIENT = 'tpfw_refund_reasons_v2';
 
 	private $hook_suffix = '';
+	private $formatter;
+	private $tabs = array();
 
 	public function __construct() {
+		$this->formatter = new TPFW_Orders_Formatter();
+
+		foreach ( array( new TPFW_Refundable_Tickets_Tab( $this->formatter ), new TPFW_Refunds_Tab( $this->formatter ) ) as $tab ) {
+			$this->tabs[ $tab->get_slug() ] = $tab;
+		}
+
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_post_tpfw_cancel_refund', array( $this, 'handle_cancel_refund' ) );
@@ -33,10 +48,10 @@ final class TPFW_Admin_Orders_Page {
 			return;
 		}
 
-		$style_path       = TPFW_PLUGIN_PATH . 'assets/css/admin-orders.css';
-		$script_path      = TPFW_PLUGIN_PATH . 'assets/js/admin-orders.js';
-		$slimselect_js    = TPFW_PLUGIN_PATH . 'assets/js/slimselect.min.js';
-		$slimselect_css   = TPFW_PLUGIN_PATH . 'assets/css/slimselect.css';
+		$style_path     = TPFW_PLUGIN_PATH . 'assets/css/admin-orders.css';
+		$script_path    = TPFW_PLUGIN_PATH . 'assets/js/admin-orders.js';
+		$slimselect_js  = TPFW_PLUGIN_PATH . 'assets/js/slimselect.min.js';
+		$slimselect_css = TPFW_PLUGIN_PATH . 'assets/css/slimselect.css';
 
 		wp_enqueue_style(
 			'tpfw-slimselect',
@@ -88,10 +103,11 @@ final class TPFW_Admin_Orders_Page {
 		}
 
 		$api_client = new TPFW_Technopay_Api_Client();
+		$tab        = $this->get_active_tab();
 		$filters    = $this->get_filters();
 		$cursor     = $this->sanitize_cursor( $this->get_request_value( 'cursor' ) );
 		$row_offset = '' !== $cursor ? absint( $this->get_request_value( 'row_offset' ) ) : 0;
-		$response   = $api_client->get_refundable_tickets( $this->get_api_query( $filters, $cursor ) );
+		$response   = $tab->fetch( $api_client, $this->get_api_query( $tab, $filters, $cursor ) );
 		$results    = array();
 		$metas      = array();
 		$error      = '';
@@ -103,18 +119,23 @@ final class TPFW_Admin_Orders_Page {
 			$metas   = $response['metas'];
 		}
 
-		$rows    = $this->get_rows( $results, $row_offset );
-		$reasons = $this->get_cached_reasons( $api_client );
+		$rows = $tab->get_rows( $results, $row_offset );
 
 		$view = array(
+			'active_tab'      => $tab->get_slug(),
+			'date_label'      => $tab->get_date_column_label(),
+			'empty_message'   => $tab->get_empty_message(),
 			'error'           => $error,
 			'filters'         => $filters,
 			'notice'          => $this->get_notice(),
-			'pagination'      => $this->get_pagination( $metas, $filters, $row_offset, count( $rows ) ),
-			'reasons'         => $reasons,
-			'reset_url'       => admin_url( 'admin.php?page=' . self::PAGE_SLUG ),
+			'pagination'      => $this->get_pagination( $tab, $metas, $filters, $row_offset, count( $rows ) ),
+			'reasons'         => $this->get_reason_options( $api_client ),
+			'refund_label'    => $tab->get_refund_column_label(),
+			'reset_url'       => $this->get_page_url( $tab->get_slug() ),
 			'rows'            => $rows,
 			'status_options'  => $this->get_status_options(),
+			'supports_status' => '' !== $tab->get_status_filter_key(),
+			'tabs'            => $this->get_tab_links( $tab, $filters ),
 			'visible_results' => count( $rows ),
 		);
 
@@ -136,7 +157,7 @@ final class TPFW_Admin_Orders_Page {
 			$this->redirect_with_notice( 'error', __( 'اعتبار درخواست به پایان رسیده است. لطفا دوباره تلاش کنید.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$track_number = trim( $this->normalize_digits( sanitize_text_field( $this->get_post_value( 'track_number' ) ) ) );
+		$track_number = $this->sanitize_track_number( $this->get_post_value( 'track_number' ) );
 		$amount       = $this->sanitize_amount( $this->get_post_value( 'requested_amount' ) );
 		$reason_code  = sanitize_text_field( $this->get_post_value( 'refund_reason' ) );
 		$description  = trim( sanitize_text_field( $this->get_post_value( 'refund_description' ) ) );
@@ -145,29 +166,20 @@ final class TPFW_Admin_Orders_Page {
 			$this->redirect_with_notice( 'error', __( 'اطلاعات درخواست استرداد کامل یا معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$api_client  = new TPFW_Technopay_Api_Client();
-		$reasons     = $this->get_cached_reasons( $api_client );
-		$valid_codes = $this->get_valid_reason_codes( $api_client );
+		$api_client = new TPFW_Technopay_Api_Client();
+		$reasons    = $this->get_cached_reasons( $api_client );
 
-		if ( ! in_array( $reason_code, $valid_codes, true ) ) {
+		if ( ! in_array( $reason_code, $this->get_valid_reason_codes( $reasons ), true ) ) {
 			$this->redirect_with_notice( 'error', __( 'دلیل استرداد انتخاب‌شده معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$selected_reason = null;
-		foreach ( $reasons as $reason ) {
-			if ( isset( $reason['code'] ) && (string) $reason['code'] === $reason_code ) {
-				$selected_reason = $reason;
-				break;
-			}
-		}
-
-		$requires_description = $selected_reason && isset( $selected_reason['group'] ) && 'other_issues' === $selected_reason['group'];
+		$requires_description = $this->requires_description( $reasons, $reason_code );
 
 		if ( $requires_description && '' === $description ) {
 			$this->redirect_with_notice( 'error', __( 'وارد کردن توضیحات برای این دلیل الزامی است.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$available_amount = $this->get_refundable_amount( $api_client, $track_number );
+		$available_amount = $this->get_tab( TPFW_Refundable_Tickets_Tab::SLUG )->get_refundable_amount( $api_client, $track_number );
 
 		if ( is_wp_error( $available_amount ) ) {
 			$this->redirect_with_notice( 'error', $available_amount->get_error_message() );
@@ -188,7 +200,11 @@ final class TPFW_Admin_Orders_Page {
 			$this->redirect_with_notice( 'error', $response->get_error_message() );
 		}
 
-		$this->redirect_with_notice( 'success', __( 'درخواست استرداد با موفقیت ثبت شد.', 'technopay-payment-gateway-for-woocommerce' ) );
+		$this->redirect_with_notice(
+			'success',
+			__( 'درخواست استرداد با موفقیت ثبت شد.', 'technopay-payment-gateway-for-woocommerce' ),
+			TPFW_Refunds_Tab::SLUG
+		);
 	}
 
 	public function handle_cancel_refund() {
@@ -206,21 +222,17 @@ final class TPFW_Admin_Orders_Page {
 			$this->redirect_with_notice( 'error', __( 'اعتبار درخواست به پایان رسیده است. لطفا دوباره تلاش کنید.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
-		$track_number = trim( $this->normalize_digits( sanitize_text_field( $this->get_post_value( 'track_number' ) ) ) );
+		$track_number = $this->sanitize_track_number( $this->get_post_value( 'track_number' ) );
 
 		if ( '' === $track_number ) {
 			$this->redirect_with_notice( 'error', __( 'اطلاعات لغو درخواست استرداد کامل یا معتبر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
 		}
 
 		$api_client = new TPFW_Technopay_Api_Client();
-		$state      = $this->get_refund_state( $api_client, $track_number );
+		$cancelable = $this->get_tab( TPFW_Refunds_Tab::SLUG )->ensure_cancelable( $api_client, $track_number );
 
-		if ( is_wp_error( $state ) ) {
-			$this->redirect_with_notice( 'error', $state->get_error_message() );
-		}
-
-		if ( 'cancel' !== $state['action'] ) {
-			$this->redirect_with_notice( 'error', __( 'لغو درخواست استرداد برای این پرداخت امکان‌پذیر نیست.', 'technopay-payment-gateway-for-woocommerce' ) );
+		if ( is_wp_error( $cancelable ) ) {
+			$this->redirect_with_notice( 'error', $cancelable->get_error_message() );
 		}
 
 		$response = $api_client->cancel_refund( $track_number );
@@ -232,64 +244,28 @@ final class TPFW_Admin_Orders_Page {
 		$this->redirect_with_notice( 'success', __( 'درخواست استرداد با موفقیت لغو شد.', 'technopay-payment-gateway-for-woocommerce' ) );
 	}
 
-	private function get_refundable_amount( $api_client, $track_number ) {
-		$state = $this->get_refund_state( $api_client, $track_number );
+	private function get_active_tab() {
+		$slug = sanitize_key( $this->get_request_value( 'tab' ) );
 
-		if ( is_wp_error( $state ) ) {
-			return $state;
-		}
-
-		if ( 'refund' === $state['action'] && null !== $state['refundable_amount'] && $state['refundable_amount'] >= 1 ) {
-			return (int) $state['refundable_amount'];
-		}
-
-		return new WP_Error(
-			'tpfw_refund_not_allowed',
-			__( 'ثبت درخواست استرداد برای این پرداخت امکان‌پذیر نیست.', 'technopay-payment-gateway-for-woocommerce' )
-		);
+		return $this->get_tab( $slug );
 	}
 
-	private function get_refund_state( $api_client, $track_number ) {
-		$response = $api_client->get_refundable_tickets(
-			array(
-				'filters'  => array( 'track_number' => $track_number ),
-				'per_page' => 1,
-			)
-		);
+	private function get_tab( $slug ) {
+		return isset( $this->tabs[ $slug ] ) ? $this->tabs[ $slug ] : $this->tabs[ TPFW_Refundable_Tickets_Tab::SLUG ];
+	}
 
-		if ( is_wp_error( $response ) ) {
-			return $response;
-		}
+	private function get_tab_links( TPFW_Orders_Tab $active_tab, $filters ) {
+		$links = array();
 
-		foreach ( $response['results'] as $result ) {
-			if ( ! is_array( $result ) || $track_number !== $this->normalize_digits( $this->get_scalar_value( $result, 'track_number' ) ) ) {
-				continue;
-			}
-
-			$refundable_amount = $this->parse_amount( isset( $result['refundable_amount'] ) ? $result['refundable_amount'] : null );
-			$is_refundable     = ! empty( $result['is_refundable'] );
-			$latest_request    = $this->get_latest_refund_request( $result );
-			$refund_key        = $this->normalize_status( $this->get_scalar_value( $latest_request, 'status' ) );
-			$is_pending        = in_array( $refund_key, array( 'pending', 'requested', 'waiting', 'in_progress', 'processing' ), true );
-
-			if ( $is_refundable ) {
-				$action = 'refund';
-			} elseif ( $is_pending ) {
-				$action = 'cancel';
-			} else {
-				$action = 'none';
-			}
-
-			return array(
-				'action'            => $action,
-				'refundable_amount' => $refundable_amount,
+		foreach ( $this->tabs as $slug => $tab ) {
+			$links[] = array(
+				'is_active' => $slug === $active_tab->get_slug(),
+				'label'     => $tab->get_label(),
+				'url'       => $this->get_page_url( $slug, $filters ),
 			);
 		}
 
-		return new WP_Error(
-			'tpfw_refund_not_found',
-			__( 'اطلاعات این پرداخت یافت نشد.', 'technopay-payment-gateway-for-woocommerce' )
-		);
+		return $links;
 	}
 
 	private function get_filters() {
@@ -300,25 +276,32 @@ final class TPFW_Admin_Orders_Page {
 
 		return array(
 			'amount'          => $this->sanitize_amount( $this->get_request_value( 'amount' ) ),
-			'customer_mobile' => $this->normalize_digits( sanitize_text_field( $this->get_request_value( 'customer_mobile' ) ) ),
+			'customer_mobile' => $this->formatter->normalize_digits( sanitize_text_field( $this->get_request_value( 'customer_mobile' ) ) ),
 			'period'          => in_array( $period, $periods, true ) ? $period : '',
 			'status'          => isset( $status_options[ $status ] ) ? $status : '',
+			'track_number'    => $this->sanitize_track_number( $this->get_request_value( 'track_number' ) ),
 		);
 	}
 
-	private function get_api_query( $filters, $cursor ) {
+	private function get_api_query( TPFW_Orders_Tab $tab, $filters, $cursor ) {
 		$api_filters = array();
 
 		if ( '' !== $filters['customer_mobile'] ) {
 			$api_filters['customer_mobile'] = $filters['customer_mobile'];
 		}
 
+		if ( '' !== $filters['track_number'] ) {
+			$api_filters['track_number'] = $filters['track_number'];
+		}
+
 		if ( '' !== $filters['amount'] ) {
 			$api_filters['ticket_amount'] = (int) $filters['amount'];
 		}
 
-		if ( '' !== $filters['status'] ) {
-			$api_filters['refund_status'] = $filters['status'];
+		$status_filter_key = $tab->get_status_filter_key();
+
+		if ( '' !== $filters['status'] && '' !== $status_filter_key ) {
+			$api_filters[ $status_filter_key ] = $filters['status'];
 		}
 
 		if ( '' !== $filters['period'] ) {
@@ -339,7 +322,7 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	private function get_paid_at_filter( $period ) {
-		$today = new DateTimeImmutable( 'today', $this->get_timezone() );
+		$today = new DateTimeImmutable( 'today', $this->formatter->get_timezone() );
 
 		switch ( $period ) {
 			case 'today':
@@ -357,164 +340,43 @@ final class TPFW_Admin_Orders_Page {
 		return '';
 	}
 
-	private function get_rows( $results, $row_offset ) {
-		$rows = array();
-
-		foreach ( $results as $index => $result ) {
-			if ( ! is_array( $result ) ) {
-				continue;
-			}
-
-			$ticket_amount     = $this->parse_amount( isset( $result['ticket_amount'] ) ? $result['ticket_amount'] : null );
-			$refundable_amount = $this->parse_amount( isset( $result['refundable_amount'] ) ? $result['refundable_amount'] : null );
-			$is_refundable     = ! empty( $result['is_refundable'] );
-			$ticket_status     = $this->get_scalar_value( $result, 'ticket_status' );
-			$track_number      = $this->normalize_digits( $this->get_scalar_value( $result, 'track_number' ) );
-
-			$latest_request   = $this->get_latest_refund_request( $result );
-			$refund_status    = $this->get_scalar_value( $latest_request, 'status' );
-			$requested_amount = $this->parse_amount( isset( $latest_request['requested_amount'] ) ? $latest_request['requested_amount'] : null );
-			$refund_reasons   = $this->parse_reasons( isset( $latest_request['refund_reasons'] ) ? $latest_request['refund_reasons'] : array() );
-			$reject_reasons   = $this->parse_reasons( isset( $latest_request['reject_reasons'] ) ? $latest_request['reject_reasons'] : array() );
-
-			$status = $this->get_display_status( $is_refundable, $refund_status, $ticket_status, $ticket_amount, $requested_amount );
-
-			$rows[] = array(
-				'action'               => $status['action'],
-				'amount'               => $this->format_amount( $ticket_amount ),
-				'available_amount_raw' => null === $refundable_amount ? '' : (string) (int) $refundable_amount,
-				'customer_mobile'      => $this->normalize_digits( $this->get_scalar_value( $result, 'customer_mobile' ) ),
-				'customer_name'        => $this->get_display_value( $this->get_scalar_value( $result, 'customer_full_name' ) ),
-				'has_reasons'          => ( ! empty( $refund_reasons ) || ! empty( $reject_reasons ) ) && ! in_array( $this->normalize_status( $refund_status ), array( 'canceled', 'cancelled' ), true ),
-				'number'               => (string) ( $row_offset + $index + 1 ),
-				'paid_at'              => $this->format_date( $this->get_scalar_value( $result, 'paid_at' ) ),
-				'refund_amount'        => null !== $requested_amount && $requested_amount > 0 ? $this->format_amount( $requested_amount ) : '—',
-				'refund_reasons'       => $refund_reasons,
-				'reject_reasons'       => $reject_reasons,
-				'status_label'         => $status['label'],
-				'status_tone'          => $status['tone'],
-				'track_number'         => $track_number,
-			);
-		}
-
-		return $rows;
-	}
-
-	private function get_latest_refund_request( $result ) {
-		if ( ! isset( $result['refund_requests'] ) || ! is_array( $result['refund_requests'] ) ) {
-			return array();
-		}
-
-		foreach ( $result['refund_requests'] as $request ) {
-			if ( is_array( $request ) ) {
-				return $request;
-			}
-		}
-
-		return array();
-	}
-
-	private function get_display_status( $is_refundable, $refund_status, $ticket_status, $ticket_amount, $requested_amount ) {
-		$refund_key = $this->normalize_status( $refund_status );
-		$ticket_key = $this->normalize_status( $ticket_status );
-		$pending    = array( 'pending', 'requested', 'waiting', 'in_progress', 'processing' );
-		$completed  = array( 'approved', 'completed', 'done', 'refunded', 'success', 'successful', 'partial_refunded' );
-		$is_settled = in_array( $ticket_key, array( 'settled', 'settle', 'completed', 'finalized' ), true );
-
-		if ( in_array( $refund_key, $pending, true ) ) {
-			return array(
-				'action' => 'cancel',
-				'label'  => __( 'در انتظار استرداد', 'technopay-payment-gateway-for-woocommerce' ),
-				'tone'   => 'warning',
-			);
-		}
-
-		if ( in_array( $refund_key, $completed, true ) ) {
-			$is_full_refund = null !== $ticket_amount && null !== $requested_amount && $requested_amount >= $ticket_amount;
-
-			return array(
-				'action' => 'details',
-				'label'  => $is_full_refund
-					? __( 'استرداد کل مبلغ', 'technopay-payment-gateway-for-woocommerce' )
-					: __( 'استرداد بخشی از مبلغ', 'technopay-payment-gateway-for-woocommerce' ),
-				'tone'   => 'danger',
-			);
-		}
-
-		if ( $is_refundable ) {
-			return array(
-				'action' => 'refund',
-				'label'  => __( 'تایید شده', 'technopay-payment-gateway-for-woocommerce' ),
-				'tone'   => 'success',
-			);
-		}
-
-		if ( in_array( $refund_key, array( 'canceled', 'cancelled' ), true ) ) {
-			return array(
-				'action' => 'none',
-				'label'  => __( 'درخواست استرداد لغو شده', 'technopay-payment-gateway-for-woocommerce' ),
-				'tone'   => 'info',
-			);
-		}
-
-		if ( in_array( $refund_key, array( 'failed', 'rejected' ), true ) ) {
-			return array(
-				'action' => 'none',
-				'label'  => __( 'درخواست استرداد رد شده', 'technopay-payment-gateway-for-woocommerce' ),
-				'tone'   => 'danger',
-			);
-		}
-
-		if ( $is_settled ) {
-			return array(
-				'action' => 'none',
-				'label'  => in_array( $ticket_key, array( 'settled', 'settle' ), true )
-					? __( 'تسویه شده', 'technopay-payment-gateway-for-woocommerce' )
-					: __( 'نهایی شده', 'technopay-payment-gateway-for-woocommerce' ),
-				'tone'   => 'info',
-			);
-		}
-
-		return array(
-			'action' => 'none',
-			'label'  => $this->get_display_value( '' !== $refund_status ? $refund_status : $ticket_status ),
-			'tone'   => 'info',
-		);
-	}
-
-	private function get_pagination( $metas, $filters, $row_offset, $visible_results ) {
+	private function get_pagination( TPFW_Orders_Tab $tab, $metas, $filters, $row_offset, $visible_results ) {
 		$previous_cursor = isset( $metas['prev_cursor'] ) && is_scalar( $metas['prev_cursor'] ) ? (string) $metas['prev_cursor'] : '';
 		$next_cursor     = isset( $metas['next_cursor'] ) && is_scalar( $metas['next_cursor'] ) ? (string) $metas['next_cursor'] : '';
-		$previous_offset = max( 0, $row_offset - self::PER_PAGE );
-		$next_offset     = $row_offset + $visible_results;
 
 		return array(
-			'next_url'     => '' !== $next_cursor ? $this->get_cursor_url( $next_cursor, $filters, $next_offset ) : '',
-			'previous_url' => '' !== $previous_cursor ? $this->get_cursor_url( $previous_cursor, $filters, $previous_offset ) : '',
+			'next_url'     => '' !== $next_cursor
+				? $this->get_page_url( $tab->get_slug(), $filters, $next_cursor, $row_offset + $visible_results )
+				: '',
+			'previous_url' => '' !== $previous_cursor
+				? $this->get_page_url( $tab->get_slug(), $filters, $previous_cursor, max( 0, $row_offset - self::PER_PAGE ) )
+				: '',
 		);
 	}
 
-	private function get_cursor_url( $cursor, $filters, $row_offset ) {
+	private function get_page_url( $tab_slug, $filters = array(), $cursor = '', $row_offset = 0 ) {
 		$query_args = array(
-			'page'       => self::PAGE_SLUG,
-			'cursor'     => $cursor,
-			'row_offset' => $row_offset,
+			'page' => self::PAGE_SLUG,
+			'tab'  => $tab_slug,
 		);
 
-		if ( '' !== $filters['customer_mobile'] ) {
-			$query_args['customer_mobile'] = $filters['customer_mobile'];
+		if ( '' !== $cursor ) {
+			$query_args['cursor']     = $cursor;
+			$query_args['row_offset'] = $row_offset;
 		}
 
-		if ( '' !== $filters['amount'] ) {
-			$query_args['amount'] = $filters['amount'];
-		}
+		$filter_args = array(
+			'customer_mobile' => 'customer_mobile',
+			'track_number'    => 'track_number',
+			'amount'          => 'amount',
+			'status'          => 'order_status',
+			'period'          => 'order_period',
+		);
 
-		if ( '' !== $filters['status'] ) {
-			$query_args['order_status'] = $filters['status'];
-		}
-
-		if ( '' !== $filters['period'] ) {
-			$query_args['order_period'] = $filters['period'];
+		foreach ( $filter_args as $filter_key => $query_key ) {
+			if ( isset( $filters[ $filter_key ] ) && '' !== $filters[ $filter_key ] ) {
+				$query_args[ $query_key ] = $filters[ $filter_key ];
+			}
 		}
 
 		return add_query_arg( $query_args, admin_url( 'admin.php' ) );
@@ -530,9 +392,9 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	private function get_cached_reasons( $api_client ) {
-		$cached = get_transient( 'tpfw_refund_reasons' );
+		$cached = get_transient( self::REASONS_TRANSIENT );
 
-		if ( is_array( $cached ) ) {
+		if ( is_array( $cached ) && ! empty( $cached ) ) {
 			return $cached;
 		}
 
@@ -544,14 +406,37 @@ final class TPFW_Admin_Orders_Page {
 
 		$reasons = array_values( $reasons );
 
-		set_transient( 'tpfw_refund_reasons', $reasons, HOUR_IN_SECONDS );
+		if ( ! empty( $reasons ) ) {
+			set_transient( self::REASONS_TRANSIENT, $reasons, HOUR_IN_SECONDS );
+		}
 
 		return $reasons;
 	}
 
-	private function get_valid_reason_codes( $api_client ) {
-		$reasons = $this->get_cached_reasons( $api_client );
+	private function get_reason_options( $api_client ) {
+		$options = array();
 
+		foreach ( $this->get_cached_reasons( $api_client ) as $reason ) {
+			$options[] = array(
+				'code'                 => $this->formatter->get_scalar_value( $reason, 'code' ),
+				'reason'               => $this->formatter->get_scalar_value( $reason, 'reason' ),
+				'requires_description' => $this->reason_requires_description( $reason ),
+				'text'                 => $this->formatter->get_scalar_value( $reason, 'text' ),
+			);
+		}
+
+		return $options;
+	}
+
+	private function reason_requires_description( $reason ) {
+		if ( isset( $reason['group'] ) && 'other_issues' === $reason['group'] ) {
+			return true;
+		}
+
+		return '' === $this->formatter->get_scalar_value( $reason, 'text' );
+	}
+
+	private function get_valid_reason_codes( $reasons ) {
 		return array_map(
 			function ( $reason ) {
 				return (string) $reason['code'];
@@ -560,40 +445,14 @@ final class TPFW_Admin_Orders_Page {
 		);
 	}
 
-	private function parse_reasons( $reasons ) {
-		if ( ! is_array( $reasons ) ) {
-			return array();
-		}
-
-		$parsed = array();
-
-		foreach ( $reasons as $item ) {
-			if ( ! is_array( $item ) ) {
-				continue;
-			}
-
-			$parsed[] = array(
-				'code'        => isset( $item['code'] ) && is_scalar( $item['code'] ) ? sanitize_text_field( (string) $item['code'] ) : '',
-				'reason'      => isset( $item['reason'] ) && is_scalar( $item['reason'] ) ? sanitize_text_field( (string) $item['reason'] ) : '',
-				'description' => isset( $item['description'] ) && is_scalar( $item['description'] ) ? sanitize_text_field( (string) $item['description'] ) : '',
-			);
-		}
-
-		return $parsed;
-	}
-
-	private function get_refund_reason_label( $reason ) {
-		$cached = get_transient( 'tpfw_refund_reasons' );
-
-		if ( is_array( $cached ) ) {
-			foreach ( $cached as $item ) {
-				if ( isset( $item['code'] ) && (string) $item['code'] === (string) $reason ) {
-					return isset( $item['reason'] ) ? (string) $item['reason'] : $reason;
-				}
+	private function requires_description( $reasons, $reason_code ) {
+		foreach ( $reasons as $reason ) {
+			if ( isset( $reason['code'] ) && (string) $reason['code'] === $reason_code ) {
+				return $this->reason_requires_description( $reason );
 			}
 		}
 
-		return $reason;
+		return false;
 	}
 
 	private function get_request_value( $key ) {
@@ -636,7 +495,7 @@ final class TPFW_Admin_Orders_Page {
 		);
 	}
 
-	private function redirect_with_notice( $type, $message ) {
+	private function redirect_with_notice( $type, $message, $tab_slug = '' ) {
 		set_transient(
 			'tpfw_refund_notice_' . get_current_user_id(),
 			array(
@@ -646,10 +505,10 @@ final class TPFW_Admin_Orders_Page {
 			MINUTE_IN_SECONDS
 		);
 
-		$redirect_url = wp_get_referer();
+		$redirect_url = '' !== $tab_slug ? $this->get_page_url( $tab_slug ) : wp_get_referer();
 
 		if ( ! $redirect_url ) {
-			$redirect_url = admin_url( 'admin.php?page=' . self::PAGE_SLUG );
+			$redirect_url = $this->get_page_url( TPFW_Refundable_Tickets_Tab::SLUG );
 		}
 
 		$redirect_url = remove_query_arg( 'tpfw_refund_notice', $redirect_url );
@@ -660,125 +519,17 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	private function sanitize_amount( $amount ) {
-		$amount = $this->normalize_digits( sanitize_text_field( $amount ) );
+		$amount = $this->formatter->normalize_digits( sanitize_text_field( $amount ) );
 		$amount = str_replace( array( ',', '٬', ' ' ), '', $amount );
 
 		return ctype_digit( $amount ) ? $amount : '';
 	}
 
+	private function sanitize_track_number( $track_number ) {
+		return trim( $this->formatter->normalize_digits( sanitize_text_field( $track_number ) ) );
+	}
+
 	private function sanitize_cursor( $cursor ) {
 		return sanitize_text_field( $cursor );
-	}
-
-	private function get_scalar_value( $result, $key ) {
-		return isset( $result[ $key ] ) && is_scalar( $result[ $key ] ) ? sanitize_text_field( (string) $result[ $key ] ) : '';
-	}
-
-	private function get_display_value( $value ) {
-		return '' !== trim( $value ) ? $value : '—';
-	}
-
-	private function parse_amount( $amount ) {
-		if ( null === $amount || ! is_scalar( $amount ) ) {
-			return null;
-		}
-
-		$amount = str_replace( array( ',', '٬', ' ' ), '', $this->normalize_digits( (string) $amount ) );
-
-		return is_numeric( $amount ) ? (float) $amount : null;
-	}
-
-	private function format_amount( $amount ) {
-		return null === $amount ? '—' : number_format( $amount, 0, '.', ',' ) . ' ' . __( 'تومان', 'technopay-payment-gateway-for-woocommerce' );
-	}
-
-	private function format_date( $value ) {
-		if ( '' === $value ) {
-			return '—';
-		}
-
-		try {
-			$date = new DateTimeImmutable( $value );
-		} catch ( Throwable $exception ) {
-			return $this->normalize_digits( $value );
-		}
-
-		if ( class_exists( 'IntlDateFormatter' ) ) {
-			try {
-				$timezone = $this->get_timezone()->getName();
-				$timezone = preg_match( '/^[+-]/', $timezone ) ? 'GMT' . $timezone : $timezone;
-				$formatter = new IntlDateFormatter(
-					'fa_IR@calendar=persian',
-					IntlDateFormatter::NONE,
-					IntlDateFormatter::NONE,
-					$timezone,
-					IntlDateFormatter::TRADITIONAL,
-					'yyyy/MM/dd'
-				);
-				$formatted = $formatter->format( $date->getTimestamp() );
-
-				if ( false !== $formatted ) {
-					return $this->normalize_digits( $formatted );
-				}
-			} catch ( Throwable $exception ) {
-				return $this->format_gregorian_date( $date );
-			}
-		}
-
-		return $this->format_gregorian_date( $date );
-	}
-
-	private function format_gregorian_date( $date ) {
-		return $this->normalize_digits( $date->setTimezone( $this->get_timezone() )->format( 'Y/m/d' ) );
-	}
-
-	private function get_timezone() {
-		$timezone_string = get_option( 'timezone_string' );
-
-		if ( is_string( $timezone_string ) && '' !== $timezone_string ) {
-			try {
-				return new DateTimeZone( $timezone_string );
-			} catch ( Throwable $exception ) {
-			}
-		}
-
-		$offset  = (float) get_option( 'gmt_offset', 0 );
-		$hours   = (int) $offset;
-		$minutes = (int) round( abs( $offset - $hours ) * 60 );
-		$sign    = $offset < 0 ? '-' : '+';
-
-		return new DateTimeZone( sprintf( '%s%02d:%02d', $sign, abs( $hours ), $minutes ) );
-	}
-
-	private function normalize_status( $status ) {
-		return sanitize_key( strtolower( str_replace( array( ' ', '-' ), '_', $status ) ) );
-	}
-
-	private function normalize_digits( $value ) {
-		return strtr(
-			(string) $value,
-			array(
-				'۰' => '0',
-				'۱' => '1',
-				'۲' => '2',
-				'۳' => '3',
-				'۴' => '4',
-				'۵' => '5',
-				'۶' => '6',
-				'۷' => '7',
-				'۸' => '8',
-				'۹' => '9',
-				'٠' => '0',
-				'١' => '1',
-				'٢' => '2',
-				'٣' => '3',
-				'٤' => '4',
-				'٥' => '5',
-				'٦' => '6',
-				'٧' => '7',
-				'٨' => '8',
-				'٩' => '9',
-			)
-		);
 	}
 }

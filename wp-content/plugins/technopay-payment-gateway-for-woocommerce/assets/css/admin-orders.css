@@ -191,9 +191,40 @@
     font-size: 12px;
 }
 
+.tpfw-orders-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--tpfw-line);
+    gap: 8px;
+}
+
+.tpfw-orders-tab {
+    position: relative;
+    padding: 10px 18px;
+    border-bottom: 2px solid transparent;
+    color: var(--tpfw-muted);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color .18s ease, border-color .18s ease;
+}
+
+.tpfw-orders-tab:hover,
+.tpfw-orders-tab:focus {
+    color: var(--tpfw-cyan-dark);
+    box-shadow: none;
+    outline: none;
+}
+
+.tpfw-orders-tab.is-active {
+    border-bottom-color: var(--tpfw-cyan);
+    color: var(--tpfw-cyan-dark);
+}
+
 .tpfw-orders-filters {
     display: grid;
-    grid-template-columns: minmax(170px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(260px, 1.25fr) auto;
+    grid-template-columns: repeat(4, minmax(160px, 1fr)) minmax(240px, 1.25fr) auto;
     align-items: end;
     gap: 16px;
     margin-bottom: 54px;

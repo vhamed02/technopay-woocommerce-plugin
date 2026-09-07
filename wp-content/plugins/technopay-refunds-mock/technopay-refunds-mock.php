@@ -55,7 +55,7 @@ final class TPFW_Refunds_Mock {
 			array_filter(
 				$this->get_results(),
 				function ( $result ) use ( $filters ) {
-					return $this->matches_result( $result, $filters );
+					return 'none' !== $result['refund_status'] && $this->matches_result( $result, $filters );
 				}
 			)
 		);

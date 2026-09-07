@@ -54,13 +54,12 @@
             },
             events: {
                 afterChange: function (selected) {
-                    var group = selected.length ? selected[0].data['group'] : '';
-                    var isOtherGroup = group === 'other_issues';
+                    var needsDescription = selected.length && selected[0].data['needsDescription'] === '1';
 
-                    descriptionField.hidden = !isOtherGroup;
-                    descriptionInput.required = isOtherGroup;
+                    descriptionField.hidden = !needsDescription;
+                    descriptionInput.required = needsDescription;
 
-                    if (!isOtherGroup) {
+                    if (!needsDescription) {
                         descriptionInput.value = '';
                         descriptionInput.setCustomValidity('');
                     }
