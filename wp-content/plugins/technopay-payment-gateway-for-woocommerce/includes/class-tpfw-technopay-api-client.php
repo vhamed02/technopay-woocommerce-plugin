@@ -60,6 +60,19 @@ final class TPFW_Technopay_Api_Client {
 		);
 	}
 
+	public function get_refundable_tickets( $query_args ) {
+		$body = $this->request( 'GET', '/refundable-tickets', array( 'query' => $query_args ), 'refundable_tickets' );
+
+		if ( is_wp_error( $body ) ) {
+			return $body;
+		}
+
+		return array(
+			'results' => isset( $body['results'] ) && is_array( $body['results'] ) ? $body['results'] : array(),
+			'metas'   => isset( $body['metas'] ) && is_array( $body['metas'] ) ? $body['metas'] : array(),
+		);
+	}
+
 	public function create_refund( $track_number, $requested_amount, array $reason_codes, $description = null ) {
 		$body_data = array(
 			'track_number'     => (string) $track_number,

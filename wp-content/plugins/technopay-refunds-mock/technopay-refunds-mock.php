@@ -37,6 +37,10 @@ final class TPFW_Refunds_Mock {
 			return $this->get_reasons();
 		}
 
+		if ( 'GET' === $method && '/payment/refundable-tickets' === $path ) {
+			return $this->refundable_tickets( $url );
+		}
+
 		if ( 'GET' !== $method || '/payment/refunds' !== $path ) {
 			return $preempt;
 		}
@@ -81,6 +85,85 @@ final class TPFW_Refunds_Mock {
 			),
 			'cookies'  => array(),
 			'filename' => null,
+		);
+	}
+
+	private function refundable_tickets( $url ) {
+		$query = array();
+		parse_str( (string) wp_parse_url( $url, PHP_URL_QUERY ), $query );
+
+		$filters  = isset( $query['filters'] ) && is_array( $query['filters'] ) ? $query['filters'] : array();
+		$per_page = isset( $query['per_page'] ) ? max( 1, min( 50, absint( $query['per_page'] ) ) ) : 15;
+		$offset   = $this->get_offset( isset( $query['cursor'] ) ? $query['cursor'] : '' );
+
+		// The new endpoint filters refund-request status via `refund_status`; reuse the shared matcher.
+		if ( isset( $filters['refund_status'] ) ) {
+			$filters['status'] = $filters['refund_status'];
+			unset( $filters['refund_status'] );
+		}
+
+		$results = array_values(
+			array_map(
+				array( $this, 'to_ticket_shape' ),
+				array_filter(
+					$this->get_results(),
+					function ( $result ) use ( $filters ) {
+						return $this->matches_result( $result, $filters );
+					}
+				)
+			)
+		);
+
+		$total        = count( $results );
+		$page_results = array_slice( $results, $offset, $per_page );
+		$next_offset  = $offset + $per_page;
+		$prev_offset  = max( 0, $offset - $per_page );
+
+		return $this->get_response(
+			200,
+			array(
+				'succeed' => true,
+				'message' => 'لیست تیکت‌های قابل استرداد با موفقیت دریافت شد.',
+				'results' => $page_results,
+				'metas'   => array(
+					'path'        => '/payment/refundable-tickets',
+					'per_page'    => $per_page,
+					'next_cursor' => $next_offset < $total ? 'mock-' . $next_offset : null,
+					'prev_cursor' => $offset > 0 ? 'mock-' . $prev_offset : null,
+				),
+			)
+		);
+	}
+
+	private function to_ticket_shape( $result ) {
+		$is_settled        = in_array( $result['ticket_status'], array( 'settled', 'completed', 'finalized' ), true );
+		$has_open_request  = in_array( $result['refund_status'], array( 'pending', 'approved' ), true );
+		$refundable_amount = (int) $result['ticket_amount'];
+		$is_refundable     = ! $is_settled && ! $has_open_request && $refundable_amount >= 1;
+
+		$refund_requests = array();
+
+		if ( 'none' !== $result['refund_status'] ) {
+			$refund_requests[] = array(
+				'id'               => absint( substr( $result['track_number'], -6 ) ),
+				'requested_amount' => (int) $result['requested_amount'],
+				'status'           => $result['refund_status'],
+				'created_at'       => $result['created_at'],
+				'refund_reasons'   => $result['refund_reasons'],
+				'reject_reasons'   => $result['reject_reasons'],
+			);
+		}
+
+		return array(
+			'customer_full_name' => $result['customer_full_name'],
+			'customer_mobile'    => $result['customer_mobile'],
+			'track_number'       => $result['track_number'],
+			'ticket_amount'      => $result['ticket_amount'],
+			'refundable_amount'  => (string) $refundable_amount,
+			'is_refundable'      => $is_refundable,
+			'ticket_status'      => $result['ticket_status'],
+			'paid_at'            => $result['paid_at'],
+			'refund_requests'    => $refund_requests,
 		);
 	}
 
