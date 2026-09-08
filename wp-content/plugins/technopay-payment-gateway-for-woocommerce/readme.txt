@@ -56,6 +56,7 @@ Yes, you can enable test mode from settings to send payments to test server.
 == Changelog ==
 
 = 1.3.2 =
+* Update: Payment date is now read from the ticket status change time
 * Fix: Admin notices from other plugins no longer render inside the page header
 
 = 1.3.1 =
