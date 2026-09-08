@@ -4,7 +4,7 @@ Tags: technopay, woocommerce, تکنوپی, تکنو پی, تکنولایف
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,12 +55,14 @@ Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
 
+= 1.3.2 =
+* Fix: Admin notices from other plugins no longer render inside the page header
+
 = 1.3.1 =
 * Fix: Payment date falls back to the ticket status change time when the paid date is missing
 * Fix: Dates returned without a timezone are read in the site timezone instead of UTC
 * Fix: Actions column is no longer clipped when the table is wider than the screen
 * Fix: Payment ID filter placeholder is now aligned to the right
-* Fix: Admin notices from other plugins no longer render inside the page header
 
 = 1.3.0 =
 * New: Refund admin page split into two tabs - refundable payments and refund requests
