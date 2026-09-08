@@ -60,6 +60,7 @@ Yes, you can enable test mode from settings to send payments to test server.
 * Fix: Dates returned without a timezone are read in the site timezone instead of UTC
 * Fix: Actions column is no longer clipped when the table is wider than the screen
 * Fix: Payment ID filter placeholder is now aligned to the right
+* Fix: Admin notices from other plugins no longer render inside the page header
 
 = 1.3.0 =
 * New: Refund admin page split into two tabs - refundable payments and refund requests

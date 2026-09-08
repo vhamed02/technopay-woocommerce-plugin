@@ -191,6 +191,12 @@
     font-size: 12px;
 }
 
+.tpfw-orders-page > .notice,
+.tpfw-orders-page > .updated,
+.tpfw-orders-page > .error {
+    margin: 0 0 16px;
+}
+
 .tpfw-orders-tabs {
     display: flex;
     flex-wrap: wrap;

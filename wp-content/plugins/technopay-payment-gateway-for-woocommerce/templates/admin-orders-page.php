@@ -28,6 +28,8 @@ $tpfw_is_refundable_tab = TPFW_Refundable_Tickets_Tab::SLUG === $view['active_ta
 		</div>
 	</header>
 
+	<hr class="wp-header-end">
+
 	<nav class="tpfw-orders-tabs" aria-label="بخش‌های استرداد">
 		<?php foreach ( $view['tabs'] as $tpfw_tab ) : ?>
 			<a href="<?php echo esc_url( $tpfw_tab['url'] ); ?>" class="tpfw-orders-tab<?php echo $tpfw_tab['is_active'] ? ' is-active' : ''; ?>"<?php echo $tpfw_tab['is_active'] ? ' aria-current="page"' : ''; ?>><?php echo esc_html( $tpfw_tab['label'] ); ?></a>
