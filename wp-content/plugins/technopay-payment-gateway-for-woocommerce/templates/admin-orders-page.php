@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $tpfw_is_refundable_tab = TPFW_Refundable_Tickets_Tab::SLUG === $view['active_tab'];
 ?>
+<hr class="wp-header-end">
 <div class="wrap tpfw-orders-page" dir="rtl">
 	<?php if ( ! empty( $view['notice'] ) ) : ?>
 		<div class="tpfw-orders-notice tpfw-orders-notice--<?php echo esc_attr( $view['notice']['type'] ); ?>" role="<?php echo esc_attr( 'error' === $view['notice']['type'] ? 'alert' : 'status' ); ?>">
@@ -27,8 +28,6 @@ $tpfw_is_refundable_tab = TPFW_Refundable_Tickets_Tab::SLUG === $view['active_ta
 			<span class="tpfw-orders-page__count">تعداد نتایج این صفحه: <?php echo esc_html( (string) $view['visible_results'] ); ?></span>
 		</div>
 	</header>
-
-	<hr class="wp-header-end">
 
 	<nav class="tpfw-orders-tabs" aria-label="بخش‌های استرداد">
 		<?php foreach ( $view['tabs'] as $tpfw_tab ) : ?>
