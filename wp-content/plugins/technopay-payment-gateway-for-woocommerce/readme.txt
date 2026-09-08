@@ -4,7 +4,7 @@ Tags: technopay, woocommerce, تکنوپی, تکنو پی, تکنولایف
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Visit technopay.ir website to create an account.
 Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
+
+= 1.3.3 =
+* Fix: Admin notices from other plugins now render outside the plugin page container
 
 = 1.3.2 =
 * Update: Payment date is now read from the ticket status change time
