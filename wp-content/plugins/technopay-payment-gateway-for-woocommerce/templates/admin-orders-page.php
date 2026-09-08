@@ -45,7 +45,7 @@ $tpfw_is_refundable_tab = TPFW_Refundable_Tickets_Tab::SLUG === $view['active_ta
 
 		<label class="tpfw-orders-field">
 			<span>شناسه پرداخت</span>
-			<input type="text" name="track_number" value="<?php echo esc_attr( $view['filters']['track_number'] ); ?>" inputmode="numeric" autocomplete="off" placeholder="شناسه دقیق پرداخت" dir="ltr">
+			<input type="text" name="track_number" class="tpfw-orders-field__code" value="<?php echo esc_attr( $view['filters']['track_number'] ); ?>" inputmode="numeric" autocomplete="off" placeholder="شناسه دقیق پرداخت">
 		</label>
 
 		<div class="tpfw-orders-field">

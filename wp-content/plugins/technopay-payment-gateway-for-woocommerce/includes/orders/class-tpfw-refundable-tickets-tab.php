@@ -66,7 +66,7 @@ final class TPFW_Refundable_Tickets_Tab implements TPFW_Orders_Tab {
 				'available_amount_raw' => $this->formatter->format_raw_amount( $refundable_amount ),
 				'customer_mobile'      => $this->formatter->normalize_digits( $this->formatter->get_scalar_value( $result, 'customer_mobile' ) ),
 				'customer_name'        => $this->formatter->get_display_value( $this->formatter->get_scalar_value( $result, 'customer_full_name' ) ),
-				'date'                 => $this->formatter->format_date( $this->formatter->get_scalar_value( $result, 'paid_at' ) ),
+				'date'                 => $this->formatter->format_date( $this->formatter->get_first_scalar_value( $result, array( 'paid_at', 'status_changed_at' ) ) ),
 				'has_details'          => $this->has_details( $refund_status_key, $refund_reasons, $reject_reasons ),
 				'number'               => (string) ( $row_offset + count( $rows ) + 1 ),
 				'refund_amount'        => $this->formatter->format_amount( $refundable_amount ),

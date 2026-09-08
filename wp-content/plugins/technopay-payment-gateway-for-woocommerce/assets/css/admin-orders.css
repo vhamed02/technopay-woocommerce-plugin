@@ -261,6 +261,11 @@
     text-align: right;
 }
 
+.tpfw-orders-field__code {
+    direction: ltr;
+    text-align: right;
+}
+
 .tpfw-orders-field__money > span {
     position: absolute;
     top: 50%;
@@ -358,12 +363,12 @@
 
 .tpfw-orders-table-wrap {
     width: 100%;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 .tpfw-orders-table {
     width: 100%;
-    min-width: 0;
+    min-width: 1180px;
     border: 0;
     border-collapse: collapse;
     table-layout: fixed;
@@ -384,7 +389,7 @@
     color: #303944;
     font-size: 13px;
     font-weight: 700;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
 }
 
 .tpfw-orders-table td {
@@ -394,33 +399,30 @@
 }
 
 .tpfw-orders-table th:nth-child(1) {
-    width: 4%;
+    width: 5%;
 }
 
-.tpfw-orders-table th:nth-child(2) {
-    width: 13%;
-}
-
-.tpfw-orders-table th:nth-child(3),
+.tpfw-orders-table th:nth-child(2),
 .tpfw-orders-table th:nth-child(4) {
     width: 13%;
 }
 
+.tpfw-orders-table th:nth-child(3) {
+    width: 12%;
+}
+
 .tpfw-orders-table th:nth-child(5) {
-    width: 11%;
+    width: 10%;
 }
 
 .tpfw-orders-table th:nth-child(6),
-.tpfw-orders-table th:nth-child(7) {
-    width: 11%;
-}
-
+.tpfw-orders-table th:nth-child(7),
 .tpfw-orders-table th:nth-child(8) {
     width: 11%;
 }
 
 .tpfw-orders-table th:nth-child(9) {
-    width: 15%;
+    width: 14%;
 }
 
 .tpfw-orders-table__name {
@@ -1001,6 +1003,10 @@ body.tpfw-refund-modal-open {
     .tpfw-orders-table,
     .tpfw-orders-table tbody {
         display: block;
+    }
+
+    .tpfw-orders-table {
+        min-width: 0;
     }
 
     .tpfw-orders-table thead {

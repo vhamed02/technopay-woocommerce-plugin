@@ -53,7 +53,7 @@ final class TPFW_Orders_Formatter {
 		}
 
 		try {
-			$date = new DateTimeImmutable( $value );
+			$date = new DateTimeImmutable( $value, $this->get_timezone() );
 		} catch ( Throwable $exception ) {
 			return $this->normalize_digits( $value );
 		}
