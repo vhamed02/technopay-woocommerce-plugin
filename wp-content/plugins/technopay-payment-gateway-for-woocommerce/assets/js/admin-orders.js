@@ -47,8 +47,8 @@
             settings: {
                 showSearch: false,
                 openPosition: 'down',
-                contentLocation: document.querySelector('.tpfw-orders-page'),
-                contentPosition: 'absolute',
+                contentLocation: reasonSelect.parentElement,
+                contentPosition: 'relative',
                 class: 'tpfw-slim',
                 placeholderText: 'انتخاب کنید...',
             },
