@@ -4,7 +4,7 @@ Tags: technopay, woocommerce, تکنوپی, تکنو پی, تکنولایف
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ Visit technopay.ir website to create an account.
 Yes, you can enable test mode from settings to send payments to test server.
 
 == Changelog ==
+
+= 1.3.5 =
+* Fix: Description field is shown only for refund reasons without a predefined text
 
 = 1.3.4 =
 * Update: Replaced the third-party select library with a lightweight custom dropdown for filters and the refund reason field
