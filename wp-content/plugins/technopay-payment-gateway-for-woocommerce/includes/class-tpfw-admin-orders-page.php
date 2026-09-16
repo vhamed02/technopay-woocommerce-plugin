@@ -421,10 +421,6 @@ final class TPFW_Admin_Orders_Page {
 	}
 
 	private function reason_requires_description( $reason ) {
-		if ( isset( $reason['group'] ) && 'other_issues' === $reason['group'] ) {
-			return true;
-		}
-
 		return '' === $this->formatter->get_scalar_value( $reason, 'text' );
 	}
 
