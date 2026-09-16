@@ -199,14 +199,12 @@ $tpfw_is_refundable_tab = TPFW_Refundable_Tickets_Tab::SLUG === $view['active_ta
 				</div>
 				<label class="tpfw-refund-modal__field tpfw-refund-modal__reason-field">
 					<span>دلیل استرداد:</span>
-					<span class="tpfw-refund-modal__select">
-						<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" required>
-							<option value="">انتخاب کنید...</option>
-							<?php foreach ( $view['reasons'] as $tpfw_reason ) : ?>
-								<option value="<?php echo esc_attr( $tpfw_reason['code'] ); ?>" data-needs-description="<?php echo $tpfw_reason['requires_description'] ? '1' : '0'; ?>" title="<?php echo esc_attr( $tpfw_reason['text'] ); ?>"><?php echo esc_html( $tpfw_reason['reason'] ); ?></option>
-							<?php endforeach; ?>
-						</select>
-					</span>
+					<select name="refund_reason" class="tpfw-refund-modal__reason" aria-label="دلیل استرداد" required>
+						<option value="">انتخاب کنید...</option>
+						<?php foreach ( $view['reasons'] as $tpfw_reason ) : ?>
+							<option value="<?php echo esc_attr( $tpfw_reason['code'] ); ?>" data-needs-description="<?php echo $tpfw_reason['requires_description'] ? '1' : '0'; ?>" title="<?php echo esc_attr( $tpfw_reason['text'] ); ?>"><?php echo esc_html( $tpfw_reason['reason'] ); ?></option>
+						<?php endforeach; ?>
+					</select>
 				</label>
 				<label class="tpfw-refund-modal__field tpfw-refund-modal__custom-reason" hidden>
 					<span>توضیحات:</span>

@@ -17,54 +17,35 @@
     var descriptionInput = descriptionField ? descriptionField.querySelector('input') : null;
     var detailsReasonsList = detailsModal ? detailsModal.querySelector('[data-details-reasons-list]') : null;
 
-    var reasonSlim = null;
-    var reasonSlimInitialized = false;
+    var reasonDropdown = null;
 
     function initFilterSelects() {
         document.querySelectorAll('.tpfw-orders-filters select').forEach(function (select) {
-            new SlimSelect({
-                select: select,
-                settings: {
-                    showSearch: false,
-                    openPosition: 'down',
-                    contentLocation: document.querySelector('.tpfw-orders-page'),
-                    contentPosition: 'absolute',
-                    class: 'tpfw-slim',
-                },
-            });
+            new TpfwDropdown(select);
         });
     }
 
-    function initReasonSlim() {
-        if (reasonSlimInitialized || !reasonSelect) {
+    function initReasonDropdown() {
+        if (reasonDropdown || !reasonSelect) {
             return;
         }
 
-        reasonSlimInitialized = true;
+        reasonDropdown = new TpfwDropdown(reasonSelect, {
+            anchor: reasonSelect.closest('.tpfw-refund-modal__field'),
+            placeholder: true,
+        });
 
-        reasonSlim = new SlimSelect({
-            select: reasonSelect,
-            settings: {
-                showSearch: false,
-                openPosition: 'down',
-                contentLocation: reasonSelect.parentElement,
-                contentPosition: 'relative',
-                class: 'tpfw-slim',
-                placeholderText: 'انتخاب کنید...',
-            },
-            events: {
-                afterChange: function (selected) {
-                    var needsDescription = selected.length && selected[0].data['needsDescription'] === '1';
+        reasonSelect.addEventListener('change', function () {
+            var option = reasonSelect.options[reasonSelect.selectedIndex];
+            var needsDescription = !!option && option.getAttribute('data-needs-description') === '1';
 
-                    descriptionField.hidden = !needsDescription;
-                    descriptionInput.required = needsDescription;
+            descriptionField.hidden = !needsDescription;
+            descriptionInput.required = needsDescription;
 
-                    if (!needsDescription) {
-                        descriptionInput.value = '';
-                        descriptionInput.setCustomValidity('');
-                    }
-                },
-            },
+            if (!needsDescription) {
+                descriptionInput.value = '';
+                descriptionInput.setCustomValidity('');
+            }
         });
     }
 
@@ -145,13 +126,10 @@
     }
 
     function prepareRefundModal(trigger) {
-        initReasonSlim();
+        initReasonDropdown();
 
         refundForm.reset();
-
-        if (reasonSlim) {
-            reasonSlim.setSelected('');
-        }
+        reasonDropdown.sync();
 
         trackNumberInput.value = trigger.getAttribute('data-track-number') || '';
         amountInput.setAttribute('data-maximum', trigger.getAttribute('data-available-amount') || '');
@@ -235,6 +213,10 @@
     function closeModal() {
         if (!activeModal || activeModal.hidden) {
             return;
+        }
+
+        if (reasonDropdown) {
+            reasonDropdown.close();
         }
 
         activeModal.hidden = true;

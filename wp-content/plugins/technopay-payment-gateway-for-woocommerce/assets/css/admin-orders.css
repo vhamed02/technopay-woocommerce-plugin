@@ -283,7 +283,8 @@
 }
 
 .tpfw-orders-field input,
-.tpfw-orders-field select {
+.tpfw-orders-field select,
+.tpfw-orders-field .tpfw-dropdown__toggle {
     width: 100%;
     min-height: 46px;
     margin: 0;
@@ -302,10 +303,28 @@
 }
 
 .tpfw-orders-field input:focus,
-.tpfw-orders-field select:focus {
+.tpfw-orders-field select:focus,
+.tpfw-orders-field .tpfw-dropdown__toggle:focus-visible,
+.tpfw-orders-field .tpfw-dropdown__toggle.is-open {
     border-color: var(--tpfw-cyan);
     box-shadow: 0 0 0 1px var(--tpfw-cyan);
     outline: 0;
+}
+
+.tpfw-orders-field .tpfw-dropdown__toggle {
+    display: flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.tpfw-orders-field .tpfw-dropdown__toggle .tpfw-dropdown__chevron {
+    margin: 0 0 0 4px;
+}
+
+.tpfw-orders-field .tpfw-dropdown__toggle.is-open .tpfw-dropdown__chevron {
+    transform: translateY(2px) rotate(225deg);
 }
 
 .tpfw-orders-filters__actions {
@@ -766,25 +785,138 @@ body.tpfw-refund-modal-open {
     cursor: pointer !important;
 }
 
-.tpfw-refund-modal__reason-field {
-    position: relative;
+.tpfw-refund-modal__reason-field > span {
+    flex: 0 0 auto;
 }
 
-.tpfw-refund-modal__select {
+.tpfw-dropdown__native {
+    display: none !important;
+}
+
+.tpfw-dropdown__toggle {
     display: flex;
     flex: 1 1 auto;
     min-width: 0;
+    min-height: 58px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: transparent;
+    color: #28323e;
+    font: inherit;
+    font-size: 14px;
+    text-align: right;
+    cursor: pointer;
 }
 
-.tpfw-refund-modal__select .ss-content.ss-relative {
-    position: absolute;
-    top: 100%;
-    right: -1px;
-    left: -1px;
-    width: auto;
-    height: auto;
-    margin: 4px 0 0 !important;
+.tpfw-dropdown__toggle:focus {
+    outline: 0;
+    box-shadow: none;
 }
+
+.tpfw-dropdown__toggle:focus-visible {
+    outline: 2px solid var(--tpfw-cyan);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.tpfw-dropdown__value {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tpfw-dropdown__chevron {
+    flex: 0 0 auto;
+    width: 9px;
+    height: 9px;
+    margin: 0 6px 0 22px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-3px) rotate(45deg);
+    transition: transform 0.2s ease;
+}
+
+.tpfw-refund-modal__reason-field.is-open .tpfw-dropdown__chevron {
+    transform: translateY(2px) rotate(225deg);
+}
+
+.tpfw-dropdown__menu {
+    position: fixed;
+    z-index: 200001;
+    box-sizing: border-box;
+    border: 1px solid #cfd4d8;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(32, 45, 57, 0.12);
+    direction: rtl;
+    font-family: 'YekanBakh', Tahoma, Arial, sans-serif;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.tpfw-dropdown__menu.is-visible {
+    opacity: 1;
+}
+
+.tpfw-dropdown__menu[hidden] {
+    display: none;
+}
+
+.tpfw-dropdown__list {
+    max-height: 176px;
+    overflow-y: auto;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+    .tpfw-dropdown__list {
+        scrollbar-width: thin;
+        scrollbar-color: #b9c0c6 transparent;
+    }
+}
+
+.tpfw-dropdown__list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tpfw-dropdown__list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tpfw-dropdown__list::-webkit-scrollbar-thumb {
+    border: 2px solid #fff;
+    border-radius: 8px;
+    background: #b9c0c6;
+}
+
+.tpfw-dropdown__option {
+    display: flex;
+    min-height: 44px;
+    padding: 0 14px;
+    align-items: center;
+    color: #27313c;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tpfw-dropdown__option.is-highlighted {
+    background: #eaf9fb;
+    color: #078b9d;
+}
+
+.tpfw-dropdown__option.is-selected {
+    background: #eaf9fb;
+    color: #078b9d;
+    font-weight: 600;
+}
+
 
 .tpfw-refund-modal__field input,
 .tpfw-refund-modal__field select {
@@ -917,102 +1049,6 @@ body.tpfw-refund-modal-open {
     height: 20px;
     padding-top: 7px;
     object-fit: contain;
-}
-
-.tpfw-slim.ss-main,
-.tpfw-orders-page .ss-main {
-    min-height: 46px;
-    padding: 0 14px;
-    border: 1px solid #cfd4d8;
-    border-radius: 8px;
-    background-color: #fff;
-    color: var(--tpfw-ink);
-    font-size: 13px;
-    direction: rtl;
-    box-shadow: none;
-}
-
-.tpfw-slim.ss-main:focus,
-.tpfw-orders-page .ss-main:focus {
-    border-color: var(--tpfw-cyan);
-    box-shadow: 0 0 0 1px var(--tpfw-cyan);
-    outline: 0;
-}
-
-.tpfw-slim.ss-main.ss-open-below,
-.tpfw-slim.ss-main.ss-open-above,
-.tpfw-orders-page .ss-main.ss-open-below,
-.tpfw-orders-page .ss-main.ss-open-above {
-    border-color: var(--tpfw-cyan);
-    box-shadow: 0 0 0 1px var(--tpfw-cyan);
-}
-
-.tpfw-slim.ss-content,
-.tpfw-orders-page .ss-content {
-    font-family: 'YekanBakh', Tahoma, Arial, sans-serif !important;
-    margin-top: -24px !important;
-    border: 1px solid #cfd4d8;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(32, 45, 57, 0.12);
-    direction: rtl;
-    overflow: hidden;
-    z-index: 200001 !important;
-}
-
-.tpfw-slim.ss-content .ss-list .ss-option,
-.tpfw-orders-page .ss-content .ss-list .ss-option {
-    padding: 10px 14px;
-    font-size: 13px;
-    color: var(--tpfw-ink);
-    font-family: 'YekanBakh', Tahoma, Arial, sans-serif !important;
-}
-
-.tpfw-slim.ss-content .ss-list .ss-option:hover,
-.tpfw-slim.ss-content .ss-list .ss-option.ss-highlighted,
-.tpfw-orders-page .ss-content .ss-list .ss-option:hover,
-.tpfw-orders-page .ss-content .ss-list .ss-option.ss-highlighted {
-    background: #eaf9fb;
-    color: var(--tpfw-cyan-dark);
-}
-
-.tpfw-slim.ss-content .ss-list .ss-option.ss-selected,
-.tpfw-orders-page .ss-content .ss-list .ss-option.ss-selected {
-    background: #eaf9fb;
-    color: var(--tpfw-cyan-dark);
-    font-weight: 600;
-}
-
-.tpfw-slim.ss-content .ss-list .ss-option.ss-disabled,
-.tpfw-orders-page .ss-content .ss-list .ss-option.ss-disabled {
-    color: var(--tpfw-muted);
-    background: transparent;
-}
-
-.tpfw-refund-modal__panel .ss-main,
-.tpfw-refund-modal__panel .tpfw-slim.ss-main {
-    min-height: 58px;
-    padding: 0 20px;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    flex: 1 1 auto;
-    font-size: 14px;
-    box-shadow: none !important;
-}
-
-.tpfw-refund-modal__panel .ss-main:focus,
-.tpfw-refund-modal__panel .ss-main.ss-open-below,
-.tpfw-refund-modal__panel .ss-main.ss-open-above,
-.tpfw-refund-modal__panel .tpfw-slim.ss-main:focus,
-.tpfw-refund-modal__panel .tpfw-slim.ss-main.ss-open-below,
-.tpfw-refund-modal__panel .tpfw-slim.ss-main.ss-open-above {
-    border: 0;
-    box-shadow: none !important;
-    outline: 0;
-}
-
-.ss-content {
-    z-index: 200001 !important;
 }
 
 @media screen and (max-width: 1280px) {

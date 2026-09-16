@@ -56,7 +56,8 @@ Yes, you can enable test mode from settings to send payments to test server.
 == Changelog ==
 
 = 1.3.4 =
-* Fix: Refund reason dropdown is now anchored inside its field and no longer drifts on scroll
+* Update: Replaced the third-party select library with a lightweight custom dropdown for filters and the refund reason field
+* Fix: Refund reason dropdown always opens attached to its field, in front of the modal, with a visible scrollbar
 
 = 1.3.3 =
 * Fix: Admin notices from other plugins now render outside the plugin page container

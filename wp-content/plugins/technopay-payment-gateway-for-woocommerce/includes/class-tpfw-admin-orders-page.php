@@ -50,35 +50,27 @@ final class TPFW_Admin_Orders_Page {
 
 		$style_path     = TPFW_PLUGIN_PATH . 'assets/css/admin-orders.css';
 		$script_path    = TPFW_PLUGIN_PATH . 'assets/js/admin-orders.js';
-		$slimselect_js  = TPFW_PLUGIN_PATH . 'assets/js/slimselect.min.js';
-		$slimselect_css = TPFW_PLUGIN_PATH . 'assets/css/slimselect.css';
-
-		wp_enqueue_style(
-			'tpfw-slimselect',
-			TPFW_PLUGIN_URL . 'assets/css/slimselect.css',
-			array(),
-			(string) filemtime( $slimselect_css )
-		);
+		$dropdown_path  = TPFW_PLUGIN_PATH . 'assets/js/dropdown.js';
 
 		wp_enqueue_style(
 			'tpfw-admin-orders',
 			TPFW_PLUGIN_URL . 'assets/css/admin-orders.css',
-			array( 'dashicons', 'tpfw-slimselect' ),
+			array( 'dashicons' ),
 			(string) filemtime( $style_path )
 		);
 
 		wp_enqueue_script(
-			'tpfw-slimselect',
-			TPFW_PLUGIN_URL . 'assets/js/slimselect.min.js',
+			'tpfw-dropdown',
+			TPFW_PLUGIN_URL . 'assets/js/dropdown.js',
 			array(),
-			(string) filemtime( $slimselect_js ),
+			(string) filemtime( $dropdown_path ),
 			true
 		);
 
 		wp_enqueue_script(
 			'tpfw-admin-orders',
 			TPFW_PLUGIN_URL . 'assets/js/admin-orders.js',
-			array( 'tpfw-slimselect' ),
+			array( 'tpfw-dropdown' ),
 			(string) filemtime( $script_path ),
 			true
 		);
